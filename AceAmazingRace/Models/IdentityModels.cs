@@ -20,6 +20,9 @@ namespace AceAmazingRace.Models
 
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
+        public DbSet<Location> Locations { get; set; }
+        public DbSet<Event> Events { get; set; }
+
         public ApplicationDbContext()
             : base("DefaultConnection", throwIfV1Schema: false)
         {
