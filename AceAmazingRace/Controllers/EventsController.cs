@@ -27,6 +27,21 @@ namespace AceAmazingRace.Controllers
             return View(events);
         }
 
+        [HttpPost]
+        public ActionResult Create()
+        {
+            return View("Create");
+        }
 
+        [HttpPost]
+        public ActionResult Delete(string id)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public ActionResult Edit(string id)
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }
