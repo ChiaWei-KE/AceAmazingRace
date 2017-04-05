@@ -1,12 +1,12 @@
-﻿@model List<AceAmazingRace.Models.Event>
+﻿@model List<AceAmazingRace.Models.RaceEvent>
 @{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Upcoming Events</h2>
+<h2>All Events</h2>
 <div class="form-group">
-    <a class="btn btn-primary" href="@Url.Action("Create","Events")">Create New</a>
+    <a class="btn btn-primary" href="@Url.Action("Create","RaceEvents")">Create New</a>
 </div>
 
 @if (@Model.Count == 0)
@@ -32,8 +32,8 @@ else {
                     <td>@item.DateAndTime()</td>
                     <td>@item.Location.Name</td>
                     <td class="text-center">
-                        <a class="glyphicon glyphicon-edit" href="@Url.Action("Edit", "Events", new {@Id = @item.Id})"></a>
-                        <a class="glyphicon glyphicon-trash" href="@Url.Action("Delete", "Events", new {@Id = @item.Id})"></a>
+                        <a class="glyphicon glyphicon-edit" href="@Url.Action("Edit", "RaceEvents", new {@Id = @item.Id})"></a>
+                        <a class="glyphicon glyphicon-trash" href="@Url.Action("Delete", "RaceEvents", new {@Id = @item.Id})"></a>
                     </td>
                 </tr>
             }
