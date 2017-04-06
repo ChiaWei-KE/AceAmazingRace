@@ -17,6 +17,7 @@ namespace AceAmazingRace.Migrations
 
         protected override void Seed(ApplicationDbContext context)
         {
+            context.GenerateRaceEvents();
             context.GenerateLocations();
         }
     }
@@ -37,6 +38,27 @@ namespace AceAmazingRace.Migrations
 
             foreach (var location in locations)
                 context.Locations.AddOrUpdate(location);
+
+            context.SaveChanges();
+        }
+
+        public static void GenerateRaceEvents(this ApplicationDbContext context)
+        {
+            var raceEvents = new List<RaceEvent>()
+            {
+                new RaceEvent()
+                {
+                    Id = 1,
+                    Name = "Marina Run",
+                    Date = new DateTime(2017, 5, 10),
+                    Description = "Bring your family in!!! Fun and challenge amazing races forever. First runner will have voucher of Takashimaya worth SGD500.",
+                    Location = "Marina Bay (5 minutes walking distance from MRT station)",
+                    Time = 600 //10:00AM
+                }
+            };
+
+            foreach (var raceEvent in raceEvents)
+                context.RaceEvents.AddOrUpdate(raceEvent);
 
             context.SaveChanges();
         }

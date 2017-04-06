@@ -4,7 +4,6 @@ using System.Linq;
 using System.Web.Mvc;
 using AceAmazingRace.Models;
 using System.Data.Entity;
-using AceAmazingRace.ViewModels;
 
 namespace AceAmazingRace.Controllers
 {
@@ -24,19 +23,14 @@ namespace AceAmazingRace.Controllers
 
         public ActionResult Index()
         {
-            var events = _context.Events.Include(x => x.Location).OrderByDescending(x => x.Date).ToList();
+            var events = _context.RaceEvents.OrderByDescending(x => x.Date).ToList();
 
             return View("Index", events);
         }
 
         public ActionResult Create()
         {
-            var viewModel = new EventFormViewModel()
-            {
-                Locations = _context.Locations.ToList()
-            };
-
-            return View("Create", viewModel);
+            return View("Create", new RaceEvent());
         }
 
         public ActionResult Delete(string id)
@@ -50,13 +44,9 @@ namespace AceAmazingRace.Controllers
         }
 
         [HttpPost]
-        public ActionResult CreateNew(EventFormViewModel viewModel)
+        public ActionResult CreateNew(RaceEvent raceEvent)
         {
-            var location =  _context.Locations.FirstOrDefault(x => x.Id == viewModel.LocationId);
-            var @event = viewModel.RaceEvent;
-            @event.Location = location;
-
-            _context.Events.Add(@event);
+            _context.RaceEvents.Add(raceEvent);
             _context.SaveChanges();
 
             return RedirectToAction("Index", "RaceEvents");

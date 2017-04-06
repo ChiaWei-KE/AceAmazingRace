@@ -13,7 +13,7 @@ namespace AceAmazingRace.Migrations
         
         string IMigrationMetadata.Id
         {
-            get { return "201704051645065_Initial"; }
+            get { return "201704061149564_Initial"; }
         }
         
         string IMigrationMetadata.Source

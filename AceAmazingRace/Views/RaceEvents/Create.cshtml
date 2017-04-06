@@ -1,4 +1,4 @@
-﻿@model AceAmazingRace.ViewModels.EventFormViewModel
+﻿@model AceAmazingRace.Models.RaceEvent
 @{
     ViewBag.Title = "Create";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -9,32 +9,37 @@
 @using (@Html.BeginForm("CreateNew", "RaceEvents")) {
 
     <div class="form-group">
-        @Html.LabelFor(e => e.RaceEvent.Name)
-        @Html.TextBoxFor(e => e.RaceEvent.Name, new { @class = "form-control" })
+        @Html.LabelFor(e => e.Name)
+        @Html.TextBoxFor(e => e.Name, new { @class = "form-control" })
     </div>
 
     <div class="form-group">
-        @Html.LabelFor(e => e.RaceEvent.Description)
-        @Html.TextBoxFor(e => e.RaceEvent.Description, new { @class = "form-control" })
+        @Html.LabelFor(e => e.Description)
+        @Html.TextBoxFor(e => e.Description, new { @class = "form-control" })
     </div>
 
     <div class="form-group">
-        @Html.LabelFor(e => e.RaceEvent.Date)
-        @Html.TextBoxFor(e => e.RaceEvent.Date, "{0:dd MM yyyy}", new { @class = "form-control" })
+        @Html.LabelFor(e => e.Date)
+        @Html.TextBoxFor(e => e.Date, "{0:dd MM yyyy}", new { @class = "form-control" })
     </div>
 
     <div class="form-group">
-        @Html.LabelFor(e => e.RaceEvent.Time)
-        @Html.TextBoxFor(e => e.RaceEvent.Time, new { @class = "form-control" })
+        @Html.LabelFor(e => e.Time)
+        @Html.TextBoxFor(e => e.Time, new { @class = "form-control" })
     </div>
 
     <div class="form-group">
-        @Html.LabelFor(e => e.LocationId)
-        @Html.DropDownListFor(e => e.LocationId, 
-            new SelectList(@Model.Locations, "Id", "Name"), 
-            "Please select Location", 
-            new { @class = "form-control" })
+        @Html.LabelFor(e => e.Location)
+        @Html.TextBoxFor(e => e.Location, new { @class = "form-control" })
     </div>
+@**@
+@*    <div class="form-group">*@
+@*        @Html.LabelFor(e => LocationId)*@
+@*        @Html.DropDownListFor(e => LocationId, *@
+@*            new SelectList(@Model.Locations, "Id", "Name"), *@
+@*            "Please select Location", *@
+@*            new { @class = "form-control" })*@
+@*    </div>*@
 
     <button type="submit" class="btn btn-primary">Create</button>
     <a class="btn btn-primary" href="@Url.Action("Index","RaceEvents")">Cancel</a>

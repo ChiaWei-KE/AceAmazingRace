@@ -8,21 +8,6 @@ namespace AceAmazingRace.Migrations
         public override void Up()
         {
             CreateTable(
-                "dbo.Events",
-                c => new
-                    {
-                        Id = c.Int(nullable: false, identity: true),
-                        Name = c.String(nullable: false),
-                        Description = c.String(nullable: false),
-                        Date = c.DateTime(nullable: false),
-                        Time = c.Int(nullable: false),
-                        Location_Id = c.Int(nullable: false),
-                    })
-                .PrimaryKey(t => t.Id)
-                .ForeignKey("dbo.Locations", t => t.Location_Id, cascadeDelete: true)
-                .Index(t => t.Location_Id);
-            
-            CreateTable(
                 "dbo.Locations",
                 c => new
                     {
@@ -32,6 +17,19 @@ namespace AceAmazingRace.Migrations
                         Instruction = c.String(),
                         Latitude = c.Double(nullable: false),
                         Longitude = c.Double(nullable: false),
+                    })
+                .PrimaryKey(t => t.Id);
+            
+            CreateTable(
+                "dbo.RaceEvents",
+                c => new
+                    {
+                        Id = c.Int(nullable: false, identity: true),
+                        Name = c.String(nullable: false),
+                        Description = c.String(nullable: false),
+                        Date = c.DateTime(nullable: false),
+                        Time = c.Int(nullable: false),
+                        Location = c.String(nullable: false),
                     })
                 .PrimaryKey(t => t.Id);
             
@@ -111,21 +109,19 @@ namespace AceAmazingRace.Migrations
             DropForeignKey("dbo.AspNetUserLogins", "UserId", "dbo.AspNetUsers");
             DropForeignKey("dbo.AspNetUserClaims", "UserId", "dbo.AspNetUsers");
             DropForeignKey("dbo.AspNetUserRoles", "RoleId", "dbo.AspNetRoles");
-            DropForeignKey("dbo.Events", "Location_Id", "dbo.Locations");
             DropIndex("dbo.AspNetUserLogins", new[] { "UserId" });
             DropIndex("dbo.AspNetUserClaims", new[] { "UserId" });
             DropIndex("dbo.AspNetUsers", "UserNameIndex");
             DropIndex("dbo.AspNetUserRoles", new[] { "RoleId" });
             DropIndex("dbo.AspNetUserRoles", new[] { "UserId" });
             DropIndex("dbo.AspNetRoles", "RoleNameIndex");
-            DropIndex("dbo.Events", new[] { "Location_Id" });
             DropTable("dbo.AspNetUserLogins");
             DropTable("dbo.AspNetUserClaims");
             DropTable("dbo.AspNetUsers");
             DropTable("dbo.AspNetUserRoles");
             DropTable("dbo.AspNetRoles");
+            DropTable("dbo.RaceEvents");
             DropTable("dbo.Locations");
-            DropTable("dbo.Events");
         }
     }
 }

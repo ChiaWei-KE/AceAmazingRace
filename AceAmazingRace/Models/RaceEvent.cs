@@ -21,7 +21,7 @@ namespace AceAmazingRace.Models
         [Required]
         public int Time { get; set; }
         [Required]
-        public Location Location {get; set;}
+        public string Location {get; set;}
 
         public string DateAndTime() => $"{Date:dd-MMM-yyyy} {Get24Hours()}";
         public string Get24Hours() => $"{Time / 60:00}:{Time % 60:00} {((Time / 60) >= 12 ? "PM" : "AM")}";
