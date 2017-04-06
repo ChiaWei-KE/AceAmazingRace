@@ -54,9 +54,6 @@ namespace AceAmazingRace.Controllers
             var viewModel = new RaceEventViewModel()
             {
                 RaceEvent = raceEvent,
-                Hours = raceEvent.GetHoursDisplay(),
-                Minutes = raceEvent.GetMinutesDisplay(),
-                Periods = raceEvent.GetPeriodDisplay(),
                 Action = "Edit"
             };
 
@@ -67,7 +64,6 @@ namespace AceAmazingRace.Controllers
         public ActionResult Save(RaceEventViewModel viewModel)
         {
             var raceEvent = viewModel.RaceEvent;
-            raceEvent.UpdateTime(int.Parse(viewModel.Hours), int.Parse(viewModel.Minutes), viewModel.Periods);
 
             _context.RaceEvents.AddOrUpdate(raceEvent);
             _context.SaveChanges();

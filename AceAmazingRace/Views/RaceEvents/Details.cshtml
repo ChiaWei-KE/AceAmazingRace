@@ -4,10 +4,6 @@
     ViewBag.Title = "Create";
     Layout = "~/Views/Shared/_Layout.cshtml";
 
-    var hours = new List<string>() {"01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12"};
-    var minutes = new List<string>() {"00", "15", "30", "45"};
-    var periods = new List<string> {RaceEvent.PeriodBeforeMidday, RaceEvent.PeriodAfterMidday };
-
     string header = "";
     string submitButtonText = "";
 
@@ -44,27 +40,8 @@
     </div>
 
     <div class="form-group">
-        @Html.LabelFor(e => e.Hours)
-        @Html.DropDownListFor(e => e.Hours, 
-            new SelectList(@hours), 
-            "Please select Hours",
-            new { @class = "form-control" })
-    </div>
-
-    <div class="form-group">
-        @Html.LabelFor(e => e.Minutes)
-        @Html.DropDownListFor(e => e.Minutes,
-            new SelectList(@minutes),
-            "Please select Minutes",
-            new { @class = "form-control" })
-    </div>
-
-    <div class="form-group">
-        @Html.LabelFor(e => e.Periods)
-        @Html.DropDownListFor(e => e.Periods,
-                           new SelectList(@periods),
-                           "Please select periods",
-                           new { @class = "form-control" })
+        @Html.LabelFor(e => e.RaceEvent.Time)
+        @Html.TextBoxFor(e => e.RaceEvent.Time, new { @class = "form-control timepicker" })
     </div>
 
     <div class="form-group">

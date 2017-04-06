@@ -15,7 +15,8 @@ namespace AceAmazingRace
                         "~/Scripts/jquery.validate*"));
 
             bundles.Add(new ScriptBundle("~/bundles/jqueryui").Include(  
-                      "~/Scripts/jquery-ui-{version}.js"));  
+                      "~/Scripts/jquery-ui-{version}.js",
+                      "~/Scripts/jquery.timepicker.js"));  
 
             // Use the development version of Modernizr to develop with and learn from. Then, when you're
             // ready for production, use the build tool at http://modernizr.com to pick only the tests you need.
@@ -26,12 +27,16 @@ namespace AceAmazingRace
                       "~/Scripts/bootstrap.js",
                       "~/Scripts/respond.js"));
 
+            bundles.Add(new ScriptBundle("~/bundles/initialization").Include(
+                      "~/Scripts/initialization.js"));
+
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap-spacelab.css",
                       "~/Content/site.css"));
 
             bundles.Add(new StyleBundle("~/Content/cssjqryUi").Include(  
-                   "~/Content/themes/base/jquery-ui.css"));  
+                   "~/Content/themes/base/jquery-ui.css",
+                   "~/Content/jquery.timepicker.css"));  
 
         }
     }
