@@ -1,26 +1,23 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Web;
 
 namespace AceAmazingRace.Models
 {
-    public class Location
+    public class PitStop
     {
         [Key]
         public int Id { get; set; }
         [Required]
         public string Name { get; set; }
         [Required]
-        public string Address { get; set;}
-        
+        public RaceEvent RaceEvent { get; set; }
         [Required]
-        public double Latitude { get; set; }
-        [Required]
-        public double Longitude { get; set; }
+        public Location Location { get; set; }
 
-        public string Direction { get; set; }
+        public int Order { get; set; } = 0;
+        public int Remark { get; set; }
     }
 }

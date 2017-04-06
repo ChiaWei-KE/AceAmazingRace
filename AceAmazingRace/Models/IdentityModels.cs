@@ -22,6 +22,9 @@ namespace AceAmazingRace.Models
     {
         public DbSet<Location> Locations { get; set; }
         public DbSet<RaceEvent> RaceEvents { get; set; }
+        public DbSet<PitStop> PitStops { get; set; }
+        public DbSet<Team> Teams { get; set; }
+        public DbSet<SupportStop> SupportStops { get; set; }
 
         public ApplicationDbContext()
             : base("DefaultConnection", throwIfV1Schema: false)
@@ -33,4 +36,6 @@ namespace AceAmazingRace.Models
             return new ApplicationDbContext();
         }
     }
+
+
 }

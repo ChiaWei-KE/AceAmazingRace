@@ -25,7 +25,7 @@ namespace AceAmazingRace.Controllers
 
         public ActionResult Index()
         {
-            var events = _context.RaceEvents.OrderByDescending(x => x.Date).ToList();
+            var events = _context.RaceEvents.OrderByDescending(x => x.Date).ThenBy(x => x.Time).ToList();
 
             return View("Index", events);
         }

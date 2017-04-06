@@ -210,8 +210,27 @@
     <Compile Include="Migrations\201704061510062_ChangeRaceEventTimeToString.Designer.cs">
       <DependentUpon>201704061510062_ChangeRaceEventTimeToString.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201704061605551_ChangeInstructionToDirectionTo.cs" />
+    <Compile Include="Migrations\201704061605551_ChangeInstructionToDirectionTo.Designer.cs">
+      <DependentUpon>201704061605551_ChangeInstructionToDirectionTo.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201704061619584_AddPitStop.cs" />
+    <Compile Include="Migrations\201704061619584_AddPitStop.Designer.cs">
+      <DependentUpon>201704061619584_AddPitStop.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201704061624105_AddTeam.cs" />
+    <Compile Include="Migrations\201704061624105_AddTeam.Designer.cs">
+      <DependentUpon>201704061624105_AddTeam.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201704061625158_AddSupportStop.cs" />
+    <Compile Include="Migrations\201704061625158_AddSupportStop.Designer.cs">
+      <DependentUpon>201704061625158_AddSupportStop.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
+    <Compile Include="Models\SupportStop.cs" />
+    <Compile Include="Models\Team.cs" />
+    <Compile Include="Models\PitStop.cs" />
     <Compile Include="Models\RaceEvent.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\Location.cs" />
@@ -333,6 +352,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Content\images\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
@@ -347,6 +367,18 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201704061510062_ChangeRaceEventTimeToString.resx">
       <DependentUpon>201704061510062_ChangeRaceEventTimeToString.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201704061605551_ChangeInstructionToDirectionTo.resx">
+      <DependentUpon>201704061605551_ChangeInstructionToDirectionTo.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201704061619584_AddPitStop.resx">
+      <DependentUpon>201704061619584_AddPitStop.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201704061624105_AddTeam.resx">
+      <DependentUpon>201704061624105_AddTeam.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201704061625158_AddSupportStop.resx">
+      <DependentUpon>201704061625158_AddSupportStop.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

@@ -10,9 +10,6 @@ namespace AceAmazingRace.Models
 {
     public class RaceEvent
     {
-        public const string PeriodBeforeMidday = "AM";
-        public const string PeriodAfterMidday = "PM";
-
         [Key]
         public int Id { get; set; }
         [Required]
