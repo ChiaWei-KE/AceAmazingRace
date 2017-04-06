@@ -38,21 +38,32 @@ namespace AceAmazingRace.Models
         public string DateAndTime()
         {
             return $"{Date:dd-MMM-yyyy} {GetTimeDisplay()}";
-        } 
+        }
 
-        private string GetTimeDisplay()
+        public string GetHoursDisplay()
         {
-            var hours = Time / 60;
-            var minutes = Time % 60;
-            var period = PeriodBeforeMidday;
+            var hour = Time / 60;
+            if (hour > 12) hour -= 12;
+            return $"{hour:00}";
+        }
 
-            if (hours >= 12)
-            {
-                hours -= 12;
-                period = PeriodAfterMidday;
-            }
+        public string GetMinutesDisplay()
+        {
+            return $"{(Time % 60):00}";
+        }
 
-            return $"{hours:00}:{minutes:00} {period}";
+        public string GetPeriodDisplay()
+        {
+            var hour = Time / 60;
+            if (hour <= 12)
+                return PeriodBeforeMidday;
+            else
+                return PeriodAfterMidday;
+        }
+
+        public string GetTimeDisplay()
+        {
+            return $"{GetHoursDisplay()}:{GetMinutesDisplay()} {GetPeriodDisplay()}";
         }
     }
 }

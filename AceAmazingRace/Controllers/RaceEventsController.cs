@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web.Mvc;
 using AceAmazingRace.Models;
 using System.Data.Entity;
+using System.Data.Entity.Migrations;
 using AceAmazingRace.ViewModels;
 
 namespace AceAmazingRace.Controllers
@@ -31,13 +32,14 @@ namespace AceAmazingRace.Controllers
 
         public ActionResult Create()
         {
-            return View("Create", new RaceEventViewModel());
+            return View("Details", new RaceEventViewModel() {Action = "Create"});
         }
 
         public ActionResult Delete(int id)
         {
             var raceEvent = _context.RaceEvents.FirstOrDefault(x => x.Id == id);
             if (raceEvent == null) return HttpNotFound();
+
             _context.RaceEvents.Remove(raceEvent);
             _context.SaveChanges();
 
@@ -46,16 +48,28 @@ namespace AceAmazingRace.Controllers
 
         public ActionResult Edit(int id)
         {
-            throw new System.NotImplementedException();
+            var raceEvent = _context.RaceEvents.FirstOrDefault(x => x.Id == id);
+            if(raceEvent == null) return HttpNotFound();
+
+            var viewModel = new RaceEventViewModel()
+            {
+                RaceEvent = raceEvent,
+                Hours = raceEvent.GetHoursDisplay(),
+                Minutes = raceEvent.GetMinutesDisplay(),
+                Periods = raceEvent.GetPeriodDisplay(),
+                Action = "Edit"
+            };
+
+            return View("Details", viewModel);
         }
 
         [HttpPost]
-        public ActionResult CreateNew(RaceEventViewModel viewModel)
+        public ActionResult Save(RaceEventViewModel viewModel)
         {
             var raceEvent = viewModel.RaceEvent;
             raceEvent.UpdateTime(int.Parse(viewModel.Hours), int.Parse(viewModel.Minutes), viewModel.Periods);
 
-            _context.RaceEvents.Add(raceEvent);
+            _context.RaceEvents.AddOrUpdate(raceEvent);
             _context.SaveChanges();
 
             return RedirectToAction("Index", "RaceEvents");

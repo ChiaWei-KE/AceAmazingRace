@@ -7,11 +7,26 @@
     var hours = new List<string>() {"01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12"};
     var minutes = new List<string>() {"00", "15", "30", "45"};
     var periods = new List<string> {RaceEvent.PeriodBeforeMidday, RaceEvent.PeriodAfterMidday };
+
+    string header = "";
+    string submitButtonText = "";
+
+    if (@Model.Action == "Create")
+    {
+        header = "Create New Event";
+        submitButtonText = "Create";
+    }
+    else if (@Model.Action == "Edit")
+    {
+        header = "Update Event";
+        submitButtonText = "Save";
+    }
+
 }
 
-<h3>New Event</h3>
+<h3>@header</h3>
 
-@using (@Html.BeginForm("CreateNew", "RaceEvents")) {
+@using (@Html.BeginForm("Save", "RaceEvents")) {
 
     <div class="form-group">
         @Html.LabelFor(e => e.RaceEvent.Name)
@@ -25,7 +40,7 @@
 
     <div class="form-group">
         @Html.LabelFor(e => e.RaceEvent.Date)
-        @Html.TextBoxFor(e => e.RaceEvent.Date, "{0:dd MM yyyy}", new { @class = "form-control datepicker"})
+        @Html.TextBoxFor(e => e.RaceEvent.Date, "{0:dd-MMM-yyyy}", new { @class = "form-control datepicker"})
     </div>
 
     <div class="form-group">
@@ -57,7 +72,9 @@
         @Html.TextBoxFor(e => e.RaceEvent.Location, new { @class = "form-control" })
     </div>
 
-    <button type="submit" class="btn btn-primary">Create</button>
+    @Html.HiddenFor(e => e.RaceEvent.Id)
+
+    <button type="submit" class="btn btn-primary">@submitButtonText</button>
     <a class="btn btn-primary" href="@Url.Action("Index","RaceEvents")">Cancel</a>
 }
 

@@ -12,5 +12,6 @@ namespace AceAmazingRace.ViewModels
         public string Hours { get; set; }
         public string Minutes { get; set; }
         public string Periods { get; set; }
+        public string Action { get; set; }
     }
 }
