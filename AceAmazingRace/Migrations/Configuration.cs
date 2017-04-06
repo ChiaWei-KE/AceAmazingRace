@@ -53,7 +53,16 @@ namespace AceAmazingRace.Migrations
                     Date = new DateTime(2017, 5, 10),
                     Description = "Bring your family in!!! Fun and challenge amazing races forever. First runner will have voucher of Takashimaya worth SGD500.",
                     Location = "Marina Bay (5 minutes walking distance from MRT station)",
-                    Time = 600 //10:00AM
+                    Time = 600 //10:00 AM
+                },
+                new RaceEvent()
+                {
+                    Id = 2,
+                    Name = "Bugis Fun Chase",
+                    Date = new DateTime(2017, 6, 29),
+                    Description = "Are you ready for the biggest amazing run challenge ever in Bugis Area? Attractive prizes are waiting for you!!! ",
+                    Location = "Bugis Junction (In front of fountain)",
+                    Time = 810 //01:30 PM
                 }
             };
 

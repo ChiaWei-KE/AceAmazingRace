@@ -10,6 +10,9 @@ namespace AceAmazingRace.Models
 {
     public class RaceEvent
     {
+        public const string PeriodBeforeMidday = "AM";
+        public const string PeriodAfterMidday = "PM";
+
         [Key]
         public int Id { get; set; }
         [Required]
@@ -23,7 +26,32 @@ namespace AceAmazingRace.Models
         [Required]
         public string Location {get; set;}
 
-        public string DateAndTime() => $"{Date:dd-MMM-yyyy} {Get24Hours()}";
-        public string Get24Hours() => $"{Time / 60:00}:{Time % 60:00} {((Time / 60) >= 12 ? "PM" : "AM")}";
+        public void UpdateTime(int hours, int minutes, string periods)
+        {
+            if (periods == PeriodBeforeMidday)
+                Time = hours * 60 + minutes;
+            else if (periods == PeriodAfterMidday)
+                Time = 12 * 60 + hours * 60 + minutes;
+        }
+
+        public string DateAndTime()
+        {
+            return $"{Date:dd-MMM-yyyy} {GetTimeDisplay()}";
+        } 
+
+        private string GetTimeDisplay()
+        {
+            var hours = Time / 60;
+            var minutes = Time % 60;
+            var period = PeriodBeforeMidday;
+
+            if (hours >= 12)
+            {
+                hours -= 12;
+                period = PeriodAfterMidday;
+            }
+
+            return $"{hours:00}:{minutes:00} {period}";
+        }
     }
 }
