@@ -25,7 +25,7 @@
 
     <div class="form-group">
         @Html.LabelFor(e => e.RaceEvent.Date)
-        @Html.TextBoxFor(e => e.RaceEvent.Date, "{0:dd MM yyyy}", new { @class = "form-control" })
+        @Html.TextBoxFor(e => e.RaceEvent.Date, "{0:dd MM yyyy}", new { @class = "form-control datepicker"})
     </div>
 
     <div class="form-group">
@@ -57,15 +57,7 @@
         @Html.TextBoxFor(e => e.RaceEvent.Location, new { @class = "form-control" })
     </div>
 
-    @*    <div class="form-group">*@
-    @*        @Html.LabelFor(e => LocationId)*@
-    @*        @Html.DropDownListFor(e => LocationId, *@
-    @*            new SelectList(@Model.Locations, "Id", "Name"), *@
-    @*            "Please select Location", *@
-    @*            new { @class = "form-control" })*@
-    @*    </div>*@
-
-<button type="submit" class="btn btn-primary">Create</button>
-<a class="btn btn-primary" href="@Url.Action("Index","RaceEvents")">Cancel</a>
+    <button type="submit" class="btn btn-primary">Create</button>
+    <a class="btn btn-primary" href="@Url.Action("Index","RaceEvents")">Cancel</a>
 }
 
