@@ -12,10 +12,10 @@ namespace AceAmazingRace.Models
         public int Id { get; set; }
 
         [Required]
-        public Team Team { get; set; }
+        public virtual Team Team { get; set; }
 
         [Required]
-        public PitStop PitStop { get; set; }
+        public virtual PitStop PitStop { get; set; }
 
         [Required]
         public int Order { get; set; }

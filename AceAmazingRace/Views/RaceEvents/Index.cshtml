@@ -33,11 +33,11 @@ else {
                     <td>@item.RaceEvent.Description</td>
                     <td>@item.RaceEvent.DateAndTimeDisplay</td>
                     <td>@item.RaceEvent.Location</td>
-                    <td><a href="@Url.Action("Index", "PitStop", new {@Id = @item.RaceEvent.Id})">@item.PitStops.Count</a></td>
-                    <td><a href="@Url.Action("Index", "Team", new {@Id = @item.RaceEvent.Id})">@item.Teams.Count</a></td>
+                    <td><a href="@Url.Action("Index", "PitStop", new {id = @item.RaceEvent.Id})">@item.PitStops.Count</a></td>
+                    <td><a href="@Url.Action("Index", "Team", new {id = @item.RaceEvent.Id})">@item.Teams.Count</a></td>
                     <td class="text-center">
-                        <a class="glyphicon glyphicon-edit" href="@Url.Action("Edit", "RaceEvents", new {@Id = @item.RaceEvent.Id})"></a>
-                        <a class="glyphicon glyphicon-trash" href="@Url.Action("Delete", "RaceEvents", new {@Id = @item.RaceEvent.Id})"></a>
+                        <a class="glyphicon glyphicon-edit" href="@Url.Action("Edit", "RaceEvents", new {id = @item.RaceEvent.Id})"></a>
+                        <a class="glyphicon glyphicon-trash" href="@Url.Action("Delete", "RaceEvents", new {id = @item.RaceEvent.Id})"></a>
                     </td>
                 </tr>
             }

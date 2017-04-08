@@ -7,13 +7,13 @@ namespace AceAmazingRace.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.1.3-40302")]
-    public sealed partial class AddedPitStopOrder : IMigrationMetadata
+    public sealed partial class ChangeRemarkToString : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(AddedPitStopOrder));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(ChangeRemarkToString));
         
         string IMigrationMetadata.Id
         {
-            get { return "201704081125283_AddedPitStopOrder"; }
+            get { return "201704081225520_ChangeRemarkToString"; }
         }
         
         string IMigrationMetadata.Source

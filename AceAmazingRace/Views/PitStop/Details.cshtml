@@ -1,0 +1,48 @@
+﻿@using AceAmazingRace.Models
+@model AceAmazingRace.ViewModels.PitStopViewModel
+@{
+    string header = "";
+    string submitButtonText = "";
+
+    if (@Model.Action == "Create") {
+        header = "Create New Pit Stop";
+        submitButtonText = "Create";
+    }
+    else if (@Model.Action == "Edit") {
+        header = "Update Pit Stop";
+        submitButtonText = "Save";
+    }
+
+    ViewBag.Title = @header;
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+}
+
+<h3>@header</h3>
+
+@using (@Html.BeginForm("Save", "PitStop", new {eventId = @Model.RaceEventId})) {
+
+    <div class="form-group">
+        @Html.LabelFor(e => e.PitStop.Name)
+        @Html.TextBoxFor(e => e.PitStop.Name, new { @class = "form-control" })
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(e => e.LocationId)
+        @Html.DropDownListFor(e => e.LocationId,
+                           new SelectList(@Model.Locations, "Id", "Name"),
+                           "Please select Location",
+                           new { @class = "form-control" })
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(e => e.PitStop.Remark)
+        @Html.TextBoxFor(e => e.PitStop.Remark, new { @class = "form-control" })
+    </div>
+
+    @Html.HiddenFor(e => e.PitStop.Id)
+
+    <button type="submit" class="btn btn-primary">@submitButtonText</button>
+    <a class="btn btn-primary" href="@Url.Action("Index","PitStop", new {id = @Model.RaceEventId})">Cancel</a>
+}
+

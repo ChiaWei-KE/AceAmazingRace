@@ -8,8 +8,11 @@ namespace AceAmazingRace.ViewModels
 {
     public class PitStopViewModel
     {
-        public RaceEvent RaceEvent { get; set; }
+        public PitStop PitStop { get; set; }
+        public List<Location> Locations { get; set; }
+
         public string Action { get; set; }
-        public List<PitStop> PitStops { get; set; }
+        public int LocationId { get; set; }
+        public int RaceEventId { get; set; }
     }
 }

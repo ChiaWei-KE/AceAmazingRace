@@ -1,10 +1,41 @@
-﻿@model AceAmazingRace.ViewModels.PitStopViewModel
+﻿@model AceAmazingRace.ViewModels.EventPitStopsViewModel
 @{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Create PitStop</h2>
+<h2>Pit Stops of <i>@Model.RaceEventName</i></h2>
 
-<p>To be continued...</p>
-<p>Race Event Id is @Model.RaceEvent.Id</p>
+<div class="form-group">
+    <a class="btn btn-primary" href="@Url.Action("Create","PitStop", new {eventId = @Model.RaceEvent.Id})">Create New</a>
+    <a class="btn btn-primary" href="@Url.Action("Index","RaceEvents")">Back To Events</a>
+</div>
+
+@if (@Model.PitStops.Count == 0) {
+    <span>No records are found.</span>
+}
+else {
+    <table class="table table-hover table-bordered">
+        <thead>
+        <tr>
+            <th>Name</th>
+            <th>Location</th>
+            <th>Remark</th>
+            <th>Action</th>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach (var item in @Model.PitStops) {
+            <tr>
+                <td>@item.Name</td>
+                <td>@item.Location.Name</td>
+                <td>@item.Remark</td>
+                <td class="text-center">
+                    <a class="glyphicon glyphicon-edit" href="@Url.Action("Edit", "PitStop", new {id = item.Id})"></a>
+                    <a class="glyphicon glyphicon-trash" href="@Url.Action("Delete", "PitStop", new {id = item.Id})"></a>
+                </td>
+            </tr>
+        }
+        </tbody>
+    </table>
+}

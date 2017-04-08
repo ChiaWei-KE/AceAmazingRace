@@ -13,8 +13,8 @@ namespace AceAmazingRace.Models
 		[Required]
         public string Code { get; set; }
         [Required]
-        public Location Location { get; set; }
+        public virtual Location Location { get; set; }
 		[Required]
-        public RaceEvent RaceEvent { get; set; }
+        public virtual RaceEvent RaceEvent { get; set; }
     }
 }

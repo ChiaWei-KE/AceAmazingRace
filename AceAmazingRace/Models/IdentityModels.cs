@@ -25,6 +25,7 @@ namespace AceAmazingRace.Models
         public DbSet<PitStop> PitStops { get; set; }
         public DbSet<Team> Teams { get; set; }
         public DbSet<SupportStop> SupportStops { get; set; }
+        public DbSet<PitStopOrder> PitStopOrders { get; set; }
 
         public ApplicationDbContext()
             : base("DefaultConnection", throwIfV1Schema: false)

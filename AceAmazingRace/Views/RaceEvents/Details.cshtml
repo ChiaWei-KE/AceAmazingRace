@@ -1,9 +1,6 @@
 ﻿@using AceAmazingRace.Models
 @model AceAmazingRace.ViewModels.RaceEventViewModel
 @{
-    ViewBag.Title = "Create";
-    Layout = "~/Views/Shared/_Layout.cshtml";
-
     string header = "";
     string submitButtonText = "";
 
@@ -17,6 +14,9 @@
         header = "Update Event";
         submitButtonText = "Save";
     }
+
+    ViewBag.Title = @header;
+    Layout = "~/Views/Shared/_Layout.cshtml";
 
 }
 

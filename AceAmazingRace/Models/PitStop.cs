@@ -13,10 +13,10 @@ namespace AceAmazingRace.Models
         [Required]
         public string Name { get; set; }
         [Required]
-        public RaceEvent RaceEvent { get; set; }
+        public virtual RaceEvent RaceEvent { get; set; }
         [Required]
-        public Location Location { get; set; }
+        public virtual Location Location { get; set; }
 
-        public int Remark { get; set; }
+        public string Remark { get; set; }
     }
 }
