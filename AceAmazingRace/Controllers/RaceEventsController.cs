@@ -30,7 +30,8 @@ namespace AceAmazingRace.Controllers
                 .Select(x => new RaceEventViewModel()
                 {
                    RaceEvent = x,
-                   PitStops = _context.PitStops.Where(y => y.RaceEvent.Id == x.Id).ToList()
+                   PitStops = _context.PitStops.Where(y => y.RaceEvent.Id == x.Id).ToList(),
+                   Teams = _context.Teams.Where(y => y.RaceEvent.Id == x.Id).ToList()
                 })
                 .ToList();
                                             
