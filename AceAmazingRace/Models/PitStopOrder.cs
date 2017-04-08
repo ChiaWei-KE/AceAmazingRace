@@ -6,17 +6,18 @@ using System.Web;
 
 namespace AceAmazingRace.Models
 {
-    public class PitStop
+    public class PitStopOrder
     {
         [Key]
         public int Id { get; set; }
-        [Required]
-        public string Name { get; set; }
-        [Required]
-        public RaceEvent RaceEvent { get; set; }
-        [Required]
-        public Location Location { get; set; }
 
-        public int Remark { get; set; }
+        [Required]
+        public Team Team { get; set; }
+
+        [Required]
+        public PitStop PitStop { get; set; }
+
+        [Required]
+        public int Order { get; set; }
     }
 }

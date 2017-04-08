@@ -21,6 +21,6 @@ namespace AceAmazingRace.Models
         [Required]
         public double Longitude { get; set; }
 
-        public string Direction { get; set; }
+        public string Clue { get; set; }
     }
 }
