@@ -19,6 +19,7 @@ namespace AceAmazingRace.Migrations
         {
             context.GenerateRaceEvents();
             context.GenerateLocations();
+            context.GeneratePitStops();
         }
     }
 
@@ -28,12 +29,11 @@ namespace AceAmazingRace.Migrations
         {
             var locations = new List<Location>()
             {
-                new Location() {Id = 1, Name = "Orchard Road", Address = "230 Orchard Rd, Singapore", Latitude = 1.3016514, Longitude = 103.8380588},
-                new Location() {Id = 2, Name = "Bugis Street", Address = "1 New Bugis St, Singapore 188865", Latitude = 1.300599, Longitude = 103.854892999999},
-                new Location() {Id = 3, Name = "Plaza Singapura", Address = "Handy Rd, Singapore", Latitude = 1.3010224, Longitude = 103.8453078},
-                new Location() {Id = 4, Name = "Peace Center", Address = "1 Sophia Rd, Singapore 228149", Latitude = 1.301242, Longitude = 103.849608999999},
-                new Location() {Id = 5, Name = "The Cathay", Address = "2 Handy Rd, Former Cathay Building, Singapore 229233", Latitude = 1.299414, Longitude = 103.847643999999},
-                new Location() {Id = 6, Name = "Concorde Hotel", Address = "100 Orchard Rd, Singapore 238840", Latitude = 1.300525, Longitude = 103.842164599999},
+                new Location() {Id = 1, Name = "Salon Vim", Address = "235 Victoria St, Singapore 188027", Latitude = 1.300029, Longitude = 103.855058},
+                new Location() {Id = 2, Name = "Land Transport Authority", Address = "750 Victoria St, Singapore 188062", Latitude = 1.300753, Longitude = 103.856267},
+                new Location() {Id = 3, Name = "KOI Café", Address = "201 Victoria St, Singapore 188067", Latitude = 1.299129, Longitude = 103.854168},
+                new Location() {Id = 4, Name = "Bugis Cube", Address = "470 North Bridge Rd, Singapore 408936", Latitude = 1.298154, Longitude = 103.855611},
+                new Location() {Id = 5, Name = "National Library", Address = "100 Victoria St, Singapore 188064", Latitude = 1.297542, Longitude = 103.854216},
             };
 
             foreach (var location in locations)
@@ -68,6 +68,23 @@ namespace AceAmazingRace.Migrations
 
             foreach (var raceEvent in raceEvents)
                 context.RaceEvents.AddOrUpdate(raceEvent);
+
+            context.SaveChanges();
+        }
+
+        public static void GeneratePitStops(this ApplicationDbContext context)
+        {
+            var pitStops = new List<PitStop>()
+            {
+                new PitStop() { Id =1, Name = "BGS01", Location = context.Locations.Find(1), RaceEvent = context.RaceEvents.Find(2)},
+                new PitStop() { Id =2, Name = "BGS02", Location = context.Locations.Find(2), RaceEvent = context.RaceEvents.Find(2)},
+                new PitStop() { Id =3, Name = "BGS03", Location = context.Locations.Find(3), RaceEvent = context.RaceEvents.Find(2)},
+                new PitStop() { Id =4, Name = "BGS04", Location = context.Locations.Find(4), RaceEvent = context.RaceEvents.Find(2)},
+                new PitStop() { Id =5, Name = "BGS05", Location = context.Locations.Find(5), RaceEvent = context.RaceEvents.Find(2)},
+            };
+
+            foreach (var pitstop in pitStops)
+                context.PitStops.AddOrUpdate(pitstop);
 
             context.SaveChanges();
         }
