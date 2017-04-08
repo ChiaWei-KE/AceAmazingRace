@@ -92,5 +92,15 @@ namespace AceAmazingRace.Controllers
 
             return RedirectToAction("Index", "PitStop", new {id = eventId});
         }
+
+        public ActionResult MoveUp(int id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public ActionResult MoveDown(int id)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

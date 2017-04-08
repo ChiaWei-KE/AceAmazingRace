@@ -245,6 +245,8 @@
     <Compile Include="Models\RaceEvent.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\Location.cs" />
+    <Compile Include="ViewModels\EventTeamsViewModel.cs" />
+    <Compile Include="ViewModels\TeamViewModel.cs" />
     <Compile Include="ViewModels\PitStopViewModel.cs" />
     <Compile Include="ViewModels\ManageViewModels.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -365,6 +367,8 @@
     <Content Include="Views\PitStop\Index.cshtml" />
     <Content Include="Views\Team\Index.cshtml" />
     <Content Include="Views\PitStop\Details.cshtml" />
+    <Content Include="Views\Team\Details.cshtml" />
+    <Content Include="Views\Team\EditOrder.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

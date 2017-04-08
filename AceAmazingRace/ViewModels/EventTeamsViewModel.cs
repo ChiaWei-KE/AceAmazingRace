@@ -6,10 +6,10 @@ using AceAmazingRace.Models;
 
 namespace AceAmazingRace.ViewModels
 {
-    public class EventTeamsViewModel
+    public class EventPitStopsViewModel
     {
         public RaceEvent RaceEvent { get; set; }
-        public List<Team> Teams { get; set; }
+        public List<PitStop> PitStops { get; set; }
 
         public string Action { get; set; }
         public string RaceEventName { get; set; }

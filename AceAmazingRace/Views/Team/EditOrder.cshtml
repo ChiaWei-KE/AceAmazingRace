@@ -1,0 +1,39 @@
+﻿@model AceAmazingRace.ViewModels.TeamViewModel
+@{
+    ViewBag.Title = "EditOrder";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Update Pit Stop Orders</h2>
+
+@if (@Model.PitStops.Count == 0)
+{
+    <span>No records are found.</span>
+}
+else
+{
+    <table class="table table-hover table-bordered">
+        <thead>
+        <tr>
+            <th>Name</th>
+            <th>Location</th>
+            <th>Remark</th>
+            <th>Action</th>
+        </tr>
+        </thead>
+        <tbody>
+        @foreach (var item in @Model.PitStops)
+        {
+            <tr>
+                <td>@item.Name</td>
+                <td>@item.Location.Name</td>
+                <td>@item.Remark</td>
+                <td class="text-center">
+                    <a class="glyphicon glyphicon-circle-arrow-up" href="@Url.Action("MoveUp", "PitStop", new {id = item.Id})"></a>
+                    <a class="glyphicon glyphicon-circle-arrow-down" href="@Url.Action("MoveDown", "PitStop", new {id = item.Id})"></a>
+                </td>
+            </tr>
+        }
+        </tbody>
+    </table>
+}

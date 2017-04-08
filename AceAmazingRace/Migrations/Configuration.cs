@@ -29,11 +29,11 @@ namespace AceAmazingRace.Migrations
         {
             var locations = new List<Location>()
             {
-                new Location() {Id = 1, Name = "Salon Vim", Address = "235 Victoria St, Singapore 188027", Latitude = 1.300029, Longitude = 103.855058},
-                new Location() {Id = 2, Name = "Land Transport Authority", Address = "750 Victoria St, Singapore 188062", Latitude = 1.300753, Longitude = 103.856267},
-                new Location() {Id = 3, Name = "KOI Café", Address = "201 Victoria St, Singapore 188067", Latitude = 1.299129, Longitude = 103.854168},
-                new Location() {Id = 4, Name = "Bugis Cube", Address = "470 North Bridge Rd, Singapore 408936", Latitude = 1.298154, Longitude = 103.855611},
-                new Location() {Id = 5, Name = "National Library", Address = "100 Victoria St, Singapore 188064", Latitude = 1.297542, Longitude = 103.854216},
+                new Location() {Id = 1, Name = "Bugis - Salon Vim", Address = "235 Victoria St, Singapore 188027", Latitude = 1.300029, Longitude = 103.855058},
+                new Location() {Id = 2, Name = "Bugis - Land Transport Authority", Address = "750 Victoria St, Singapore 188062", Latitude = 1.300753, Longitude = 103.856267},
+                new Location() {Id = 3, Name = "Bugis - KOI Café", Address = "201 Victoria St, Singapore 188067", Latitude = 1.299129, Longitude = 103.854168},
+                new Location() {Id = 4, Name = "Bugis - Bugis Cube", Address = "470 North Bridge Rd, Singapore 408936", Latitude = 1.298154, Longitude = 103.855611},
+                new Location() {Id = 5, Name = "Bugis - National Library", Address = "100 Victoria St, Singapore 188064", Latitude = 1.297542, Longitude = 103.854216},
             };
 
             foreach (var location in locations)

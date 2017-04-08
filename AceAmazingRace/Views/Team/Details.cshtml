@@ -1,0 +1,40 @@
+﻿@using AceAmazingRace.Models
+@model AceAmazingRace.ViewModels.TeamViewModel
+@{
+    string header = "";
+    string submitButtonText = "";
+
+    if (@Model.Action == "Create") {
+        header = "Create New Team";
+        submitButtonText = "Create";
+    }
+    else if (@Model.Action == "Edit") {
+        header = "Update Team";
+        submitButtonText = "Save";
+    }
+
+    ViewBag.Title = @header;
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+}
+
+<h3>@header</h3>
+
+@using (@Html.BeginForm("Save", "Team", new { eventId = @Model.RaceEventId })) {
+
+    <div class="form-group">
+        @Html.LabelFor(e => e.Team.Name)
+        @Html.TextBoxFor(e => e.Team.Name, new { @class = "form-control" })
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(e => e.Team.Profile)
+        @Html.TextBoxFor(e => e.Team.Profile, new { @class = "form-control" })
+    </div>
+
+    @Html.HiddenFor(e => e.Team.Id)
+
+    <button type="submit" class="btn btn-primary">@submitButtonText</button>
+    <a class="btn btn-primary" href="@Url.Action("Index","Team", new {id = @Model.RaceEventId})">Cancel</a>
+}
+

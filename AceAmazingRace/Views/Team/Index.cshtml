@@ -1,8 +1,42 @@
-﻿
+﻿@model AceAmazingRace.ViewModels.EventTeamsViewModel
 @{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>All Teams</h2>
+<h2>Teams of <i>@Model.RaceEventName</i></h2>
 
+<div class="form-group">
+    <a class="btn btn-primary" href="@Url.Action("Create","Team", new {eventId = @Model.RaceEvent.Id})">Create New</a>
+    <a class="btn btn-primary" href="@Url.Action("Index","RaceEvents")">Back To Events</a>
+</div>
+
+@if (@Model.Teams.Count == 0) {
+    <span>No records are found.</span>
+}
+else {
+    <table class="table table-hover table-bordered">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Profile</th>
+                <th>Photo</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in @Model.Teams) {
+                <tr>
+                    <td>@item.Name</td>
+                    <td>@item.Profile</td>
+                    <td></td>
+                    <td class="text-center">
+                        <a class="glyphicon glyphicon-move" href="@Url.Action("EditOrder", "Team", new {id = item.Id})"></a>
+                        <a class="glyphicon glyphicon-edit" href="@Url.Action("Edit", "Team", new {id = item.Id})"></a>
+                        <a class="glyphicon glyphicon-trash" href="@Url.Action("Delete", "Team", new {id = item.Id})"></a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
