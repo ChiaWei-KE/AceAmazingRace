@@ -246,6 +246,7 @@
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\Location.cs" />
     <Compile Include="ViewModels\EventTeamsViewModel.cs" />
+    <Compile Include="ViewModels\PitStopOrdersViewModel.cs" />
     <Compile Include="ViewModels\TeamViewModel.cs" />
     <Compile Include="ViewModels\PitStopViewModel.cs" />
     <Compile Include="ViewModels\ManageViewModels.cs" />

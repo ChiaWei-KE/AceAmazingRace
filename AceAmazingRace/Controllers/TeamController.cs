@@ -111,13 +111,75 @@ namespace AceAmazingRace.Controllers
         public ActionResult EditOrder(int id)
         {
             var team = _context.Teams.FirstOrDefault(x => x.Id == id);
-            var pitStops = _context.PitStopOrders.Where(x => x.Team.Id == team.Id).Select(x => x.PitStop).ToList();
+            var pitStopOrders = _context.PitStopOrders.Where(x => x.Team.Id == team.Id)
+                                                 .OrderBy(x => x.Order)
+                                                 .ToList();
 
-            return View("EditOrder", new TeamViewModel()
+            return View("EditOrder", new PitStopOrdersViewModel()
             {
-                PitStops =pitStops,
+                PitStopOrders = pitStopOrders,
                 RaceEventId = team.RaceEvent.Id
             });
+        }
+
+        public ActionResult MoveUp(int id)
+        {
+            var current = _context.PitStopOrders.FirstOrDefault(x => x.Id == id);
+            SortPitStop(current.Team.Id);
+            var orders = _context.PitStopOrders.Where(x => x.Team.Id == current.Team.Id)
+                                               .OrderBy(x => x.Order).ToList();
+
+            if (current.Order > 0)
+            {
+                for (int i = 1; i < orders.Count; i++)
+                {
+                    if (orders[i].Id == current.Id)
+                    {
+                        _context.Database.ExecuteSqlCommand($"UPDATE dbo.PitStopOrders SET [Order] = {i - 1} WHERE Id = {orders[i].Id}");
+                        _context.Database.ExecuteSqlCommand($"UPDATE dbo.PitStopOrders SET [Order] = {i} WHERE Id = {orders[i - 1].Id}");
+                        break;
+                    }
+                }
+            }
+
+            return RedirectToAction("EditOrder", new {id = current.Team.Id});
+        }
+
+        public ActionResult MoveDown(int id)
+        {
+            var current = _context.PitStopOrders.FirstOrDefault(x => x.Id == id);
+            SortPitStop(current.Team.Id);
+            var orders = _context.PitStopOrders.Where(x => x.Team.Id == current.Team.Id)
+                                               .OrderBy(x => x.Order).ToList();
+
+            if (current.Order < orders.Count - 1)
+            {
+                for (int i = 0; i <= orders.Count - 1; i++)
+                {
+                    if (orders[i].Id == current.Id)
+                    {
+                        _context.Database.ExecuteSqlCommand($"UPDATE dbo.PitStopOrders SET [Order] = {i + 1} WHERE Id = {orders[i].Id}");
+                        _context.Database.ExecuteSqlCommand($"UPDATE dbo.PitStopOrders SET [Order] = {i} WHERE Id = {orders[i + 1].Id}");
+                        break;
+                    }
+                }
+            }
+
+            return RedirectToAction("EditOrder", new {id = current.Team.Id});
+        }
+
+        private void SortPitStop(int teamId)
+        {
+            var orders = _context.PitStopOrders.Where(x => x.Team.Id == teamId)
+                                               .OrderBy(x => x.Order);
+
+            var index = 0;
+            foreach (var order in orders)
+            {
+                order.Order = index++;
+            }
+
+            _context.SaveChanges();
         }
     }
 }
