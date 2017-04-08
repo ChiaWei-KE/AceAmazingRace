@@ -25,7 +25,15 @@ namespace AceAmazingRace.Controllers
 
         public ActionResult Index()
         {
-            var events = _context.RaceEvents.OrderByDescending(x => x.Date).ThenBy(x => x.Time).ToList();
+            var events = _context.RaceEvents.OrderByDescending(x => x.Date)
+                .ThenBy(x => x.Time)
+                .Select(x => new RaceEventViewModel()
+                {
+                   RaceEvent = x,
+                   PitStops = _context.PitStops.Where(y => y.RaceEvent.Id == x.Id).ToList()
+                })
+                .ToList();
+                                            
 
             return View("Index", events);
         }

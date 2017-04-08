@@ -1,4 +1,4 @@
-@model List<AceAmazingRace.Models.RaceEvent>
+@model List<AceAmazingRace.ViewModels.RaceEventViewModel>
 @{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -27,13 +27,13 @@ else {
         <tbody>
             @foreach (var item in @Model) {
                 <tr>
-                    <td>@item.Name</td>
-                    <td>@item.Description</td>
-                    <td>@item.DateAndTimeDisplay</td>
-                    <td>@item.Location</td>
+                    <td>@item.RaceEvent.Name</td>
+                    <td>@item.RaceEvent.Description</td>
+                    <td>@item.RaceEvent.DateAndTimeDisplay</td>
+                    <td>@item.RaceEvent.Location</td>
                     <td class="text-center">
-                        <a class="glyphicon glyphicon-edit" href="@Url.Action("Edit", "RaceEvents", new {@Id = @item.Id})"></a>
-                        <a class="glyphicon glyphicon-trash" href="@Url.Action("Delete", "RaceEvents", new {@Id = @item.Id})"></a>
+                        <a class="glyphicon glyphicon-edit" href="@Url.Action("Edit", "RaceEvents", new {@Id = @item.RaceEvent.Id})"></a>
+                        <a class="glyphicon glyphicon-trash" href="@Url.Action("Delete", "RaceEvents", new {@Id = @item.RaceEvent.Id})"></a>
                     </td>
                 </tr>
             }
