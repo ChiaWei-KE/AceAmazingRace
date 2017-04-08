@@ -196,6 +196,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\PitStopController.cs" />
     <Compile Include="Controllers\RaceEventsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
@@ -237,6 +238,7 @@
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
+    <Compile Include="ViewModels\PitStopViewModel.cs" />
     <Compile Include="ViewModels\RaceEventViewModel.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -349,6 +351,7 @@
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Views\RaceEvents\Index.cshtml" />
     <Content Include="Views\RaceEvents\Details.cshtml" />
+    <Content Include="Views\PitStop\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
