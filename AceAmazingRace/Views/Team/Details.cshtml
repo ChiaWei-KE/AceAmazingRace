@@ -4,11 +4,11 @@
     string header = "";
     string submitButtonText = "";
 
-    if (@Model.Action == "Create") {
+    if (@Model.UserAction == "Create") {
         header = "Create New Team";
         submitButtonText = "Create";
     }
-    else if (@Model.Action == "Edit") {
+    else if (@Model.UserAction == "Edit") {
         header = "Update Team";
         submitButtonText = "Save";
     }
@@ -20,16 +20,18 @@
 
 <h3>@header</h3>
 
-@using (@Html.BeginForm("Save", "Team", new { eventId = @Model.RaceEventId })) {
+@using (@Html.BeginForm("Save", "Team", new { eventId = @Model.RaceEventId, userAction = @Model.UserAction })) {
 
     <div class="form-group">
         @Html.LabelFor(e => e.Team.Name)
         @Html.TextBoxFor(e => e.Team.Name, new { @class = "form-control" })
+        @Html.ValidationMessageFor(e => e.Team.Name)
     </div>
 
     <div class="form-group">
         @Html.LabelFor(e => e.Team.Profile)
         @Html.TextBoxFor(e => e.Team.Profile, new { @class = "form-control" })
+        @Html.ValidationMessageFor(e => e.Team.Profile)
     </div>
 
     @Html.HiddenFor(e => e.Team.Id)

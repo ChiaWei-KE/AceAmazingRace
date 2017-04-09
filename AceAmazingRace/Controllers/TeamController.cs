@@ -45,7 +45,7 @@ namespace AceAmazingRace.Controllers
             return View("Details", new TeamViewModel()
             {
                 PitStops = _context.PitStops.Where(x => x.RaceEvent.Id == eventId).ToList(),
-                Action = "Create",
+                UserAction = "Create",
                 RaceEventId = eventId
             });
         }
@@ -58,7 +58,7 @@ namespace AceAmazingRace.Controllers
             return View("Details", new TeamViewModel()
             {
                 Team = team,
-                Action = "Edit",
+                UserAction = "Edit",
                 RaceEventId = team.RaceEvent.Id,
                 PitStops = _context.PitStops.Where(x => x.RaceEvent.Id == team.RaceEvent.Id).ToList(),
             });
@@ -80,15 +80,35 @@ namespace AceAmazingRace.Controllers
         }
 
         [HttpPost]
-        public ActionResult Save(TeamViewModel viewModel, int eventId)
+        public ActionResult Save(TeamViewModel viewModel, int eventId, string userAction)
         {
+            if (!ModelState.IsValid)
+            {
+                var reValidation = !string.IsNullOrEmpty(viewModel.Team.Name) &&
+                                   !string.IsNullOrEmpty(viewModel.Team.Profile);
+                if (!reValidation)
+                {
+                    viewModel.UserAction = userAction;
+                    viewModel.RaceEventId = eventId;
+                    return View("Details", viewModel);
+                }
+            }
+
             var raceEvent = _context.RaceEvents.FirstOrDefault(x => x.Id == eventId);
 
             var team = viewModel.Team;
             team.RaceEvent = raceEvent;
 
             _context.Teams.AddOrUpdate(team);
-            _context.SaveChanges();
+            try
+            {
+                _context.SaveChanges();
+            }
+            catch (Exception e)
+            {
+                throw e;    
+            }
+            
 
             //After save team, update orders
             if (!_context.PitStopOrders.Any(x => x.Team.Id == team.Id))
