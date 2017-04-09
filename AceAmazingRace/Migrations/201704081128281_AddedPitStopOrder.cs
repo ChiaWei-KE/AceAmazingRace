@@ -17,8 +17,8 @@ namespace AceAmazingRace.Migrations
                         Team_Id = c.Int(nullable: false),
                     })
                 .PrimaryKey(t => t.Id)
-                .ForeignKey("dbo.PitStops", t => t.PitStop_Id, cascadeDelete: false)
-                .ForeignKey("dbo.Teams", t => t.Team_Id, cascadeDelete: false)
+                .ForeignKey("dbo.PitStops", t => t.PitStop_Id, cascadeDelete: true)
+                .ForeignKey("dbo.Teams", t => t.Team_Id, cascadeDelete: true)
                 .Index(t => t.PitStop_Id)
                 .Index(t => t.Team_Id);
             

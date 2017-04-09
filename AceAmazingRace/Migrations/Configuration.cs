@@ -20,31 +20,36 @@ namespace AceAmazingRace.Migrations
             context.GenerateRaceEvents();
             context.GenerateLocations();
             context.GeneratePitStops();
+            context.GenerateTeams();
+            context.GeneratePitStopOrders();
         }
     }
 
     public static class SeedData
     {
+        private static void AddorUpdateRange<T>(DbSet<T> db, List<T> items) where T : class
+        {
+            foreach (var item in items)
+                db.AddOrUpdate(item);
+        }
+
         public static void GenerateLocations(this ApplicationDbContext context)
         {
-            var locations = new List<Location>()
+            AddorUpdateRange(context.Locations, new List<Location>()
             {
                 new Location() {Id = 1, Name = "Bugis - Salon Vim", Address = "235 Victoria St, Singapore 188027", Latitude = 1.300029, Longitude = 103.855058},
                 new Location() {Id = 2, Name = "Bugis - Land Transport Authority", Address = "750 Victoria St, Singapore 188062", Latitude = 1.300753, Longitude = 103.856267},
                 new Location() {Id = 3, Name = "Bugis - KOI Café", Address = "201 Victoria St, Singapore 188067", Latitude = 1.299129, Longitude = 103.854168},
                 new Location() {Id = 4, Name = "Bugis - Bugis Cube", Address = "470 North Bridge Rd, Singapore 408936", Latitude = 1.298154, Longitude = 103.855611},
                 new Location() {Id = 5, Name = "Bugis - National Library", Address = "100 Victoria St, Singapore 188064", Latitude = 1.297542, Longitude = 103.854216},
-            };
-
-            foreach (var location in locations)
-                context.Locations.AddOrUpdate(location);
+            });
 
             context.SaveChanges();
         }
 
         public static void GenerateRaceEvents(this ApplicationDbContext context)
         {
-            var raceEvents = new List<RaceEvent>()
+            AddorUpdateRange(context.RaceEvents, new List<RaceEvent>()
             {
                 new RaceEvent()
                 {
@@ -64,28 +69,61 @@ namespace AceAmazingRace.Migrations
                     Location = "Bugis Junction (In front of fountain)",
                     Time = "1:30pm"
                 }
-            };
-
-            foreach (var raceEvent in raceEvents)
-                context.RaceEvents.AddOrUpdate(raceEvent);
+            });
 
             context.SaveChanges();
         }
 
         public static void GeneratePitStops(this ApplicationDbContext context)
         {
-            var pitStops = new List<PitStop>()
+            AddorUpdateRange(context.PitStops, new List<PitStop>()
             {
                 new PitStop() { Id =1, Name = "BGS01", Location = context.Locations.Find(1), RaceEvent = context.RaceEvents.Find(2)},
                 new PitStop() { Id =2, Name = "BGS02", Location = context.Locations.Find(2), RaceEvent = context.RaceEvents.Find(2)},
                 new PitStop() { Id =3, Name = "BGS03", Location = context.Locations.Find(3), RaceEvent = context.RaceEvents.Find(2)},
                 new PitStop() { Id =4, Name = "BGS04", Location = context.Locations.Find(4), RaceEvent = context.RaceEvents.Find(2)},
-                new PitStop() { Id =5, Name = "BGS05", Location = context.Locations.Find(5), RaceEvent = context.RaceEvents.Find(2)},
-            };
+                new PitStop() { Id =5, Name = "BGS05", Location = context.Locations.Find(5), RaceEvent = context.RaceEvents.Find(2)}
+            });
 
-            foreach (var pitstop in pitStops)
-                context.PitStops.AddOrUpdate(pitstop);
+            context.SaveChanges();
+        }
 
+        public static void GenerateTeams(this ApplicationDbContext context)
+        {
+            AddorUpdateRange(context.Teams, new List<Team>()
+            {
+                new Team() {Id = 1, Name = "Bugis Team A", Profile = "We are engineering students from NTU and enjoy challenges.", RaceEvent = context.RaceEvents.Find(2)},
+                new Team() {Id = 2, Name = "Bugis Team B", Profile = "Multinational team from South East Asia countries. ABCD from our names Alice, Byran, Cathy, Daniel!!!", RaceEvent = context.RaceEvents.Find(2)},
+                new Team() {Id = 3, Name = "Bugis Team C", Profile = "Family of 4 members, amazing race is great!", RaceEvent = context.RaceEvents.Find(2)}
+            });
+
+            context.SaveChanges();
+        }
+
+        public static void GeneratePitStopOrders(this ApplicationDbContext context)
+        {
+            var id = 1;
+            var pitStopOrders = new List<PitStopOrder>();
+            var raceEvents = context.RaceEvents.ToList();
+
+            foreach (var raceEvent in raceEvents)
+            {
+                var teams = context.Teams.Where(x => x.RaceEvent.Id == raceEvent.Id).ToList();
+                var pitStops = context.PitStops.Where(x => x.RaceEvent.Id == raceEvent.Id).ToList();
+
+                foreach (var team in teams)
+                {
+                    var order = 0;
+                    foreach (var pitStop in pitStops)
+                    {
+                        pitStopOrders.Add(new PitStopOrder() {Id = id, Order = order, PitStop = pitStop, Team = team});
+                        id++;
+                        order++;
+                    }
+                }
+            }
+
+            AddorUpdateRange(context.PitStopOrders, pitStopOrders);
             context.SaveChanges();
         }
     }

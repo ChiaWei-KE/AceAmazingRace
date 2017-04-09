@@ -48,9 +48,11 @@ namespace AceAmazingRace.Controllers
         {
             var raceEvent = _context.RaceEvents.FirstOrDefault(x => x.Id == id);
             if (raceEvent == null) return HttpNotFound();
+            var raceEventId = raceEvent.Id;
 
-            _context.RaceEvents.Remove(raceEvent);
-            _context.SaveChanges();
+            _context.Database.ExecuteSqlCommand($"DELETE FROM dbo.Teams WHERE RaceEvent_Id = {raceEventId}");
+            _context.Database.ExecuteSqlCommand($"DELETE FROM dbo.PitStops WHERE RaceEvent_Id = {raceEventId}");
+            _context.Database.ExecuteSqlCommand($"DELETE FROM dbo.RaceEvents WHERE Id = {raceEventId}");
 
             return RedirectToAction("Index");
         }
