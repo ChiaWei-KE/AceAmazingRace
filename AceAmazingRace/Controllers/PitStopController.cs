@@ -72,15 +72,7 @@ namespace AceAmazingRace.Controllers
             if (pitStop == null) return HttpNotFound();
 
             _context.PitStops.Remove(pitStop);
-            try
-            {
-                _context.SaveChanges();
-            }
-            catch (Exception e)
-            {
-                throw e;
-            }
-            
+            _context.SaveChanges();
 
             return RedirectToAction("Index", new {id = eventId});
         }

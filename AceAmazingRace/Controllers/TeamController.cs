@@ -100,15 +100,7 @@ namespace AceAmazingRace.Controllers
             team.RaceEvent = raceEvent;
 
             _context.Teams.AddOrUpdate(team);
-            try
-            {
-                _context.SaveChanges();
-            }
-            catch (Exception e)
-            {
-                throw e;    
-            }
-            
+            _context.SaveChanges();
 
             //After save team, update orders
             if (!_context.PitStopOrders.Any(x => x.Team.Id == team.Id))
