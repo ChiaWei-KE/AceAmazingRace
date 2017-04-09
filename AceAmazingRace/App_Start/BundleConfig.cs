@@ -32,11 +32,15 @@ namespace AceAmazingRace
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap-spacelab.css",
+                      "~/Content/leaflet.css",
                       "~/Content/Site.css"));
 
             bundles.Add(new StyleBundle("~/Content/cssjqryUi").Include(  
                    "~/Content/themes/base/jquery-ui.css",
                    "~/Content/jquery.timepicker.css"));  
+
+            bundles.Add(new ScriptBundle("~/bundles/leaflet").Include(
+                    "~/Scripts/leaflet.js"));
 
         }
     }

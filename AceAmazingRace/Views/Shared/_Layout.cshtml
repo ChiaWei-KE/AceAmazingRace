@@ -4,12 +4,15 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@ViewBag.Title - Ace Amazing Race</title>
-    @Styles.Render("~/Content/css")
     @Styles.Render("~/Content/cssjqryUi")
+    @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/jqueryui")
+    @Scripts.Render("~/bundles/leaflet")
     @Scripts.Render("~/bundles/initialization")
+    
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.3/dist/leaflet.css" />
 </head>
 <body>
     <div class="navbar navbar-inverse navbar-fixed-top">
