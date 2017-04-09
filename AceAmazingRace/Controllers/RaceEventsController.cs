@@ -41,7 +41,7 @@ namespace AceAmazingRace.Controllers
 
         public ActionResult Create()
         {
-            return View("Details", new RaceEventViewModel() {Action = "Create"});
+            return View("Details", new RaceEventViewModel() {UserAction = "Create"});
         }
 
         public ActionResult Delete(int id)
@@ -63,15 +63,21 @@ namespace AceAmazingRace.Controllers
             var viewModel = new RaceEventViewModel()
             {
                 RaceEvent = raceEvent,
-                Action = "Edit"
+                UserAction = "Edit"
             };
 
             return View("Details", viewModel);
         }
 
         [HttpPost]
-        public ActionResult Save(RaceEventViewModel viewModel)
+        public ActionResult Save(RaceEventViewModel viewModel, string userAction)
         {
+            if (!ModelState.IsValid)
+            {
+                viewModel.UserAction = userAction;
+                return View("Details", viewModel);
+            }
+
             var raceEvent = viewModel.RaceEvent;
 
             _context.RaceEvents.AddOrUpdate(raceEvent);

@@ -26,3 +26,11 @@ textarea {
 .text-indention {
     text-indent: 1em;
 }
+    
+.field-validation-error {
+    color: red;
+}
+
+.input-validation-error{
+    border: 2px solid red;
+}

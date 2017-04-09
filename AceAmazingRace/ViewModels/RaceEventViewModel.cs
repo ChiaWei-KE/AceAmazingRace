@@ -12,6 +12,6 @@ namespace AceAmazingRace.ViewModels
         public List<PitStop> PitStops { get; set; }
         public List<Team> Teams { get; set; }
 
-        public string Action { get; set; }
+        public string UserAction { get; set; }
     }
 }

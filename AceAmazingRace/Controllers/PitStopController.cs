@@ -45,7 +45,7 @@ namespace AceAmazingRace.Controllers
             return View("Details", new PitStopViewModel()
             {
                 Locations = _context.Locations.OrderBy(x => x.Name).ToList(),
-                Action = "Create",
+                UserAction = "Create",
                 RaceEventId = eventId
             });
         }
@@ -60,7 +60,7 @@ namespace AceAmazingRace.Controllers
                 PitStop = pitStop,
                 LocationId = pitStop.Location.Id,
                 Locations = _context.Locations.OrderBy(x => x.Name).ToList(),
-                Action = "Edit",
+                UserAction = "Edit",
                 RaceEventId = pitStop.RaceEvent.Id
             });
         }
@@ -78,16 +78,55 @@ namespace AceAmazingRace.Controllers
         }
 
         [HttpPost]
-        public ActionResult Save(PitStopViewModel viewModel, int eventId)
+        public ActionResult Save(PitStopViewModel viewModel, int eventId, string userAction)
         {
+            if (!ModelState.IsValid)
+            {
+                var reValidation = !string.IsNullOrEmpty(viewModel.PitStop.Name) &&
+                                   viewModel.LocationId > 0;
+
+                if (!reValidation)
+                {
+                    viewModel.UserAction = userAction;
+                    viewModel.Locations = _context.Locations.OrderBy(x => x.Name).ToList();
+                    viewModel.RaceEventId = eventId;
+                    return View("Details", viewModel);
+                }
+            }
+
             var location = _context.Locations.FirstOrDefault(x => x.Id == viewModel.LocationId);
             var raceEvent = _context.RaceEvents.FirstOrDefault(x => x.Id == eventId);
 
+            //Update pitStop
             var pitStop = viewModel.PitStop;
             pitStop.Location = location;
             pitStop.RaceEvent = raceEvent;
 
             _context.PitStops.AddOrUpdate(pitStop);
+
+            //Update pitStopOrder
+            int maxIndex;
+
+            if (_context.PitStopOrders.Any(x => x.PitStop.RaceEvent.Id == raceEvent.Id))
+                maxIndex = _context.PitStopOrders
+                            .Where(x => x.PitStop.RaceEvent.Id == raceEvent.Id)
+                            .Max(x => x.Order);
+            else
+                maxIndex = -1;
+
+            var pitStopOrders = _context.Teams
+                    .Where(x => x.RaceEvent.Id == pitStop.RaceEvent.Id)
+                    .ToList()
+                    .Select(x => new PitStopOrder()
+                    {
+                        PitStop = pitStop,
+                        Team = x,
+                        Order = maxIndex + 1
+                    });
+
+            foreach (var pitStopOrder in pitStopOrders)
+                _context.PitStopOrders.AddOrUpdate(pitStopOrder);
+
             _context.SaveChanges();
 
             return RedirectToAction("Index", "PitStop", new {id = eventId});

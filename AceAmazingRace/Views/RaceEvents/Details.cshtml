@@ -4,12 +4,12 @@
     string header = "";
     string submitButtonText = "";
 
-    if (@Model.Action == "Create")
+    if (@Model.UserAction == "Create")
     {
         header = "Create New Event";
         submitButtonText = "Create";
     }
-    else if (@Model.Action == "Edit")
+    else if (@Model.UserAction == "Edit")
     {
         header = "Update Event";
         submitButtonText = "Save";
@@ -22,31 +22,36 @@
 
 <h3>@header</h3>
 
-@using (@Html.BeginForm("Save", "RaceEvents")) {
+@using (@Html.BeginForm("Save", "RaceEvents", new { userAction = @Model.UserAction })) {
 
     <div class="form-group">
         @Html.LabelFor(e => e.RaceEvent.Name)
         @Html.TextBoxFor(e => e.RaceEvent.Name, new { @class = "form-control" })
+        @Html.ValidationMessageFor(e => e.RaceEvent.Name)
     </div>
 
     <div class="form-group">
         @Html.LabelFor(e => e.RaceEvent.Description)
         @Html.TextBoxFor(e => e.RaceEvent.Description, new { @class = "form-control" })
+        @Html.ValidationMessageFor(e => e.RaceEvent.Description)
     </div>
 
     <div class="form-group">
         @Html.LabelFor(e => e.RaceEvent.Date)
         @Html.TextBoxFor(e => e.RaceEvent.Date, "{0:dd-MMM-yyyy}", new { @class = "form-control datepicker"})
+        @Html.ValidationMessageFor(e => e.RaceEvent.Date)
     </div>
 
     <div class="form-group">
         @Html.LabelFor(e => e.RaceEvent.Time)
         @Html.TextBoxFor(e => e.RaceEvent.Time, new { @class = "form-control timepicker" })
+        @Html.ValidationMessageFor(e => e.RaceEvent.Time)
     </div>
 
     <div class="form-group">
         @Html.LabelFor(e => e.RaceEvent.Location)
         @Html.TextBoxFor(e => e.RaceEvent.Location, new { @class = "form-control" })
+        @Html.ValidationMessageFor(e => e.RaceEvent.Location)
     </div>
 
     @Html.HiddenFor(e => e.RaceEvent.Id)

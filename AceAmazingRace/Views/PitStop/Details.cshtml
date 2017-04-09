@@ -4,11 +4,11 @@
     string header = "";
     string submitButtonText = "";
 
-    if (@Model.Action == "Create") {
+    if (@Model.UserAction == "Create") {
         header = "Create New Pit Stop";
         submitButtonText = "Create";
     }
-    else if (@Model.Action == "Edit") {
+    else if (@Model.UserAction == "Edit") {
         header = "Update Pit Stop";
         submitButtonText = "Save";
     }
@@ -20,24 +20,27 @@
 
 <h3>@header</h3>
 
-@using (@Html.BeginForm("Save", "PitStop", new {eventId = @Model.RaceEventId})) {
+@using (@Html.BeginForm("Save", "PitStop", new {eventId = @Model.RaceEventId, userAction = @Model.UserAction})) {
 
     <div class="form-group">
         @Html.LabelFor(e => e.PitStop.Name)
         @Html.TextBoxFor(e => e.PitStop.Name, new { @class = "form-control" })
+        @Html.ValidationMessageFor(e => e.PitStop.Name)
     </div>
 
     <div class="form-group">
-        @Html.LabelFor(e => e.LocationId)
+        @Html.LabelFor(e => e.LocationId, "Location")
         @Html.DropDownListFor(e => e.LocationId,
                            new SelectList(@Model.Locations, "Id", "Name"),
                            "Please select Location",
                            new { @class = "form-control" })
+        @Html.ValidationMessageFor(e => e.LocationId)
     </div>
 
     <div class="form-group">
         @Html.LabelFor(e => e.PitStop.Remark)
         @Html.TextBoxFor(e => e.PitStop.Remark, new { @class = "form-control" })
+        @Html.ValidationMessageFor(e => e.PitStop.Remark)
     </div>
 
     @Html.HiddenFor(e => e.PitStop.Id)
