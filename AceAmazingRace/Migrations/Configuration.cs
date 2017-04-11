@@ -20,6 +20,7 @@ namespace AceAmazingRace.Migrations
             context.GenerateRaceEvents();
             context.GenerateLocations();
             context.GeneratePitStops();
+            context.GenerateSupportStops();
             context.GenerateTeams();
             context.GeneratePitStopOrders();
         }
@@ -42,6 +43,8 @@ namespace AceAmazingRace.Migrations
                 new Location() {Id = 3, Name = "Bugis - KOI Café", Address = "201 Victoria St, Singapore 188067", Latitude = 1.299129, Longitude = 103.854168},
                 new Location() {Id = 4, Name = "Bugis - Bugis Cube", Address = "470 North Bridge Rd, Singapore 408936", Latitude = 1.298154, Longitude = 103.855611},
                 new Location() {Id = 5, Name = "Bugis - National Library", Address = "100 Victoria St, Singapore 188064", Latitude = 1.297542, Longitude = 103.854216},
+                new Location() {Id = 6, Name = "Support - Parco Bugis Junction", Address = "200 Victoria St, Singapore 188021", Latitude = 1.29887, Longitude = 103.85495},
+                new Location() {Id = 7, Name = "Support - Bugis Junction", Address = "200 Victoria St, Singapore 188021", Latitude = 1.29982, Longitude = 103.85586},
             });
 
             context.SaveChanges();
@@ -83,6 +86,17 @@ namespace AceAmazingRace.Migrations
                 new PitStop() { Id =3, Name = "BGS03", Location = context.Locations.Find(3), RaceEvent = context.RaceEvents.Find(2)},
                 new PitStop() { Id =4, Name = "BGS04", Location = context.Locations.Find(4), RaceEvent = context.RaceEvents.Find(2)},
                 new PitStop() { Id =5, Name = "BGS05", Location = context.Locations.Find(5), RaceEvent = context.RaceEvents.Find(2)}
+            });
+
+            context.SaveChanges();
+        }
+
+        public static void GenerateSupportStops(this ApplicationDbContext context)
+        {
+            AddorUpdateRange(context.SupportStops, new List<SupportStop>()
+            {
+                new SupportStop() {Id = 1, Code = "S01", RaceEvent = context.RaceEvents.Find(2), Location = context.Locations.Find(6)},
+                new SupportStop() {Id = 2, Code = "S02", RaceEvent = context.RaceEvents.Find(2), Location = context.Locations.Find(7)}
             });
 
             context.SaveChanges();

@@ -52,6 +52,7 @@ else
 
 <script>
     var locations = @Html.Raw(Json.Encode(@locations));
+    console.log(locations);
 
     var mymap = L.map('mapid')
                  .setView([@centerLatitude, @centerLongitude], 17);
@@ -75,5 +76,14 @@ else
 			'Imagery © <a href="http://mapbox.com">Mapbox</a>',
         id: 'mapbox.streets'
     }).addTo(mymap);
+
+    function onMapClick(e) {
+        L.popup()
+         .setLatLng(e.latlng)
+         .setContent("You clicked the map at " + e.latlng.toString())
+         .openOn(mymap);
+    }
+
+    mymap.on('click', onMapClick);
 
 </script>
