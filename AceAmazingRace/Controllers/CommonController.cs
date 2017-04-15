@@ -9,6 +9,7 @@ using System.Data.Entity;
 
 namespace AceAmazingRace.Controllers
 {
+    [RoutePrefix("api/common")]
     public class CommonController : ApiController
     {
         private readonly ApplicationDbContext _context;
@@ -24,10 +25,24 @@ namespace AceAmazingRace.Controllers
         }
 
         [HttpGet]
-        [Route("api/pitStops/{eventId}")]
-        public IHttpActionResult PitStops(int eventId)
+        [Route("events")]
+        public IHttpActionResult Events()
         {
-            return Ok(_context.PitStops.Where(x => x.RaceEvent.Id == eventId).ToList());
+            return Ok(_context.RaceEvents.ToList());
+        }
+
+        [HttpGet]
+        [Route("pitStops")]
+        public IHttpActionResult PitStops()
+        {
+            return Ok(_context.PitStops.ToList());
+        }
+
+        [HttpGet]
+        [Route("supportStops")]
+        public IHttpActionResult SupportStops()
+        {
+            return Ok(_context.SupportStops.ToList());
         }
     }
 }

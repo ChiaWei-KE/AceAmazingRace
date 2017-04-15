@@ -25,25 +25,7 @@ namespace AceAmazingRace.Controllers
 
         public ActionResult Index()
         {
-            //Todo Temporarily select event with data
-
-            var raceEvent = _context.RaceEvents.Find(2);
-            var pitStops = _context.PitStops.Where(x => x.RaceEvent.Id == raceEvent.Id).ToList();
-            var supportStops = _context.SupportStops.Where(x => x.RaceEvent.Id == raceEvent.Id).ToList();
-
-            var viewModel = new LiveEventsViewModel()
-            {
-                RaceEvent = raceEvent,
-                PitStops = pitStops,
-                SupportStops = supportStops
-            };
-
-            return View("Index", viewModel);
-        }
-
-        public ActionResult PitStops(int eventId)
-        {
-            return Json(_context.PitStops.Where(x => x.RaceEvent.Id == eventId).ToList());
+            return View("Index");
         }
     }
 }

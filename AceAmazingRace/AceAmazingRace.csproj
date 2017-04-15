@@ -217,7 +217,6 @@
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\TeamController.cs" />
     <Compile Include="Controllers\TestController.cs" />
-    <Compile Include="Controllers\ToDeleteController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -448,7 +447,7 @@
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>50840</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://localhost:50840/</IISUrl>
+          <IISUrl>http://localhost:50842/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>

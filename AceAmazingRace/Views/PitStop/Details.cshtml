@@ -79,6 +79,15 @@
                         'Imagery © <a href="http://mapbox.com">Mapbox</a>',
                     id: 'mapbox.streets'
                 }).addTo(mymap);
+
+            function onMapClick(e) {
+                L.popup()
+                 .setLatLng(e.latlng)
+                 .setContent("You clicked the map at " + e.latlng.toString())
+                 .openOn(mymap);
+            }
+
+            mymap.on('click', onMapClick);
         }
     }
 
