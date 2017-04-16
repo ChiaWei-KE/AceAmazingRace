@@ -1,0 +1,40 @@
+﻿
+@{
+    ViewBag.Title = "Index2";
+}
+
+<h2>Index2</h2>
+<button id="send">Send</button>
+
+<script>
+//    var chat = $.connection.chatHub;
+//    // Create a function that the hub can call back to display messages.
+//    chat.client.addNewMessageToPage = function (name, message) {
+//        // Add the message to the page.
+//        $('#discussion').append('<li><strong>' + htmlEncode(name)
+//            + '</strong>: ' + htmlEncode(message) + '</li>');
+//    };
+
+
+    var chat = $.connection.simulatorHub;
+
+    chat.client.printJson = function () {
+
+        var time = new Date();
+
+        var result = {
+            Hours: time.getHours(),
+            Minutes: time.getMinutes(),
+            Seconds: time.getSeconds()
+        };
+
+        console.log(JSON.stringify(result));
+    };
+
+    $.connection.hub.start().done(function () {
+        $('#send').click(function () {
+            chat.server.send();
+        });
+    });
+
+</script>
