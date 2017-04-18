@@ -90,24 +90,61 @@ namespace AceAmazingRace.Migrations
         {
             AddorUpdateRange(context.RaceEvents, new List<RaceEvent>()
             {
+
                 new RaceEvent()
                 {
                     Id = 1,
+                    Name = "Bugis Fun Chase",
+                    Date = new DateTime(2017, 5, 5),
+                    Description = "Are you ready for the biggest amazing run challenge ever in Bugis Area? Attractive prizes are waiting for you!!! ",
+                    Location = "Bugis Junction (In front of fountain)",
+                    Time = "1:30pm"
+                },
+                  new RaceEvent()
+                {
+                    Id = 2,
+                    Name = "Bukit Panjiang",
+                    Date = new DateTime(2017, 5, 12),
+                    Description = "Are you ready for the biggest amazing run challenge ever in Bugis Area? Attractive prizes are waiting for you!!! ",
+                    Location = "Bugis Junction (In front of fountain)",
+                    Time = "1:30pm"
+                },
+                new RaceEvent()
+                {
+                    Id = 3,
+                    Name = "Sentosa",
+                    Date = new DateTime(2017, 5, 19),
+                    Description = "Are you ready for the biggest amazing run challenge ever in Bugis Area? Attractive prizes are waiting for you!!! ",
+                    Location = "Bugis Junction (In front of fountain)",
+                    Time = "1:30pm"
+                },
+                new RaceEvent()
+                {
+                    Id = 4,
+                    Name = "Orchard",
+                    Date = new DateTime(2017, 5, 26),
+                    Description = "Are you ready for the biggest amazing run challenge ever in Bugis Area? Attractive prizes are waiting for you!!! ",
+                    Location = "Bugis Junction (In front of fountain)",
+                    Time = "1:30pm"
+                },
+                new RaceEvent()
+                {
+                    Id = 5,
                     Name = "Marina Run",
-                    Date = new DateTime(2017, 5, 10),
+                    Date = new DateTime(2017, 6, 2),
                     Description = "Bring your family in!!! Fun and challenge amazing races forever. First runner will have voucher of Takashimaya worth SGD500.",
                     Location = "Marina Bay (5 minutes walking distance from MRT station)",
                     Time = "10:00am"
                 },
                 new RaceEvent()
                 {
-                    Id = 2,
-                    Name = "Bugis Fun Chase",
-                    Date = new DateTime(2017, 6, 29),
+                    Id = 6,
+                    Name = "NUS",
+                    Date = new DateTime(2017, 6, 9),
                     Description = "Are you ready for the biggest amazing run challenge ever in Bugis Area? Attractive prizes are waiting for you!!! ",
                     Location = "Bugis Junction (In front of fountain)",
                     Time = "1:30pm"
-                }
+                },
             });
 
             context.SaveChanges();
@@ -117,11 +154,36 @@ namespace AceAmazingRace.Migrations
         {
             AddorUpdateRange(context.PitStops, new List<PitStop>()
             {
-                new PitStop() { Id =1, Name = "BGS01", Location = context.Locations.Find(1), RaceEvent = context.RaceEvents.Find(2)},
-                new PitStop() { Id =2, Name = "BGS02", Location = context.Locations.Find(2), RaceEvent = context.RaceEvents.Find(2)},
-                //new PitStop() { Id =3, Name = "BGS03", Location = context.Locations.Find(3), RaceEvent = context.RaceEvents.Find(2)},
-                new PitStop() { Id =4, Name = "BGS04", Location = context.Locations.Find(4), RaceEvent = context.RaceEvents.Find(2)},
-                new PitStop() { Id =5, Name = "BGS05", Location = context.Locations.Find(5), RaceEvent = context.RaceEvents.Find(2)}
+                new PitStop() { Id =1, Name = "Bugis01", Location = context.Locations.Find(1), RaceEvent = context.RaceEvents.Find(1)},
+                new PitStop() { Id =2, Name = "Bugis02", Location = context.Locations.Find(2), RaceEvent = context.RaceEvents.Find(1)},
+                new PitStop() { Id =3, Name = "Bugis03", Location = context.Locations.Find(3), RaceEvent = context.RaceEvents.Find(1)},
+                new PitStop() { Id =4, Name = "Bugis04", Location = context.Locations.Find(4), RaceEvent = context.RaceEvents.Find(1)},
+                new PitStop() { Id =5, Name = "Bugis05", Location = context.Locations.Find(5), RaceEvent = context.RaceEvents.Find(1)},
+                new PitStop() { Id =6, Name = "Bukit Panjiang01", Location = context.Locations.Find(8), RaceEvent = context.RaceEvents.Find(2)},
+                new PitStop() { Id =7, Name = "Bukit Panjiang02", Location = context.Locations.Find(9), RaceEvent = context.RaceEvents.Find(2)},
+                new PitStop() { Id =8, Name = "Bukit Panjiang03", Location = context.Locations.Find(10), RaceEvent = context.RaceEvents.Find(2)},
+                new PitStop() { Id =9, Name = "Bukit Panjiang04", Location = context.Locations.Find(11), RaceEvent = context.RaceEvents.Find(2)},
+                new PitStop() { Id =10, Name = "Bukit Panjiang05", Location = context.Locations.Find(12), RaceEvent = context.RaceEvents.Find(2)},
+                new PitStop() { Id =11, Name = "Sentosa01", Location = context.Locations.Find(15), RaceEvent = context.RaceEvents.Find(3)},
+                new PitStop() { Id =12, Name = "Sentosa02", Location = context.Locations.Find(16), RaceEvent = context.RaceEvents.Find(3)},
+                new PitStop() { Id =13, Name = "Sentosa03", Location = context.Locations.Find(17), RaceEvent = context.RaceEvents.Find(3)},
+                new PitStop() { Id =14, Name = "Sentosa04", Location = context.Locations.Find(18), RaceEvent = context.RaceEvents.Find(3)},
+                new PitStop() { Id =15, Name = "Sentosa05", Location = context.Locations.Find(19), RaceEvent = context.RaceEvents.Find(3)},
+                new PitStop() { Id =16, Name = "Orchard01", Location = context.Locations.Find(22), RaceEvent = context.RaceEvents.Find(4)},
+                new PitStop() { Id =17, Name = "Orchard02", Location = context.Locations.Find(23), RaceEvent = context.RaceEvents.Find(4)},
+                new PitStop() { Id =18, Name = "Orchard03", Location = context.Locations.Find(24), RaceEvent = context.RaceEvents.Find(4)},
+                new PitStop() { Id =19, Name = "Orchard04", Location = context.Locations.Find(25), RaceEvent = context.RaceEvents.Find(4)},
+                new PitStop() { Id =20, Name = "Orchard05", Location = context.Locations.Find(26), RaceEvent = context.RaceEvents.Find(4)},
+                new PitStop() { Id =21, Name = "Marina01", Location = context.Locations.Find(29), RaceEvent = context.RaceEvents.Find(5)},
+                new PitStop() { Id =22, Name = "Marina02", Location = context.Locations.Find(30), RaceEvent = context.RaceEvents.Find(5)},
+                new PitStop() { Id =23, Name = "Marina03", Location = context.Locations.Find(31), RaceEvent = context.RaceEvents.Find(5)},
+                new PitStop() { Id =24, Name = "Marina04", Location = context.Locations.Find(32), RaceEvent = context.RaceEvents.Find(5)},
+                new PitStop() { Id =25, Name = "Marina05", Location = context.Locations.Find(33), RaceEvent = context.RaceEvents.Find(5)},
+                new PitStop() { Id =26, Name = "NUS01", Location = context.Locations.Find(36), RaceEvent = context.RaceEvents.Find(6)},
+                new PitStop() { Id =27, Name = "NUS02", Location = context.Locations.Find(37), RaceEvent = context.RaceEvents.Find(6)},
+                new PitStop() { Id =28, Name = "NUS03", Location = context.Locations.Find(38), RaceEvent = context.RaceEvents.Find(6)},
+                new PitStop() { Id =29, Name = "NUS04", Location = context.Locations.Find(39), RaceEvent = context.RaceEvents.Find(6)},
+                new PitStop() { Id =30, Name = "NUS05", Location = context.Locations.Find(40), RaceEvent = context.RaceEvents.Find(6)},
             });
 
             context.SaveChanges();
@@ -132,7 +194,17 @@ namespace AceAmazingRace.Migrations
             AddorUpdateRange(context.SupportStops, new List<SupportStop>()
             {
                 new SupportStop() {Id = 1, Code = "S01", RaceEvent = context.RaceEvents.Find(2), Location = context.Locations.Find(6)},
-                new SupportStop() {Id = 2, Code = "S02", RaceEvent = context.RaceEvents.Find(2), Location = context.Locations.Find(7)}
+                new SupportStop() {Id = 2, Code = "S02", RaceEvent = context.RaceEvents.Find(2), Location = context.Locations.Find(7)},
+                new SupportStop() {Id = 3, Code = "S03", RaceEvent = context.RaceEvents.Find(2), Location = context.Locations.Find(13)},
+                new SupportStop() {Id = 4, Code = "S04", RaceEvent = context.RaceEvents.Find(2), Location = context.Locations.Find(14)},
+                new SupportStop() {Id = 5, Code = "S05", RaceEvent = context.RaceEvents.Find(2), Location = context.Locations.Find(20)},
+                new SupportStop() {Id = 6, Code = "S06", RaceEvent = context.RaceEvents.Find(2), Location = context.Locations.Find(21)},
+                new SupportStop() {Id = 7, Code = "S07", RaceEvent = context.RaceEvents.Find(2), Location = context.Locations.Find(27)},
+                new SupportStop() {Id = 8, Code = "S08", RaceEvent = context.RaceEvents.Find(2), Location = context.Locations.Find(28)},
+                new SupportStop() {Id = 9, Code = "S09", RaceEvent = context.RaceEvents.Find(2), Location = context.Locations.Find(34)},
+                new SupportStop() {Id = 10, Code = "S10", RaceEvent = context.RaceEvents.Find(2), Location = context.Locations.Find(35)},
+                new SupportStop() {Id = 11, Code = "S11", RaceEvent = context.RaceEvents.Find(2), Location = context.Locations.Find(41)},
+                new SupportStop() {Id = 22, Code = "S12", RaceEvent = context.RaceEvents.Find(2), Location = context.Locations.Find(42)},
             });
 
             context.SaveChanges();
@@ -142,9 +214,33 @@ namespace AceAmazingRace.Migrations
         {
             AddorUpdateRange(context.Teams, new List<Team>()
             {
-                new Team() {Id = 1, Name = "Bugis Team A", Profile = "We are engineering students from NTU and enjoy challenges.", RaceEvent = context.RaceEvents.Find(2)},
-                new Team() {Id = 2, Name = "Bugis Team B", Profile = "Multinational team from South East Asia countries. ABCD from our names Alice, Byran, Cathy, Daniel!!!", RaceEvent = context.RaceEvents.Find(2)},
-                //new Team() {Id = 3, Name = "Bugis Team C", Profile = "Family of 4 members, amazing race is great!", RaceEvent = context.RaceEvents.Find(2)}
+                new Team() {Id = 1, Name = "Bugis Team A", Profile = "11111", RaceEvent = context.RaceEvents.Find(1)},
+                new Team() {Id = 2, Name = "Bugis Team B", Profile = "11111", RaceEvent = context.RaceEvents.Find(1)},
+                new Team() {Id = 3, Name = "Bugis Team C", Profile = "111", RaceEvent = context.RaceEvents.Find(1)},
+                new Team() {Id = 4, Name = "Bugis Team D", Profile = "111", RaceEvent = context.RaceEvents.Find(1)},
+                new Team() {Id = 5, Name = "Bukit Panjiang Team A", Profile = "111", RaceEvent = context.RaceEvents.Find(2)},
+                new Team() {Id = 6, Name = "Bukit Panjiang Team B", Profile = "111", RaceEvent = context.RaceEvents.Find(2)},
+                new Team() {Id = 7, Name = "Bukit Panjiang Team C", Profile = "111", RaceEvent = context.RaceEvents.Find(2)},
+                new Team() {Id = 8, Name = "Bukit Panjiang Team D", Profile = "111", RaceEvent = context.RaceEvents.Find(2)},
+                new Team() {Id = 9, Name = "Sentosa Team A", Profile = "111", RaceEvent = context.RaceEvents.Find(3)},
+                new Team() {Id = 10, Name = "Sentosa Team B", Profile = "111", RaceEvent = context.RaceEvents.Find(3)},
+                new Team() {Id = 11, Name = "Sentosa Team C", Profile = "111", RaceEvent = context.RaceEvents.Find(3)},
+                new Team() {Id = 12, Name = "Sentosa Team D", Profile = "111", RaceEvent = context.RaceEvents.Find(3)},
+                new Team() {Id = 13, Name = "Orchard Team A", Profile = "111", RaceEvent = context.RaceEvents.Find(4)},
+                new Team() {Id = 14, Name = "Orchard Team B", Profile = "1111", RaceEvent = context.RaceEvents.Find(4)},
+                new Team() {Id = 15, Name = "Orchard Team C", Profile = "1111", RaceEvent = context.RaceEvents.Find(4)},
+                new Team() {Id = 16, Name = "Orchard Team D", Profile = "1111", RaceEvent = context.RaceEvents.Find(4)},
+                new Team() {Id = 17, Name = "Marina Team A", Profile = "1111", RaceEvent = context.RaceEvents.Find(5)},
+                new Team() {Id = 18, Name = "Marina Team B", Profile = "11111", RaceEvent = context.RaceEvents.Find(5)},
+                new Team() {Id = 19, Name = "Marina Team C", Profile = "1111.", RaceEvent = context.RaceEvents.Find(5)},
+                new Team() {Id = 20, Name = "Marina Team D", Profile = "11111", RaceEvent = context.RaceEvents.Find(5)},
+                new Team() {Id = 21, Name = "NUS Team A", Profile = "111111.", RaceEvent = context.RaceEvents.Find(6)},
+                new Team() {Id = 22, Name = "NUS Team B", Profile = "11111", RaceEvent = context.RaceEvents.Find(6)},
+                new Team() {Id = 23, Name = "NUS Team C", Profile = "111111.", RaceEvent = context.RaceEvents.Find(6)},
+                new Team() {Id = 24, Name = "NUS Team D", Profile = "11111", RaceEvent = context.RaceEvents.Find(6)},
+
+
+
             });
 
             context.SaveChanges();
