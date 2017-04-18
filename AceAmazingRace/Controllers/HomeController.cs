@@ -10,6 +10,7 @@ namespace AceAmazingRace.Controllers
     {
         public ActionResult Index()
         {
+            ViewBag.Home = "class = active";
             return View();
         }
 

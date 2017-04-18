@@ -37,11 +37,13 @@ namespace AceAmazingRace.Controllers
                 Teams = teams
             };
 
+            ViewBag.RaceEvent = "class = active";
             return View("Index", viewModel);
         }
 
         public ActionResult Create(int eventId)
         {
+            ViewBag.RaceEvent = "class = active";
             return View("Details", new TeamViewModel()
             {
                 PitStops = _context.PitStops.Where(x => x.RaceEvent.Id == eventId).ToList(),
@@ -52,6 +54,7 @@ namespace AceAmazingRace.Controllers
 
         public ActionResult Edit(int id)
         {
+            ViewBag.RaceEvent = "class = active";
             var team = _context.Teams.FirstOrDefault(x => x.Id == id);
             if(team == null) return HttpNotFound();
 
@@ -122,6 +125,7 @@ namespace AceAmazingRace.Controllers
 
         public ActionResult EditOrder(int id)
         {
+            ViewBag.RaceEvent = "class = active";
             var team = _context.Teams.FirstOrDefault(x => x.Id == id);
             var pitStopOrders = _context.PitStopOrders.Where(x => x.Team.Id == team.Id)
                                                  .OrderBy(x => x.Order)

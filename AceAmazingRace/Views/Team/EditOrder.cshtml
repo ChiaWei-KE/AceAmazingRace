@@ -8,47 +8,50 @@
     var centerLongitude = locations.Average(x => x.Longitude);
 }
 
-<h2>Update Pit Stop Orders</h2>
+    <div class="jumbotron" style="padding: 10px 50px;">
+    <h2>Update Pit Stop Orders</h2>
+    <br />
+    <div class="form-group">
+        <a class="btn btn-default" href="@Url.Action("Index","Team", new {id = @Model.RaceEventId})">Back</a>
+    </div>
 
-<div class="form-group">
-    <a class="btn btn-primary" href="@Url.Action("Index","Team", new {id = @Model.RaceEventId})">Back</a>
-</div>
+    @if (@Model.PitStopOrders.Count == 0)
+    {
+        <span>No records are found.</span>
+    }
+    else
+    {
+        <table class="table table-hover table-bordered">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Location</th>
+                    <th>Remark</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in @Model.PitStopOrders)
+                {
+                    <tr>
+                        <td>@item.PitStop.Name</td>
+                        <td>@item.PitStop.Location.Name</td>
+                        <td>@item.PitStop.Remark</td>
+                        <td class="text-center">
+                            <a class="glyphicon glyphicon-circle-arrow-up" href="@Url.Action("MoveUp", "Team", new {id = item.Id})"></a>
+                            <a class="glyphicon glyphicon-circle-arrow-down" href="@Url.Action("MoveDown", "Team", new {id = item.Id})"></a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
 
-@if (@Model.PitStopOrders.Count == 0)
-{
-    <span>No records are found.</span>
-}
-else
-{
-    <table class="table table-hover table-bordered">
-        <thead>
-        <tr>
-            <th>Name</th>
-            <th>Location</th>
-            <th>Remark</th>
-            <th>Action</th>
-        </tr>
-        </thead>
-        <tbody>
-        @foreach (var item in @Model.PitStopOrders)
-        {
-            <tr>
-                <td>@item.PitStop.Name</td>
-                <td>@item.PitStop.Location.Name</td>
-                <td>@item.PitStop.Remark</td>
-                <td class="text-center">
-                    <a class="glyphicon glyphicon-circle-arrow-up" href="@Url.Action("MoveUp", "Team", new {id = item.Id})"></a>
-                    <a class="glyphicon glyphicon-circle-arrow-down" href="@Url.Action("MoveDown", "Team", new {id = item.Id})"></a>
-                </td>
-            </tr>
-        }
-        </tbody>
-    </table>
-}
+    <div class="form-group text-center">
+        <div id="mapid" style="width: 1000px; height: 500px; margin: 0 auto;"></div>
+    </div>
 
-<div class="form-group text-center">
-    <div id="mapid" style="width: 1000px; height: 500px; margin: 0 auto;"></div>
-</div>
+    </div>
 
 <script>
     var locations = @Html.Raw(Json.Encode(@locations));
@@ -86,4 +89,4 @@ else
 
     mymap.on('click', onMapClick);
 
-</script>
+    </script>

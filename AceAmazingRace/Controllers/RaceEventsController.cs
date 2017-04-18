@@ -34,13 +34,14 @@ namespace AceAmazingRace.Controllers
                    Teams = _context.Teams.Where(y => y.RaceEvent.Id == x.Id).ToList()
                 })
                 .ToList();
-                                            
 
+            ViewBag.RaceEvent = "class = active";
             return View("Index", events);
         }
 
         public ActionResult Create()
         {
+            ViewBag.RaceEvent = "class = active";
             return View("Details", new RaceEventViewModel() {UserAction = "Create"});
         }
 
@@ -68,6 +69,7 @@ namespace AceAmazingRace.Controllers
                 UserAction = "Edit"
             };
 
+            ViewBag.RaceEvent = "class = active";
             return View("Details", viewModel);
         }
 

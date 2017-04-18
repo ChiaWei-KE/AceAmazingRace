@@ -25,6 +25,7 @@ namespace AceAmazingRace.Controllers
 
         public ActionResult Index()
         {
+            ViewBag.LiveEvent = "class = active";
             return View("Index");
         }
     }

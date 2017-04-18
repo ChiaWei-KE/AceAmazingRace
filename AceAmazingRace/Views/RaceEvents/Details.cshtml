@@ -20,43 +20,47 @@
 
 }
 
-<h3>@header</h3>
+<div class="form-group jumbotron col-md-4 col-md-offset-4" style="padding: 10px 50px;" >
 
-@using (@Html.BeginForm("Save", "RaceEvents", new { userAction = @Model.UserAction })) {
+    <h2>@header</h2>
+    <br />
+    @using (@Html.BeginForm("Save", "RaceEvents", new { userAction = @Model.UserAction }))
+    {
 
-    <div class="form-group">
-        @Html.LabelFor(e => e.RaceEvent.Name)
-        @Html.TextBoxFor(e => e.RaceEvent.Name, new { @class = "form-control" })
-        @Html.ValidationMessageFor(e => e.RaceEvent.Name)
-    </div>
+        <div class="form-group" >
+            @Html.LabelFor(e => e.RaceEvent.Name)
+            @Html.TextBoxFor(e => e.RaceEvent.Name, new { @class = "form-control" })
+            @Html.ValidationMessageFor(e => e.RaceEvent.Name)
+        </div>
 
-    <div class="form-group">
-        @Html.LabelFor(e => e.RaceEvent.Description)
-        @Html.TextBoxFor(e => e.RaceEvent.Description, new { @class = "form-control" })
-        @Html.ValidationMessageFor(e => e.RaceEvent.Description)
-    </div>
+        <div class="form-group">
+            @Html.LabelFor(e => e.RaceEvent.Description)
+            @Html.TextBoxFor(e => e.RaceEvent.Description, new { @class = "form-control" })
+            @Html.ValidationMessageFor(e => e.RaceEvent.Description)
+        </div>
 
-    <div class="form-group">
-        @Html.LabelFor(e => e.RaceEvent.Date)
-        @Html.TextBoxFor(e => e.RaceEvent.Date, "{0:dd-MMM-yyyy}", new { @class = "form-control datepicker"})
-        @Html.ValidationMessageFor(e => e.RaceEvent.Date)
-    </div>
+        <div class="form-group">
+            @Html.LabelFor(e => e.RaceEvent.Date)
+            @Html.TextBoxFor(e => e.RaceEvent.Date, "{0:dd-MMM-yyyy}", new { @class = "form-control datepicker" })
+            @Html.ValidationMessageFor(e => e.RaceEvent.Date)
+        </div>
 
-    <div class="form-group">
-        @Html.LabelFor(e => e.RaceEvent.Time)
-        @Html.TextBoxFor(e => e.RaceEvent.Time, new { @class = "form-control timepicker" })
-        @Html.ValidationMessageFor(e => e.RaceEvent.Time)
-    </div>
+        <div class="form-group">
+            @Html.LabelFor(e => e.RaceEvent.Time)
+            @Html.TextBoxFor(e => e.RaceEvent.Time, new { @class = "form-control timepicker" })
+            @Html.ValidationMessageFor(e => e.RaceEvent.Time)
+        </div>
 
-    <div class="form-group">
-        @Html.LabelFor(e => e.RaceEvent.Location)
-        @Html.TextBoxFor(e => e.RaceEvent.Location, new { @class = "form-control" })
-        @Html.ValidationMessageFor(e => e.RaceEvent.Location)
-    </div>
+        <div class="form-group">
+            @Html.LabelFor(e => e.RaceEvent.Location)
+            @Html.TextBoxFor(e => e.RaceEvent.Location, new { @class = "form-control" })
+            @Html.ValidationMessageFor(e => e.RaceEvent.Location)
+        </div>
 
-    @Html.HiddenFor(e => e.RaceEvent.Id)
+        @Html.HiddenFor(e => e.RaceEvent.Id)
 
-    <button type="submit" class="btn btn-primary">@submitButtonText</button>
-    <a class="btn btn-primary" href="@Url.Action("Index","RaceEvents")">Cancel</a>
-}
+        <button type="submit" class="btn btn-default">@submitButtonText</button>
+        <a class="btn btn-default" href="@Url.Action("Index","RaceEvents")">Cancel</a>
+    }
 
+</div>

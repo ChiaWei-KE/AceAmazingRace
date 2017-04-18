@@ -16,38 +16,52 @@
     <script src="~/Scripts/jquery.signalR-2.2.1.min.js"></script>
     <script src="~/signalr/hubs"></script>
 </head>
-<body>
-    <div class="navbar navbar-inverse navbar-fixed-top">
-        <div class="container">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                @Html.ActionLink("Home", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
-            </div>
-            <div class="navbar-collapse collapse">
-                <ul class="nav navbar-nav">
-@*                    <li>@Html.ActionLink("Home", "Index", "Home")</li>*@
-@*                    <li>@Html.ActionLink("About", "About", "Home")</li>*@
-@*                    <li>@Html.ActionLink("Contact", "Contact", "Home")</li>*@
-                    <li>@Html.ActionLink("Manage", "Index", "RaceEvents")</li>
-                    <li>@Html.ActionLink("Live", "Index", "LiveEvents")</li>
-                </ul>
-@*                @Html.Partial("_LoginPartial")*@
-            </div>
-        </div>
-    </div>
-<div class="container body-content">
-    @RenderBody()
-    <hr />
-    <footer>
-        <p>&copy; @DateTime.Now.Year - Ace Amazing Race</p>
-    </footer>
-</div>
- 
-    
 
+<body>
+    <div class="wrap-body">
+        
+        <div id='cssmenu' class="align-center">
+            <ul>
+                <li @ViewBag.Home>@Html.ActionLink("Home", "Index", "Home")</li>
+                <li @ViewBag.RaceEvent>@Html.ActionLink("Manage", "Index", "RaceEvents")</li>
+                <li @ViewBag.LiveEvent>@Html.ActionLink("Live", "Index", "LiveEvents")</li>
+            </ul>
+        </div>
+        <header class="">
+            <div class="logo">
+                <hr class="line-1">
+                <a href="#">ACE AMAZING RACE</a>
+                <h3><em>one Team one Mission</em></h3>
+                <hr class="line-1">
+            </div>
+        </header>
+        <!--////////////////////////////////////Container-->
+        <section id="container">
+            <div class="wrap-container">
+                @RenderBody()
+            </div>
+        </section>
+        <!--////////////////////////////////////Footer-->
+        
+        <footer>
+            <div class="zerogrid wrap-footer">
+                <div class="row">
+                    <div class="bottom-social">
+                        <a href="#"><i class="fa fa-facebook"></i></a>
+                        <a href="#"><i class="fa fa-instagram"></i></a>
+                        <a href="#"><i class="fa fa-twitter"></i></a>
+                        <a href="#"><i class="fa fa-google-plus"></i></a>
+                        <a href="#"><i class="fa fa-pinterest"></i></a>
+                        <a href="#"><i class="fa fa-vimeo"></i></a>
+                        <a href="#"><i class="fa fa-linkedin"></i></a>
+                        <a href="#"><i class="fa fa-youtube"></i></a>
+                    </div>
+                </div>
+                <div class="copyright">
+                    &copy; @DateTime.Now.Year - <a href="#" target="_blank" rel="nofollow">Ace Amazing Race</a>
+               </div>
+            </div>
+        </footer>
+      </div>
 </body>
 </html>
