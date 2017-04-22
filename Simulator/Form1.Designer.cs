@@ -35,7 +35,7 @@
             // 
             this.btnSend.Location = new System.Drawing.Point(26, 22);
             this.btnSend.Name = "btnSend";
-            this.btnSend.Size = new System.Drawing.Size(225, 38);
+            this.btnSend.Size = new System.Drawing.Size(442, 38);
             this.btnSend.TabIndex = 0;
             this.btnSend.Text = "Send Locations";
             this.btnSend.UseVisualStyleBackColor = true;
@@ -46,7 +46,8 @@
             this.txtOutput.Location = new System.Drawing.Point(26, 76);
             this.txtOutput.Multiline = true;
             this.txtOutput.Name = "txtOutput";
-            this.txtOutput.Size = new System.Drawing.Size(225, 188);
+            this.txtOutput.ScrollBars = System.Windows.Forms.ScrollBars.Both;
+            this.txtOutput.Size = new System.Drawing.Size(442, 294);
             this.txtOutput.TabIndex = 1;
             this.txtOutput.TextChanged += new System.EventHandler(this.txtOutput_TextChanged);
             // 
@@ -54,7 +55,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(282, 286);
+            this.ClientSize = new System.Drawing.Size(494, 382);
             this.Controls.Add(this.txtOutput);
             this.Controls.Add(this.btnSend);
             this.MinimizeBox = false;

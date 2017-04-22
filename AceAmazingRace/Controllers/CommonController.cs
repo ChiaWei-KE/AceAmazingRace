@@ -7,6 +7,7 @@ using System.Web.Http;
 using AceAmazingRace.Models;
 using System.Data.Entity;
 using AceAmazingRace.Hub;
+using AceAmazingRace.ViewModels;
 using Microsoft.AspNet.SignalR;
 
 namespace AceAmazingRace.Controllers
@@ -49,14 +50,14 @@ namespace AceAmazingRace.Controllers
 
         [HttpPost]
         [Route("simulate")]
-        public IHttpActionResult Simulator()
+        public IHttpActionResult Simulator(List<ReadTimeData> datas)
         {
             var hubContext = GlobalHost.ConnectionManager.GetHubContext<SimulatorHub>();
             if (hubContext != null)
             {
-                hubContext.Clients.All.printJson();
+                hubContext.Clients.All.printJson(datas);
             }
-            return Ok("123123131testing");
+            return Ok(datas);
         }
     }
 }

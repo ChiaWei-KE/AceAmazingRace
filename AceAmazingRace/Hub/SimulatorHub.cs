@@ -1,13 +1,16 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Web;
+using AceAmazingRace.ViewModels;
 using Microsoft.AspNet.SignalR;
 namespace AceAmazingRace.Hub
 {
     public class SimulatorHub : Microsoft.AspNet.SignalR.Hub
     {
-        public void Send()
+        public void Send(List<ReadTimeData> datas)
         {
-            Clients.All.printJson();
+            Clients.All.printJson(datas);
         }
+
     }
 }
