@@ -6,6 +6,8 @@ using System.Net.Http;
 using System.Web.Http;
 using AceAmazingRace.Models;
 using System.Data.Entity;
+using AceAmazingRace.Hub;
+using Microsoft.AspNet.SignalR;
 
 namespace AceAmazingRace.Controllers
 {
@@ -43,6 +45,18 @@ namespace AceAmazingRace.Controllers
         public IHttpActionResult SupportStops()
         {
             return Ok(_context.SupportStops.ToList());
+        }
+
+        [HttpPost]
+        [Route("simulate")]
+        public IHttpActionResult Simulator()
+        {
+            var hubContext = GlobalHost.ConnectionManager.GetHubContext<SimulatorHub>();
+            if (hubContext != null)
+            {
+                hubContext.Clients.All.printJson();
+            }
+            return Ok("123123131testing");
         }
     }
 }

@@ -5,6 +5,8 @@ VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AceAmazingRace", "AceAmazingRace\AceAmazingRace.csproj", "{CAA45D5E-A485-46CE-B99B-F79122B6DB86}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Simulator", "Simulator\Simulator.csproj", "{51C5C037-12DA-429F-A002-EE42DB233BBF}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{CAA45D5E-A485-46CE-B99B-F79122B6DB86}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CAA45D5E-A485-46CE-B99B-F79122B6DB86}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CAA45D5E-A485-46CE-B99B-F79122B6DB86}.Release|Any CPU.Build.0 = Release|Any CPU
+		{51C5C037-12DA-429F-A002-EE42DB233BBF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{51C5C037-12DA-429F-A002-EE42DB233BBF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{51C5C037-12DA-429F-A002-EE42DB233BBF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{51C5C037-12DA-429F-A002-EE42DB233BBF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
