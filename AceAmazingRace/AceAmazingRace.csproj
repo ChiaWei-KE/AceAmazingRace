@@ -274,6 +274,7 @@
     <Compile Include="ViewModels\EventTeamsViewModel.cs" />
     <Compile Include="ViewModels\LiveEventsViewModel.cs" />
     <Compile Include="ViewModels\PitStopOrdersViewModel.cs" />
+    <Compile Include="ViewModels\RealTimeData.cs" />
     <Compile Include="ViewModels\TeamViewModel.cs" />
     <Compile Include="ViewModels\PitStopViewModel.cs" />
     <Compile Include="ViewModels\ManageViewModels.cs" />
@@ -419,6 +420,7 @@
     <Content Include="Views\Test\Index.cshtml" />
     <Content Include="Views\LiveEvents\Index.cshtml" />
     <Content Include="Views\Test\Index2.cshtml" />
+    <Content Include="Views\Test\Index3.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

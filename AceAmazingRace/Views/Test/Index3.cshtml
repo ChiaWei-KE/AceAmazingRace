@@ -1,0 +1,19 @@
+﻿@using AceAmazingRace.ViewModels
+
+@{
+    ViewBag.Title = "Index3";
+   
+}
+
+<h2>Index3</h2>
+
+<script>
+    var chat = $.connection.simulatorHub;
+
+    chat.client.printJson = function (data) {
+        console.log(JSON.stringify(data));
+    };
+
+    $.connection.hub.start();
+
+</script>
