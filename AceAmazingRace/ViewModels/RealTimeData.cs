@@ -5,10 +5,17 @@ using System.Web;
 
 namespace AceAmazingRace.ViewModels
 {
-    public class ReadTimeData
+    public class RealTimeData
     {
         public int TeamIndex { get; set; }
         public double Latitude { get; set; }
         public double Longitude { get; set; }
+
+        public RealTimeData(int teamIndex, double latitude, double longitude)
+        {
+            TeamIndex = teamIndex;
+            Latitude = latitude;
+            Longitude = longitude;
+        }
     }
 }

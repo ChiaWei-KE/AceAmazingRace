@@ -50,7 +50,7 @@ namespace AceAmazingRace.Controllers
 
         [HttpPost]
         [Route("simulate")]
-        public IHttpActionResult Simulator(List<ReadTimeData> datas)
+        public IHttpActionResult Simulator(List<RealTimeData> datas)
         {
             var hubContext = GlobalHost.ConnectionManager.GetHubContext<SimulatorHub>();
             if (hubContext != null)

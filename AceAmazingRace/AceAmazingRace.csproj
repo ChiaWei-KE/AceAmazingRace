@@ -274,7 +274,7 @@
     <Compile Include="ViewModels\EventTeamsViewModel.cs" />
     <Compile Include="ViewModels\LiveEventsViewModel.cs" />
     <Compile Include="ViewModels\PitStopOrdersViewModel.cs" />
-    <Compile Include="ViewModels\ReadTimeData.cs" />
+    <Compile Include="ViewModels\RealTimeData.cs" />
     <Compile Include="ViewModels\TeamViewModel.cs" />
     <Compile Include="ViewModels\PitStopViewModel.cs" />
     <Compile Include="ViewModels\ManageViewModels.cs" />

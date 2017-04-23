@@ -16,44 +16,28 @@ namespace Simulator
 {
     public partial class Form1 : Form
     {
-        List<List<ReadTimeData>> sampleLiveData = new List<List<ReadTimeData>>();
-        private static int counter = 0;
+        private readonly List<List<RealTimeData>> _sampleLiveData;
+        private static int _counter;
 
         public Form1()
         {
-            var data1 = new List<ReadTimeData>
+            _sampleLiveData = new List<List<RealTimeData>>()
             {
-                new ReadTimeData() {  TeamIndex = 1, Latitude = 1.001,Longitude = 200.02},
-                new ReadTimeData() {  TeamIndex = 2, Latitude = 2.002,Longitude = 300.03},
-                new ReadTimeData() {  TeamIndex = 3, Latitude = 3.003,Longitude = 400.04}
+	            new List<RealTimeData>() { new RealTimeData(1, 1.001, 200.02), new RealTimeData(2, 2.002, 300.03), new RealTimeData(3, 3.003, 400.04)},
+	            new List<RealTimeData>() { new RealTimeData(1, 4.004, 500.05), new RealTimeData(2, 5.005, 600.06), new RealTimeData(3, 6.006, 700.07)},
+	            new List<RealTimeData>() { new RealTimeData(1, 7.007, 800.08), new RealTimeData(2, 8.008, 900.09), new RealTimeData(3, 9.009, 1000.1)},
+	            new List<RealTimeData>() { new RealTimeData(1, 7.007, 800.08), new RealTimeData(2, 8.008, 900.09), new RealTimeData(3, 9.009, 1000.1)},
+	            new List<RealTimeData>() { new RealTimeData(1, 7.007, 800.08), new RealTimeData(2, 8.008, 900.09), new RealTimeData(3, 9.009, 1000.1)}
             };
-
-            var data2 = new List<ReadTimeData>
-            {
-                new ReadTimeData() {  TeamIndex = 4, Latitude = 4.004,Longitude = 5.005},
-                new ReadTimeData() {  TeamIndex = 5, Latitude = 5.005,Longitude = 600.06},
-                new ReadTimeData() {  TeamIndex = 6, Latitude = 6.006,Longitude = 700.07}
-            };
-
-            var data3 = new List<ReadTimeData>
-            {
-                new ReadTimeData() {  TeamIndex = 7, Latitude = 7.007,Longitude = 800.08},
-                new ReadTimeData() {  TeamIndex = 8, Latitude = 8.008,Longitude = 900.09},
-                new ReadTimeData() {  TeamIndex = 9, Latitude = 9.009,Longitude = 1000.10}
-            };
-
-            sampleLiveData.Add(data1);
-            sampleLiveData.Add(data2);
-            sampleLiveData.Add(data3);
 
             InitializeComponent();
         }
 
         private void btnSend_Click(object sender, EventArgs e)
         {
-            if (counter >= sampleLiveData.Count) return;
+            if (_counter >= _sampleLiveData.Count) return;
 
-            var myContent = JsonConvert.SerializeObject(sampleLiveData[counter]);
+            var myContent = JsonConvert.SerializeObject(_sampleLiveData[_counter]);
 
             var baseUrl = "http://localhost:50842";
             
@@ -71,7 +55,7 @@ namespace Simulator
                 var data = response.Content.ReadAsStringAsync();
  
                 txtOutput.Text += Environment.NewLine + $"The response are {data.Result}";
-                counter++;
+                _counter++;
              }
 
         }
