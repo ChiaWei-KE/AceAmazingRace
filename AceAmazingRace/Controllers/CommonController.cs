@@ -55,7 +55,7 @@ namespace AceAmazingRace.Controllers
             var hubContext = GlobalHost.ConnectionManager.GetHubContext<SimulatorHub>();
             if (hubContext != null)
             {
-                hubContext.Clients.All.printJson(datas);
+                hubContext.Clients.All.sendLiveData(datas);
             }
             return Ok(datas);
         }

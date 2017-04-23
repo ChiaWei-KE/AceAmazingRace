@@ -229,7 +229,6 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Hub\SimulatorHub.cs" />
-    <Compile Include="Hub\ChatHub.cs" />
     <Compile Include="Migrations\201704061149564_Initial.cs" />
     <Compile Include="Migrations\201704061149564_Initial.Designer.cs">
       <DependentUpon>201704061149564_Initial.cs</DependentUpon>
@@ -417,10 +416,7 @@
     <Content Include="Views\PitStop\Details.cshtml" />
     <Content Include="Views\Team\Details.cshtml" />
     <Content Include="Views\Team\EditOrder.cshtml" />
-    <Content Include="Views\Test\Index.cshtml" />
     <Content Include="Views\LiveEvents\Index.cshtml" />
-    <Content Include="Views\Test\Index2.cshtml" />
-    <Content Include="Views\Test\Index3.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

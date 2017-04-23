@@ -9,7 +9,7 @@
     <br />
     <div class="form-group">
         <label for="eventLists">Select Event:</label>
-        <select class="form-control" id="eventLists" onchange="refreshAll(this.options[this.selectedIndex].value)"></select>
+        <select class="form-control" id="eventLists" onchange="updateStopLocations(this.options[this.selectedIndex].value)"></select>
     </div>
 
     <div class="form-group" id="map-container">
@@ -19,136 +19,157 @@
 </div>
 
 <script>
-        var eventId = -1;
-        var pitStops = [];
-        var raceEvents = [];
-        var supportStops = [];
+    //Define colors
+    //red, blue, brown, green, purple
+    var colors1 = ['#ff0000', '#0000ff', '#8B008B', '#49311c', '#00ff00'];
+    var colors2 = ['#ff4c4c', '#6666ff', '#DA70D6', '#f7bf8f', '#66ff66'];
 
-        loadAllEvents();
-        loadAllPitStops();
-        loadAllSupportStops();
+    //Signal R
+    var chat = $.connection.simulatorHub;
 
-        function loadAllEvents() {
-            $.get("../api/common/events",
-                function (data) {
-                    raceEvents = data;
-                    updateDropdown(raceEvents);
-                });
-        }
+    chat.client.sendLiveData = function (data) {
+        updateTeamLocations(data);
+    };
 
-        function updateDropdown(raceEvents) {
-            $("#eventLists").empty()
-                .append($('<option></option>').attr("value", -1).text("Select an Event"));;
-            raceEvents.forEach(function (raceEvent) {
-                $("#eventLists").append($('<option></option>').attr("value", raceEvent.Id).text(raceEvent.Name));
+    $.connection.hub.start();
+
+    //Manage Events
+    var eventId = -1;
+    var pitStops = [];
+    var raceEvents = [];
+    var supportStops = [];
+    var mymap;
+
+    loadAllEvents();
+    loadAllPitStops();
+    loadAllSupportStops();
+
+    //Functions
+
+    function loadAllEvents() {
+        $.get("../api/common/events",
+            function (data) {
+                raceEvents = data;
+                updateDropdown(raceEvents);
             });
+    }
+
+    function updateDropdown(raceEvents) {
+        $("#eventLists").empty()
+            .append($('<option></option>').attr("value", -1).text("Select an Event"));;
+        raceEvents.forEach(function (raceEvent) {
+            $("#eventLists").append($('<option></option>').attr("value", raceEvent.Id).text(raceEvent.Name));
+        });
+    }
+
+    function loadAllPitStops() {
+        $.get("../api/common/pitStops",
+            function (data) {
+                pitStops = data;
+            });
+    }
+
+    function loadAllSupportStops() {
+        $.get("../api/common/supportStops",
+            function (data) {
+                supportStops = data;
+            });
+    }
+
+    function retrieveEventData(data) {
+        return data.RaceEvent.Id == eventId;
+    }
+
+    function getCenterLocation(stops) {
+        var latitude = 0;
+        var longitude = 0;
+
+        stops.forEach(function (data) {
+            latitude += data.Location.Latitude;
+            longitude += data.Location.Longitude;
+        });
+
+        if (stops.length > 0) {
+            latitude = latitude / stops.length;
+            longitude = longitude / stops.length;
         }
 
-        function loadAllPitStops() {
-            $.get("../api/common/pitStops",
-                function (data) {
-                    pitStops = data;
-                });
-        }
+        return {
+            Latitude: latitude,
+            Longitude: longitude
+        };
+    }
 
-        function loadAllSupportStops() {
-            $.get("../api/common/supportStops",
-                function (data) {
-                    supportStops = data;
-                });
-        }
+    function updateTeamLocations(data) {
+        updateStopLocations(eventId);
 
-        function retrieveEventData(data) {
-            return data.RaceEvent.Id == eventId;
-        }
+        data.forEach(function (teamLocation, index) {
+            L.circle([teamLocation.Latitude, teamLocation.Longitude],
+            {
+                color: colors1[index],
+                fillColor: colors2[index],
+                fillOpacity: 0.5,
+                radius: 5
+            }).addTo(mymap);
+        });
+    }
 
-        function getCenterLocation(stops) {
-            var latitude = 0;
-            var longitude = 0;
+    function updateStopLocations(id) {
+        eventId = id;
+        var currentPitStops = pitStops.filter(retrieveEventData);
+        var currentSupportStops = supportStops.filter(retrieveEventData);
 
-            stops.forEach(function (data) {
-                latitude += data.Location.Latitude;
-                longitude += data.Location.Longitude;
+        $("#mapid").remove();
+
+        if (eventId > 0 && currentPitStops.length > 0) {
+            var allStops = currentPitStops.concat(currentSupportStops);
+            var center = getCenterLocation(allStops);
+
+            $('#map-container').append("<div id='mapid' style='width: 1200px; height: 1000px;'></div>");
+
+            mymap = L.map('mapid');
+
+            mymap.setView([center.Latitude, center.Longitude], 18);
+
+            var greenIcon = new L.Icon({
+                iconUrl: 'https://cdn.rawgit.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-green.png',
+                shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
+                iconSize: [25, 41],
+                iconAnchor: [12, 41],
+                popupAnchor: [1, -34],
+                shadowSize: [41, 41]
             });
 
-            if (stops.length > 0) {
-                latitude = latitude / stops.length;
-                longitude = longitude / stops.length;
+            currentPitStops.forEach(function (stop) {
+                L.marker([stop.Location.Latitude, stop.Location.Longitude], { icon: greenIcon })
+                    .bindTooltip("Pit Stop: " + stop.Name, { permanent: true })
+                    .addTo(mymap);
+            });
+
+            currentSupportStops.forEach(function (stop) {
+                L.marker([stop.Location.Latitude, stop.Location.Longitude])
+                    .bindTooltip("Support Stop: " + stop.Code, { permanent: true })
+                    .addTo(mymap);
+            });
+
+            L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw',
+            {
+                maxZoom: 20,
+                attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, ' +
+                    '<a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
+                    'Imagery © <a href="http://mapbox.com">Mapbox</a>',
+                id: 'mapbox.streets'
+            }).addTo(mymap);
+
+            function onMapClick(e) {
+                L.popup()
+                    .setLatLng(e.latlng)
+                    .setContent("You clicked the map at " + e.latlng.toString())
+                    .openOn(mymap);
             }
 
-            return {
-                Latitude: latitude,
-                Longitude: longitude
-            };
+            mymap.on('click', onMapClick);
         }
-
-        function refreshAll(id) {
-            eventId = id;
-            var currentPitStops = pitStops.filter(retrieveEventData);
-            var currentSupportStops = supportStops.filter(retrieveEventData);
-            console.log("currentPitStops", currentPitStops);
-            console.log("currentSupportStops", currentSupportStops);
-
-            $("#mapid").remove();
-
-            if (eventId > 0 && currentPitStops.length > 0 && currentSupportStops.length > 0) {
-                var allStops = currentPitStops.concat(currentSupportStops);
-                var center = getCenterLocation(allStops);
-
-                //            console.log("eventId", eventId);
-                //            console.log("center", center);
-                //            console.log("pitStops", pitStops);
-                //            console.log("supportStops", supportStops);
-                //            console.log("currentPitStops", currentPitStops);
-                //            console.log("currentSupportStops", currentSupportStops);
-                //            console.log("allStops", allStops);
-
-
-                $('#map-container').append("<div id='mapid' style='width: 1200px; height: 1000px;'></div>");
-
-                var mymap = L.map('mapid');
-
-                mymap.setView([center.Latitude, center.Longitude], 18);
-
-                var greenIcon = new L.Icon({
-                    iconUrl: 'https://cdn.rawgit.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-green.png',
-                    shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
-                    iconSize: [25, 41],
-                    iconAnchor: [12, 41],
-                    popupAnchor: [1, -34],
-                    shadowSize: [41, 41]
-                });
-
-                currentPitStops.forEach(function (stop) {
-                    L.marker([stop.Location.Latitude, stop.Location.Longitude], { icon: greenIcon })
-                        .bindTooltip("Pit Stop: " + stop.Name, { permanent: true })
-                        .addTo(mymap);
-                });
-
-                currentSupportStops.forEach(function (stop) {
-                    L.marker([stop.Location.Latitude, stop.Location.Longitude])
-                        .bindTooltip("Support Stop: " + stop.Code, { permanent: true })
-                        .addTo(mymap);
-                });
-
-                L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw',
-                    {
-                        maxZoom: 20,
-                        attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, ' +
-                        '<a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
-                        'Imagery © <a href="http://mapbox.com">Mapbox</a>',
-                        id: 'mapbox.streets'
-                    }).addTo(mymap);
-
-                function onMapClick(e) {
-                    L.popup()
-                        .setLatLng(e.latlng)
-                        .setContent("You clicked the map at " + e.latlng.toString())
-                        .openOn(mymap);
-                }
-
-                mymap.on('click', onMapClick);
-            }
-        }
-    </script>
+    }
+</script>
 

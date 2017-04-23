@@ -7,9 +7,9 @@ namespace AceAmazingRace.Hub
 {
     public class SimulatorHub : Microsoft.AspNet.SignalR.Hub
     {
-        public void Send(List<RealTimeData> datas)
+        public void Send(List<RealTimeData> data)
         {
-            Clients.All.printJson(datas);
+            Clients.All.sendLiveData(data);
         }
 
     }
