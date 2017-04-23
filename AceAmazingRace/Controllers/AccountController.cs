@@ -58,6 +58,7 @@ namespace AceAmazingRace.Controllers
         [AllowAnonymous]
         public ActionResult Login(string returnUrl)
         {
+            ViewBag.Login =  "class = active";
             ViewBag.ReturnUrl = returnUrl;
             return View();
         }

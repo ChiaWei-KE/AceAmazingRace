@@ -9,6 +9,7 @@ using AceAmazingRace.ViewModels;
 
 namespace AceAmazingRace.Controllers
 {
+    [Authorize]
     public class RaceEventsController : Controller
     {
         private readonly ApplicationDbContext _context;

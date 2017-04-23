@@ -21,20 +21,25 @@
     <div class="wrap-body">
         
         <div id='cssmenu' class="align-center">
-            <ul>
+            <ul class="nav navbar-nav">
                 <li @ViewBag.Home>@Html.ActionLink("Home", "Index", "Home")</li>
                 <li @ViewBag.RaceEvent>@Html.ActionLink("Manage", "Index", "RaceEvents")</li>
                 <li @ViewBag.LiveEvent>@Html.ActionLink("Live", "Index", "LiveEvents")</li>
             </ul>
+            @Html.Partial("_LoginPartial")
         </div>
-        <header class="">
+        @*<header class="">
             <div class="logo">
                 <hr class="line-1">
-                <a href="#">ACE AMAZING RACE</a>
+                <a style="text-decoration:none">ACE AMAZING RACE</a>
                 <h3><em>one Team one Mission</em></h3>
                 <hr class="line-1">
             </div>
-        </header>
+        </header>*@
+
+        <hr class="line-1">
+        <hr class="line-1">
+
         <!--////////////////////////////////////Container-->
         <section id="container">
             <div class="wrap-container">
@@ -63,5 +68,7 @@
             </div>
         </footer>
       </div>
+      
+    @RenderSection("scripts", required: false)
 </body>
 </html>
