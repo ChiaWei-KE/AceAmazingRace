@@ -61,7 +61,7 @@ namespace AceAmazingRace.Migrations
                 new Location() {Id = 21, Name = "Support - Bora Bora", Address = "Palawan Beach Walk Singapore 098236", Latitude = 1.249356, Longitude = 103.822027},
                 new Location() {Id = 22, Name = "Orchard - The Gallery", Address = "181,#04-29 Orchard Rd, Orchard Central, Singapore 238896", Latitude = 1.300722, Longitude = 103.839441},
                 new Location() {Id = 23, Name = "Orchard - Goldheart Jewelry - The Centrepoint", Address = "176 Orchard Rd, The Centrepoint, Singapore 238843", Latitude = 1.301608, Longitude = 103.839767},
-                new Location() {Id = 24, Name = "Orchard - Candy Empire 313", Address = "313 Orchard Rd, Singapore 238895", Latitude = 1.256206, Longitude = 103.821229},
+                new Location() {Id = 24, Name = "Orchard - Candy Empire 313", Address = "313 Orchard Rd, Singapore 238895", Latitude = 1.301031, Longitude = 103.838256},
                 new Location() {Id = 25, Name = "Orchard - Singapore Visitor Centre", Address = "216 Orchard Road, Singapore 238898", Latitude = 1.301636, Longitude = 103.838859},
                 new Location() {Id = 26, Name = "Orchard - Made with Love", Address = "313 Orchard Road, Singapore 238895", Latitude = 1.301255, Longitude = 103.838643},
                 new Location() {Id = 27, Name = "Support - Alley Bar", Address = "180 Orchard Road, Peranakan Place, Singapore 238846", Latitude = 1.301401, Longitude = 103.839286},
@@ -248,26 +248,159 @@ namespace AceAmazingRace.Migrations
 
         public static void GeneratePitStopOrders(this ApplicationDbContext context)
         {
-            var id = 1;
+            
             var pitStopOrders = new List<PitStopOrder>();
             var raceEvents = context.RaceEvents.ToList();
+            var teams = context.Teams.ToList();
+            var pitStops = context.PitStops.ToList();
+                    pitStopOrders.Add(new PitStopOrder() { Id = 1, Order = 1, PitStop = pitStops[0], Team = teams[0] });
+                    pitStopOrders.Add(new PitStopOrder() { Id = 2, Order = 2, PitStop = pitStops[1], Team = teams[0] });
+                    pitStopOrders.Add(new PitStopOrder() { Id = 4, Order = 3, PitStop = pitStops[3], Team = teams[0] });
+                    pitStopOrders.Add(new PitStopOrder() { Id = 5, Order = 4, PitStop = pitStops[4], Team = teams[0] });
+                    pitStopOrders.Add(new PitStopOrder() { Id = 3, Order = 5, PitStop = pitStops[2], Team = teams[0] });
 
-            foreach (var raceEvent in raceEvents)
-            {
-                var teams = context.Teams.Where(x => x.RaceEvent.Id == raceEvent.Id).ToList();
-                var pitStops = context.PitStops.Where(x => x.RaceEvent.Id == raceEvent.Id).ToList();
+            pitStopOrders.Add(new PitStopOrder() { Id = 1, Order = 1, PitStop = pitStops[0], Team = teams[1] });
+            pitStopOrders.Add(new PitStopOrder() { Id = 3, Order = 2, PitStop = pitStops[2], Team = teams[1] });
+            pitStopOrders.Add(new PitStopOrder() { Id = 5, Order = 3, PitStop = pitStops[4], Team = teams[1] });
+            pitStopOrders.Add(new PitStopOrder() { Id = 4, Order = 4, PitStop = pitStops[3], Team = teams[1] });
+            pitStopOrders.Add(new PitStopOrder() { Id = 2, Order = 5, PitStop = pitStops[1], Team = teams[1] });
 
-                foreach (var team in teams)
-                {
-                    var order = 0;
-                    foreach (var pitStop in pitStops)
-                    {
-                        pitStopOrders.Add(new PitStopOrder() {Id = id, Order = order, PitStop = pitStop, Team = team});
-                        id++;
-                        order++;
-                    }
-                }
-            }
+            pitStopOrders.Add(new PitStopOrder() { Id = 3, Order = 1, PitStop = pitStops[2], Team = teams[2] });
+            pitStopOrders.Add(new PitStopOrder() { Id = 5, Order = 2, PitStop = pitStops[4], Team = teams[2] });
+            pitStopOrders.Add(new PitStopOrder() { Id = 4, Order = 3, PitStop = pitStops[3], Team = teams[2] });
+            pitStopOrders.Add(new PitStopOrder() { Id = 2, Order = 4, PitStop = pitStops[1], Team = teams[2] });
+            pitStopOrders.Add(new PitStopOrder() { Id = 1, Order = 5, PitStop = pitStops[0], Team = teams[2] });
+
+            pitStopOrders.Add(new PitStopOrder() { Id = 5, Order = 1, PitStop = pitStops[4], Team = teams[3] });
+            pitStopOrders.Add(new PitStopOrder() { Id = 3, Order = 2, PitStop = pitStops[2], Team = teams[3] });
+            pitStopOrders.Add(new PitStopOrder() { Id = 1, Order = 3, PitStop = pitStops[0], Team = teams[3] });
+            pitStopOrders.Add(new PitStopOrder() { Id = 2, Order = 4, PitStop = pitStops[1], Team = teams[3] });
+            pitStopOrders.Add(new PitStopOrder() { Id = 4, Order = 5, PitStop = pitStops[3], Team = teams[3] });
+
+            pitStopOrders.Add(new PitStopOrder() { Id = 10, Order = 1, PitStop = pitStops[9], Team = teams[4] });
+            pitStopOrders.Add(new PitStopOrder() { Id = 9, Order = 2, PitStop = pitStops[8], Team = teams[4] });
+            pitStopOrders.Add(new PitStopOrder() { Id = 6, Order = 3, PitStop = pitStops[5], Team = teams[4] });
+            pitStopOrders.Add(new PitStopOrder() { Id = 7, Order = 4, PitStop = pitStops[6], Team = teams[4] });
+            pitStopOrders.Add(new PitStopOrder() { Id = 8, Order = 5, PitStop = pitStops[7], Team = teams[4] });
+
+            pitStopOrders.Add(new PitStopOrder() { Id = 7, Order = 1, PitStop = pitStops[6], Team = teams[5] });
+            pitStopOrders.Add(new PitStopOrder() { Id = 8, Order = 2, PitStop = pitStops[7], Team = teams[5] });
+            pitStopOrders.Add(new PitStopOrder() { Id = 6, Order = 3, PitStop = pitStops[5], Team = teams[5] });
+            pitStopOrders.Add(new PitStopOrder() { Id = 9, Order = 4, PitStop = pitStops[8], Team = teams[5] });
+            pitStopOrders.Add(new PitStopOrder() { Id = 10, Order = 5, PitStop = pitStops[9], Team = teams[5] });
+
+            pitStopOrders.Add(new PitStopOrder() { Id = 6, Order = 1, PitStop = pitStops[5], Team = teams[6] });
+            pitStopOrders.Add(new PitStopOrder() { Id = 7, Order = 2, PitStop = pitStops[6], Team = teams[6] });
+            pitStopOrders.Add(new PitStopOrder() { Id = 8, Order = 3, PitStop = pitStops[7], Team = teams[6] });
+            pitStopOrders.Add(new PitStopOrder() { Id = 10, Order = 4, PitStop = pitStops[9], Team = teams[6] });
+            pitStopOrders.Add(new PitStopOrder() { Id = 9, Order = 5, PitStop = pitStops[8], Team = teams[6] });
+
+            pitStopOrders.Add(new PitStopOrder() { Id = 7, Order = 1, PitStop = pitStops[6], Team = teams[7] });
+            pitStopOrders.Add(new PitStopOrder() { Id = 6, Order = 2, PitStop = pitStops[5], Team = teams[7] });
+            pitStopOrders.Add(new PitStopOrder() { Id = 8, Order = 3, PitStop = pitStops[7], Team = teams[7] });
+            pitStopOrders.Add(new PitStopOrder() { Id = 10, Order = 4, PitStop = pitStops[9], Team = teams[7] });
+            pitStopOrders.Add(new PitStopOrder() { Id = 9, Order = 5, PitStop = pitStops[8], Team = teams[7] });
+
+            pitStopOrders.Add(new PitStopOrder() { Id = 11, Order = 1, PitStop = pitStops[10], Team = teams[8] });
+            pitStopOrders.Add(new PitStopOrder() { Id = 12, Order = 2, PitStop = pitStops[11], Team = teams[8] });
+            pitStopOrders.Add(new PitStopOrder() { Id = 14, Order = 3, PitStop = pitStops[13], Team = teams[8] });
+            pitStopOrders.Add(new PitStopOrder() { Id = 15, Order = 4, PitStop = pitStops[14], Team = teams[8] });
+            pitStopOrders.Add(new PitStopOrder() { Id = 13, Order = 5, PitStop = pitStops[12], Team = teams[8] });
+
+            pitStopOrders.Add(new PitStopOrder() { Id = 15, Order = 1, PitStop = pitStops[14], Team = teams[9] });
+            pitStopOrders.Add(new PitStopOrder() { Id = 14, Order = 2, PitStop = pitStops[13], Team = teams[9] });
+            pitStopOrders.Add(new PitStopOrder() { Id = 12, Order = 3, PitStop = pitStops[11], Team = teams[9] });
+            pitStopOrders.Add(new PitStopOrder() { Id = 11, Order = 4, PitStop = pitStops[10], Team = teams[9] });
+            pitStopOrders.Add(new PitStopOrder() { Id = 13, Order = 5, PitStop = pitStops[12], Team = teams[9] });
+
+            pitStopOrders.Add(new PitStopOrder() { Id = 15, Order = 1, PitStop = pitStops[14], Team = teams[10] });
+            pitStopOrders.Add(new PitStopOrder() { Id = 13, Order = 2, PitStop = pitStops[12], Team = teams[10] });
+            pitStopOrders.Add(new PitStopOrder() { Id = 11, Order = 3, PitStop = pitStops[10], Team = teams[10] });
+            pitStopOrders.Add(new PitStopOrder() { Id = 12, Order = 4, PitStop = pitStops[11], Team = teams[10] });
+            pitStopOrders.Add(new PitStopOrder() { Id = 14, Order = 5, PitStop = pitStops[13], Team = teams[10] });
+
+            pitStopOrders.Add(new PitStopOrder() { Id = 12, Order = 1, PitStop = pitStops[11], Team = teams[11] });
+            pitStopOrders.Add(new PitStopOrder() { Id = 14, Order = 2, PitStop = pitStops[13], Team = teams[11] });
+            pitStopOrders.Add(new PitStopOrder() { Id = 15, Order = 3, PitStop = pitStops[14], Team = teams[11] });
+            pitStopOrders.Add(new PitStopOrder() { Id = 13, Order = 4, PitStop = pitStops[12], Team = teams[11] });
+            pitStopOrders.Add(new PitStopOrder() { Id = 11, Order = 5, PitStop = pitStops[10], Team = teams[11] });
+
+            pitStopOrders.Add(new PitStopOrder() { Id = 17, Order = 1, PitStop = pitStops[16], Team = teams[12] });
+            pitStopOrders.Add(new PitStopOrder() { Id = 16, Order = 2, PitStop = pitStops[15], Team = teams[12] });
+            pitStopOrders.Add(new PitStopOrder() { Id = 18, Order = 3, PitStop = pitStops[17], Team = teams[12] });
+            pitStopOrders.Add(new PitStopOrder() { Id = 20, Order = 4, PitStop = pitStops[19], Team = teams[12] });
+            pitStopOrders.Add(new PitStopOrder() { Id = 19, Order = 5, PitStop = pitStops[18], Team = teams[12] });
+
+            pitStopOrders.Add(new PitStopOrder() { Id = 16, Order = 1, PitStop = pitStops[15], Team = teams[13] });
+            pitStopOrders.Add(new PitStopOrder() { Id = 17, Order = 2, PitStop = pitStops[16], Team = teams[13] });
+            pitStopOrders.Add(new PitStopOrder() { Id = 19, Order = 3, PitStop = pitStops[18], Team = teams[13] });
+            pitStopOrders.Add(new PitStopOrder() { Id = 20, Order = 4, PitStop = pitStops[19], Team = teams[13] });
+            pitStopOrders.Add(new PitStopOrder() { Id = 18, Order = 5, PitStop = pitStops[17], Team = teams[13] });
+
+            pitStopOrders.Add(new PitStopOrder() { Id = 16, Order = 1, PitStop = pitStops[15], Team = teams[14] });
+            pitStopOrders.Add(new PitStopOrder() { Id = 18, Order = 2, PitStop = pitStops[17], Team = teams[14] });
+            pitStopOrders.Add(new PitStopOrder() { Id = 20, Order = 3, PitStop = pitStops[19], Team = teams[14] });
+            pitStopOrders.Add(new PitStopOrder() { Id = 19, Order = 4, PitStop = pitStops[18], Team = teams[14] });
+            pitStopOrders.Add(new PitStopOrder() { Id = 17, Order = 5, PitStop = pitStops[16], Team = teams[14] });
+
+            pitStopOrders.Add(new PitStopOrder() { Id = 17, Order = 1, PitStop = pitStops[16], Team = teams[15] });
+            pitStopOrders.Add(new PitStopOrder() { Id = 19, Order = 2, PitStop = pitStops[18], Team = teams[15] });
+            pitStopOrders.Add(new PitStopOrder() { Id = 18, Order = 3, PitStop = pitStops[17], Team = teams[15] });
+            pitStopOrders.Add(new PitStopOrder() { Id = 20, Order = 4, PitStop = pitStops[19], Team = teams[15] });
+            pitStopOrders.Add(new PitStopOrder() { Id = 16, Order = 5, PitStop = pitStops[15], Team = teams[15] });
+
+            pitStopOrders.Add(new PitStopOrder() { Id = 21, Order = 1, PitStop = pitStops[20], Team = teams[16] });
+            pitStopOrders.Add(new PitStopOrder() { Id = 22, Order = 2, PitStop = pitStops[21], Team = teams[16] });
+            pitStopOrders.Add(new PitStopOrder() { Id = 23, Order = 3, PitStop = pitStops[22], Team = teams[16] });
+            pitStopOrders.Add(new PitStopOrder() { Id = 24, Order = 4, PitStop = pitStops[23], Team = teams[16] });
+            pitStopOrders.Add(new PitStopOrder() { Id = 25, Order = 5, PitStop = pitStops[24], Team = teams[16] });
+
+            pitStopOrders.Add(new PitStopOrder() { Id = 23, Order = 1, PitStop = pitStops[22], Team = teams[17] });
+            pitStopOrders.Add(new PitStopOrder() { Id = 24, Order = 2, PitStop = pitStops[23], Team = teams[17] });
+            pitStopOrders.Add(new PitStopOrder() { Id = 25, Order = 3, PitStop = pitStops[24], Team = teams[17] });
+            pitStopOrders.Add(new PitStopOrder() { Id = 21, Order = 4, PitStop = pitStops[20], Team = teams[17] });
+            pitStopOrders.Add(new PitStopOrder() { Id = 22, Order = 5, PitStop = pitStops[21], Team = teams[17] });
+
+            pitStopOrders.Add(new PitStopOrder() { Id = 25, Order = 1, PitStop = pitStops[24], Team = teams[18] });
+            pitStopOrders.Add(new PitStopOrder() { Id = 24, Order = 2, PitStop = pitStops[23], Team = teams[18] });
+            pitStopOrders.Add(new PitStopOrder() { Id = 23, Order = 3, PitStop = pitStops[22], Team = teams[18] });
+            pitStopOrders.Add(new PitStopOrder() { Id = 22, Order = 4, PitStop = pitStops[21], Team = teams[18] });
+            pitStopOrders.Add(new PitStopOrder() { Id = 21, Order = 5, PitStop = pitStops[20], Team = teams[18] });
+
+            pitStopOrders.Add(new PitStopOrder() { Id = 23, Order = 1, PitStop = pitStops[22], Team = teams[19] });
+            pitStopOrders.Add(new PitStopOrder() { Id = 22, Order = 2, PitStop = pitStops[21], Team = teams[19] });
+            pitStopOrders.Add(new PitStopOrder() { Id = 21, Order = 3, PitStop = pitStops[20], Team = teams[19] });
+            pitStopOrders.Add(new PitStopOrder() { Id = 25, Order = 4, PitStop = pitStops[24], Team = teams[19] });
+            pitStopOrders.Add(new PitStopOrder() { Id = 24, Order = 5, PitStop = pitStops[23], Team = teams[19] });
+
+            pitStopOrders.Add(new PitStopOrder() { Id = 26, Order = 1, PitStop = pitStops[25], Team = teams[20] });
+            pitStopOrders.Add(new PitStopOrder() { Id = 27, Order = 2, PitStop = pitStops[26], Team = teams[20] });
+            pitStopOrders.Add(new PitStopOrder() { Id = 28, Order = 3, PitStop = pitStops[27], Team = teams[20] });
+            pitStopOrders.Add(new PitStopOrder() { Id = 29, Order = 4, PitStop = pitStops[28], Team = teams[20] });
+            pitStopOrders.Add(new PitStopOrder() { Id = 30, Order = 5, PitStop = pitStops[29], Team = teams[20] });
+
+            pitStopOrders.Add(new PitStopOrder() { Id = 28, Order = 1, PitStop = pitStops[27], Team = teams[21] });
+            pitStopOrders.Add(new PitStopOrder() { Id = 27, Order = 2, PitStop = pitStops[26], Team = teams[21] });
+            pitStopOrders.Add(new PitStopOrder() { Id = 26, Order = 3, PitStop = pitStops[25], Team = teams[21] });
+            pitStopOrders.Add(new PitStopOrder() { Id = 30, Order = 4, PitStop = pitStops[29], Team = teams[21] });
+            pitStopOrders.Add(new PitStopOrder() { Id = 29, Order = 5, PitStop = pitStops[28], Team = teams[21] });
+
+            pitStopOrders.Add(new PitStopOrder() { Id = 30, Order = 1, PitStop = pitStops[29], Team = teams[22] });
+            pitStopOrders.Add(new PitStopOrder() { Id = 29, Order = 2, PitStop = pitStops[28], Team = teams[22] });
+            pitStopOrders.Add(new PitStopOrder() { Id = 28, Order = 3, PitStop = pitStops[27], Team = teams[22] });
+            pitStopOrders.Add(new PitStopOrder() { Id = 27, Order = 4, PitStop = pitStops[26], Team = teams[22] });
+            pitStopOrders.Add(new PitStopOrder() { Id = 26, Order = 5, PitStop = pitStops[25], Team = teams[22] });
+
+            pitStopOrders.Add(new PitStopOrder() { Id = 28, Order = 1, PitStop = pitStops[27], Team = teams[23] });
+            pitStopOrders.Add(new PitStopOrder() { Id = 27, Order = 2, PitStop = pitStops[26], Team = teams[23] });
+            pitStopOrders.Add(new PitStopOrder() { Id = 29, Order = 3, PitStop = pitStops[28], Team = teams[23] });
+            pitStopOrders.Add(new PitStopOrder() { Id = 26, Order = 4, PitStop = pitStops[25], Team = teams[23] });
+            pitStopOrders.Add(new PitStopOrder() { Id = 30, Order = 5, PitStop = pitStops[29], Team = teams[23] });
+
+
+
+
+
 
             AddorUpdateRange(context.PitStopOrders, pitStopOrders);
             context.SaveChanges();
