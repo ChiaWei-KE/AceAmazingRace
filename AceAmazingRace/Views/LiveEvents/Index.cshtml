@@ -9,20 +9,45 @@
     <br />
     <div class="form-group">
         <label for="eventLists">Select Event:</label>
-        <select class="form-control" id="eventLists" onchange="updateStopLocations(this.options[this.selectedIndex].value)"></select>
+        <select class="form-control" id="eventLists" onchange="updateStopLocations(this.options[this.selectedIndex].value, true)"></select>
+    </div>
+    
+    <div class="row">
+        <div class="col-md-7">
+            <div class="form-group" id="map-container">
+                @* Dynamically add element in javascript*@
+            </div>
+        </div>
+@*        <br/>*@
+@*        <div class="col-md-3" id="leaderboard">*@
+@*            *@
+@*            <table style="width:100%">*@
+@*                <tr>*@
+@*                    <th>Team</th>*@
+@*                    <th>Stops & Progress</th>*@
+@*                </tr>*@
+@*                <tr>*@
+@*                    <td>Team Baby G</td>*@
+@*                    <td>1 2 3 <span class="numberCircle">4</span> 5</td>*@
+@*                </tr>*@
+@*                <tr>*@
+@*                    <td>Winner</td>*@
+@*                    <td>1 2 3 4 5</td>*@
+@*                </tr>*@
+@*            </table>*@
+@*        </div>*@
     </div>
 
-    <div class="form-group" id="map-container">
-        @* Dynamically add element in javascript*@
-    </div>
+
+    
 
 </div>
 
 <script>
+
     //Define colors
     //red, blue, brown, green, purple
-    var colors1 = ['#ff0000', '#0000ff', '#8B008B', '#49311c', '#00ff00'];
-    var colors2 = ['#ff4c4c', '#6666ff', '#DA70D6', '#f7bf8f', '#66ff66'];
+    var colors = ['#ff0000', '#0000ff', '#8B008B', '#49311c', '#00ff00'];
 
     //Signal R
     var chat = $.connection.simulatorHub;
@@ -38,18 +63,22 @@
     var pitStops = [];
     var raceEvents = [];
     var supportStops = [];
+    var teams = [];
     var mymap;
+    var currentPitStops;
+    var currentSupportStops;
+    var currentTeams;
 
-    loadAllEvents();
-    loadAllPitStops();
-    loadAllSupportStops();
+    loadLiveData();
 
     //Functions
-
-    function loadAllEvents() {
-        $.get("../api/common/events",
+    function loadLiveData() {
+        $.get("../api/common/liveData",
             function (data) {
-                raceEvents = data;
+                raceEvents = data.Events;
+                pitStops = data.PitStops;
+                supportStops = data.SupportStops;
+                teams = data.Teams;
                 updateDropdown(raceEvents);
             });
     }
@@ -62,22 +91,15 @@
         });
     }
 
-    function loadAllPitStops() {
-        $.get("../api/common/pitStops",
-            function (data) {
-                pitStops = data;
-            });
-    }
-
-    function loadAllSupportStops() {
-        $.get("../api/common/supportStops",
-            function (data) {
-                supportStops = data;
-            });
-    }
-
     function retrieveEventData(data) {
         return data.RaceEvent.Id == eventId;
+    }
+
+    function distanceBetween(lat1, lng1, lat2, lng2) {
+        var l1 = L.latLng(lat1, lng1);
+        var l2 = L.latLng(lat2, lng2);
+
+        return l1.distanceTo(l2);
     }
 
     function getCenterLocation(stops) {
@@ -101,23 +123,58 @@
     }
 
     function updateTeamLocations(data) {
-        updateStopLocations(eventId);
+        updateStopLocations(eventId, false);
 
         data.forEach(function (teamLocation, index) {
+            var team = currentTeams[index];
+
+            if (team.CompletedPitStops < team.PitStops.length) {
+
+                var nextPitStop = team.PitStops[team.CompletedPitStops];
+
+                if (Math.abs(teamLocation.Latitude - nextPitStop.PitStop.Location.Latitude) < 0.0001 &&
+                    Math.abs(teamLocation.Longitude - nextPitStop.PitStop.Location.Longitude) < 0.0001) {
+
+                    team.CompletedPitStops++;
+                    team.DistanceToNextPitStop = 0;
+
+                    console.log("team " + index + " has completed " + team.CompletedPitStops + " stops.");
+                } else {
+                    team.DistanceToNextPitStop = distanceBetween(teamLocation.Latitude,
+                                                                teamLocation.Longitude,
+                                                                nextPitStop.PitStop.Location.Latitude,
+                                                                nextPitStop.PitStop.Location.Longitude);
+
+                    console.log("team " + index + " distance to next stop is " + team.DistanceToNextPitStop);
+                }
+
+            }
+
+            //Draw current position
             L.circle([teamLocation.Latitude, teamLocation.Longitude],
             {
-                color: colors1[index],
-                fillColor: colors2[index],
+                color: colors[index],
+                fillColor: colors[index],
                 fillOpacity: 0.5,
-                radius: 5
+                radius: 10
             }).addTo(mymap);
         });
     }
 
-    function updateStopLocations(id) {
+    function updateStopLocations(id, reloadTeams) {
         eventId = id;
-        var currentPitStops = pitStops.filter(retrieveEventData);
-        var currentSupportStops = supportStops.filter(retrieveEventData);
+        currentPitStops = pitStops.filter(retrieveEventData);
+        currentSupportStops = supportStops.filter(retrieveEventData);
+        if (reloadTeams) {
+            currentTeams = teams.filter(function(t) {
+                return t.Team.RaceEvent.Id == eventId;
+            });
+
+            currentTeams.forEach(function(team) {
+                team.CompletedPitStops = 0;
+                team.DistanceToNextPitStop = 0;
+            });
+        }
 
         $("#mapid").remove();
 

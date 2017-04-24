@@ -22,6 +22,12 @@ namespace Simulator
 
         public Form1()
         {
+            InitializeData();
+            InitializeComponent();
+        }
+
+        private void InitializeData()
+        {
             _sampleLiveData = new List<List<RealTimeData>>()
             {
                 new List<RealTimeData>() { new RealTimeData(1, 1.300029, 103.855058), new RealTimeData(2, 1.300029, 103.855058), new RealTimeData(3, 1.299129, 103.854168), new RealTimeData(4, 1.297542, 103.854216)},
@@ -66,8 +72,6 @@ namespace Simulator
 
             _total = _sampleLiveData.Count;
             _counter = 0;
-            
-            InitializeComponent();
         }
 
         private void btnSend_Click(object sender, EventArgs e)
@@ -107,6 +111,7 @@ namespace Simulator
         {
             _counter = 0;
             txtOutput.Text = "";
+            lblSteps.Text = "";
         }
 
         private void UpdateStat()

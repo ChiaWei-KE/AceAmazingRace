@@ -28,24 +28,22 @@ namespace AceAmazingRace.Controllers
         }
 
         [HttpGet]
-        [Route("events")]
-        public IHttpActionResult Events()
+        [Route("liveData")]
+        public IHttpActionResult LiveData()
         {
-            return Ok(_context.RaceEvents.ToList());
-        }
+            var result = new
+            {
+                Events = _context.RaceEvents.ToList(),
+                PitStops = _context.PitStops.ToList(),
+                SupportStops = _context.SupportStops.ToList(),
+                Teams = _context.Teams.Select(t => new
+                {
+                    Team = t,
+                    PitStops = _context.PitStopOrders.Where(x => x.Team.Id == t.Id).OrderBy(x => x.Order)
+                })
+            };
 
-        [HttpGet]
-        [Route("pitStops")]
-        public IHttpActionResult PitStops()
-        {
-            return Ok(_context.PitStops.ToList());
-        }
-
-        [HttpGet]
-        [Route("supportStops")]
-        public IHttpActionResult SupportStops()
-        {
-            return Ok(_context.SupportStops.ToList());
+            return Ok(result);
         }
 
         [HttpPost]
