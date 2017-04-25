@@ -35,3 +35,19 @@ textarea {
 .input-validation-error{
     border: 2px solid red;
 }
+
+.leaderboard tr td {
+    padding:0 15px 0 15px;
+    text-align: center;
+}
+
+.leaderboard tr td div {
+    height: 20px; 
+    width: 30px;
+    text-align: center;
+}
+
+.leaderboard tr th {
+    padding:0 15px 0 15px;
+}
+
