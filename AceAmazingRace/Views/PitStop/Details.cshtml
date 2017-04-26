@@ -50,6 +50,8 @@
             @Html.TextBoxFor(e => e.PitStop.Remark, new { @class = "form-control" })
             @Html.ValidationMessageFor(e => e.PitStop.Remark)
         </div>
+        
+@*        @Html.TextBoxFor(e => e.PitStop.Id)*@
 
         @Html.HiddenFor(e => e.PitStop.Id)
 
@@ -63,7 +65,7 @@
     function viewOnMap(id) {
         $("#mapid").remove();
         if (id && id > 0) {
-            $('#map-container').append("<div id='mapid' style='width: 500px; height: 300px;'></div>");
+            $('#map-container').append("<div id='mapid' style='width: 450px; height: 300px;'></div>");
 
             var mymap = L.map('mapid');
 

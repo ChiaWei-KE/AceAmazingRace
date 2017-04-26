@@ -128,7 +128,7 @@ namespace AceAmazingRace.Controllers
                     });
 
             foreach (var pitStopOrder in pitStopOrders)
-                _context.PitStopOrders.AddOrUpdate(pitStopOrder);
+                _context.PitStopOrders.Add(pitStopOrder);
 
             _context.SaveChanges();
 

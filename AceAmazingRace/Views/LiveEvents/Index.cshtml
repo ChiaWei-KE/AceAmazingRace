@@ -256,6 +256,10 @@
         eventId = id;
         currentPitStops = pitStops.filter(retrieveEventData);
         currentSupportStops = supportStops.filter(retrieveEventData);
+
+//        console.log("supportStops", supportStops);
+//        console.log("currentSupportStops", currentSupportStops);
+
         if (reloadTeams) {
             currentTeams = teams.filter(function(t) {
                 return t.Team.RaceEvent.Id == eventId;
@@ -276,11 +280,11 @@
             var allStops = currentPitStops.concat(currentSupportStops);
             var center = getCenterLocation(allStops);
 
-            $('#map-container').append("<div id='mapid' style='width: 1200px; height: 1000px;'></div>");
+            $('#map-container').append("<div id='mapid' style='width: 800px; height: 600px;'></div>");
 
             mymap = L.map('mapid');
 
-            mymap.setView([center.Latitude, center.Longitude], 18);
+            mymap.setView([center.Latitude, center.Longitude], 17);
 
             var greenIcon = new L.Icon({
                 iconUrl: 'https://cdn.rawgit.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-green.png',
@@ -299,7 +303,6 @@
 
             currentSupportStops.forEach(function (stop) {
                 L.marker([stop.Location.Latitude, stop.Location.Longitude])
-                    .bindTooltip("Support Stop: " + stop.Code, { permanent: true })
                     .addTo(mymap);
             });
 
