@@ -19,11 +19,18 @@ namespace Simulator
         private static List<List<RealTimeData>> _sampleLiveData;
         private static int _counter;
         private static int _total;
+        private static string _baseUrl;
 
         public Form1()
         {
             InitializeData();
             InitializeComponent();
+            IntializeFormData();
+        }
+
+        public void IntializeFormData()
+        {
+            txtURL.Text = _baseUrl;
         }
 
         private void InitializeData()
@@ -72,6 +79,7 @@ namespace Simulator
 
             _total = _sampleLiveData.Count;
             _counter = 0;
+            _baseUrl = "http://localhost:50842";
         }
 
         private void btnSend_Click(object sender, EventArgs e)
@@ -79,25 +87,37 @@ namespace Simulator
             if (_counter >= _sampleLiveData.Count) return;
 
             var myContent = JsonConvert.SerializeObject(_sampleLiveData[_counter]);
-
-            var baseUrl = "http://localhost:50842";
             
             using (var client = new HttpClient()) {
-                client.BaseAddress = new Uri(baseUrl);
-             
-                var url = "api/common/simulate";
-                
-                var buffer = System.Text.Encoding.UTF8.GetBytes(myContent);
-                var byteContent = new ByteArrayContent(buffer);
-                byteContent.Headers.ContentType = new MediaTypeHeaderValue("application/json");
+
+                try
+                {
+                    btnSend.Enabled = false;
+                    btnResetLocations.Enabled = false;
+
+                    client.BaseAddress = new Uri(txtURL.Text);
+
+                    var buffer = System.Text.Encoding.UTF8.GetBytes(myContent);
+                    var byteContent = new ByteArrayContent(buffer);
+                    byteContent.Headers.ContentType = new MediaTypeHeaderValue("application/json");
 
 
-                var response = client.PostAsync(url, byteContent).Result;
-                var data = response.Content.ReadAsStringAsync();
- 
-                txtOutput.Text = $@"{DateTime.Now} - {data.Result}" + Environment.NewLine + txtOutput.Text;
-                UpdateStat();
-                _counter++;
+                    var response = client.PostAsync("api/common/simulate", byteContent).Result;
+                    var data = response.Content.ReadAsStringAsync();
+
+                    txtOutput.Text = $@"{DateTime.Now} - {data.Result}" + Environment.NewLine + txtOutput.Text;
+                    UpdateStat();
+                    _counter++;
+                }
+                catch (Exception exception)
+                {
+                    txtOutput.Text = $@"{DateTime.Now} - Error found: {exception.Message}" + Environment.NewLine +txtOutput.Text;
+                }
+                finally
+                {
+                    btnSend.Enabled = true;
+                    btnResetLocations.Enabled = true;
+                }
             }
 
         }
@@ -117,6 +137,11 @@ namespace Simulator
         private void UpdateStat()
         {
             lblSteps.Text = $@"{_counter + 1:00}/{_total:00}";
+        }
+
+        private void txtURL_TextChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }
