@@ -11,319 +11,317 @@
         <label for="eventLists">Select Event:</label>
         <select class="form-control" id="eventLists" onchange="updateStopLocations(this.options[this.selectedIndex].value, true)"></select>
     </div>
-    
-    <table id="leaderboard">
-        <tr>
-            <td>
-                <div class="form-group" id="map-container">
-                    @* Dynamically add element in javascript*@
-                </div>
-            </td>
-            <td style="padding:0 15px 0 15px;">
-                <table style="width: 100%" class="leaderboard">
-                    <tr>
-                        <th>Team</th>
-                        <th>Color</th>
-                        <th>Completed Pit Stops</th>
-                        <th>Distance to next Stop (Meter)</th>
-@*                        <th>Ranking</th>*@
-                    </tr>
-                    <tr id="row-0">
-                        <td></td>
-                        <td><div></div></td>
-                        <td></td>
-                        <td></td>
-@*                        <td></td>*@
-                    </tr>
-                    <tr id="row-1">
-                        <td></td>
-                        <td><div></div></td>
-                        <td></td>
-                        <td></td>
-@*                        <td></td>*@
-                    </tr>
-                    <tr id="row-2">
-                        <td></td>
-                        <td><div></div></td>
-                        <td></td>
-                        <td></td>
-@*                        <td></td>*@
-                    </tr>
-                    <tr id="row-3">
-                        <td></td>
-                        <td><div></div></td>
-                        <td></td>
-                        <td></td>
-@*                        <td></td>*@
-                    </tr>
-                    <tr id="row-4">
-                        <td></td>
-                        <td><div></div></td>
-                        <td></td>
-                        <td></td>
-@*                        <td></td>*@
-                    </tr>
-                </table>
-            </td>
-        </tr>
-    </table>
+
+    <div class="row" id="leaderboard">
+        <div class="col-md-7">
+            <div id="map-container">
+                @* Dynamically add element in javascript*@
+            </div>
+        </div>
+        <div class="col-md-5">
+            <table style="width: 100%" class="leaderboard table-responsive">
+                <tr>
+                    <th>Team</th>
+                    <th>Color</th>
+                    <th>Completed Pit Stops</th>
+                    <th>Distance to next Stop (Meter)</th>
+                    @*<th>Ranking</th>*@
+                </tr>
+                <tr id="row-0">
+                    <td></td>
+                    <td><div></div></td>
+                    <td></td>
+                    <td></td>
+                    @*<td></td>*@
+                </tr>
+                <tr id="row-1">
+                    <td></td>
+                    <td><div></div></td>
+                    <td></td>
+                    <td></td>
+                    @*<td></td>*@
+                </tr>
+                <tr id="row-2">
+                    <td></td>
+                    <td><div></div></td>
+                    <td></td>
+                    <td></td>
+                    @* <td></td>*@
+                </tr>
+                <tr id="row-3">
+                    <td></td>
+                    <td><div></div></td>
+                    <td></td>
+                    <td></td>
+                    @*<td></td>*@
+                </tr>
+                <tr id="row-4">
+                    <td></td>
+                    <td><div></div></td>
+                    <td></td>
+                    <td></td>
+                    @*<td></td>*@
+                </tr>
+            </table>
+        </div>
+    </div>
 </div>
 
 <script>
 
-    //Define colors
-    //red, blue, brown, green, purple
-    var colors = ['#ff0000', '#0000ff', '#8B008B', '#00ff00', '#49311c'];
+            //Define colors
+            //red, blue, brown, green, purple
+            var colors = ['#ff0000', '#0000ff', '#8B008B', '#00ff00', '#49311c'];
 
-    //Signal R
-    var chat = $.connection.simulatorHub;
+            //Signal R
+            var chat = $.connection.simulatorHub;
 
-    chat.client.sendLiveData = function (data) {
-        updateTeamLocations(data);
-    };
+            chat.client.sendLiveData = function (data) {
+                updateTeamLocations(data);
+            };
 
-    $.connection.hub.start();
+            $.connection.hub.start();
 
-    //Manage Events
-    var eventId = -1;
-    var pitStops = [];
-    var raceEvents = [];
-    var supportStops = [];
-    var teams = [];
-    var mymap;
-    var currentPitStops;
-    var currentSupportStops;
-    var currentTeams;
+            //Manage Events
+            var eventId = -1;
+            var pitStops = [];
+            var raceEvents = [];
+            var supportStops = [];
+            var teams = [];
+            var mymap;
+            var currentPitStops;
+            var currentSupportStops;
+            var currentTeams;
 
-    $(document).ready(function(){
-        loadLiveData();
+            $(document).ready(function () {
+                loadLiveData();
 
-        for (var i = 0; i < 5; i++) {
-            getTeamColorCell(i).css("background-color", colors[i]);
-            getTeamRow(i).hide();
-        }
-
-        getLeaderboard().hide();
-    });
-    
-
-
-    //Functions
-    function getLeaderboard() {
-        return $("#leaderboard");
-    }
-
-    function getTeamNameCell(teamIndex) {
-        return $("#row-" + teamIndex + " td:nth-child(1)");
-    }
-
-    function getTeamColorCell(teamIndex) {
-        return $("#row-" + teamIndex + " td:nth-child(2) div");
-    }
-
-    function getTeamCompletedStopsCell(teamIndex) {
-        return $("#row-" + teamIndex + " td:nth-child(3)");
-    }
-
-    function getTeamDistanceToNextStopCell(teamIndex) {
-        return $("#row-" + teamIndex + " td:nth-child(4)");
-    }
-
-    function getTeamRankingCell(teamIndex) {
-        return $("#row-" + teamIndex + " td:nth-child(5)");
-    }
-
-    function getTeamRow(teamIndex) {
-        return $('#row-' + teamIndex);
-    }
-
-    function loadLiveData() {
-        $.get("../api/common/liveData",
-            function (data) {
-                raceEvents = data.Events;
-                pitStops = data.PitStops;
-                supportStops = data.SupportStops;
-                teams = data.Teams;
-                updateDropdown(raceEvents);
-            });
-    }
-
-    function updateDropdown(raceEvents) {
-        $("#eventLists").empty()
-            .append($('<option></option>').attr("value", -1).text("Select an Event"));;
-        raceEvents.forEach(function (raceEvent) {
-            $("#eventLists").append($('<option></option>').attr("value", raceEvent.Id).text(raceEvent.Name));
-        });
-    }
-
-    function retrieveEventData(data) {
-        return data.RaceEvent.Id == eventId;
-    }
-
-    function distanceBetween(lat1, lng1, lat2, lng2) {
-        var l1 = L.latLng(lat1, lng1);
-        var l2 = L.latLng(lat2, lng2);
-
-        return l1.distanceTo(l2);
-    }
-
-    function getCenterLocation(stops) {
-        var latitude = 0;
-        var longitude = 0;
-
-        stops.forEach(function (data) {
-            latitude += data.Location.Latitude;
-            longitude += data.Location.Longitude;
-        });
-
-        if (stops.length > 0) {
-            latitude = latitude / stops.length;
-            longitude = longitude / stops.length;
-        }
-
-        return {
-            Latitude: latitude,
-            Longitude: longitude
-        };
-    }
-
-    function updateTeamLocations(data) {
-        updateStopLocations(eventId, false);
-
-        //Calculate team data
-        data.forEach(function (teamLocation, index) {
-            var team = currentTeams[index];
-//            console.log(team);
-
-            if (team.CompletedPitStops < team.PitStops.length) {
-
-                var nextPitStop = team.PitStops[team.CompletedPitStops];
-
-                if (Math.abs(teamLocation.Latitude - nextPitStop.PitStop.Location.Latitude) < 0.0001 &&
-                    Math.abs(teamLocation.Longitude - nextPitStop.PitStop.Location.Longitude) < 0.0001) {
-
-                    team.CompletedPitStops++;
-                    if (team.CompletedPitStops < team.PitStops.length) {
-                        nextPitStop = team.PitStops[team.CompletedPitStops];
-                        team.DistanceToNextPitStop = distanceBetween(teamLocation.Latitude,
-                                                                teamLocation.Longitude,
-                                                                nextPitStop.PitStop.Location.Latitude,
-                                                                nextPitStop.PitStop.Location.Longitude);
-                    } else {
-                        team.DistanceToNextPitStop = 0;
-                    }
-//                    console.log("team " + index + " has completed " + team.CompletedPitStops + " stops.");
-                } else {
-                    team.DistanceToNextPitStop = distanceBetween(teamLocation.Latitude,
-                                                                teamLocation.Longitude,
-                                                                nextPitStop.PitStop.Location.Latitude,
-                                                                nextPitStop.PitStop.Location.Longitude);
-
-//                    console.log("team " + index + " distance to next stop is " + team.DistanceToNextPitStop);
-                }
-
-            }
-
-            //Update leaderboard data
-            for (var i = 0; i < 5; i++) {
-                if (i <= currentTeams.length - 1) {
-                    var t = currentTeams[i];
-                    getTeamNameCell(i).text(t.Team.Name);
-                    getTeamCompletedStopsCell(i).text(t.CompletedPitStops);
-                    getTeamDistanceToNextStopCell(i).text(t.DistanceToNextPitStop.toFixed(3));
-                    getTeamRankingCell(i).text();
-                    getTeamRow(i).show();
-                } else {
+                for (var i = 0; i < 5; i++) {
+                    getTeamColorCell(i).css("background-color", colors[i]);
                     getTeamRow(i).hide();
                 }
 
+                getLeaderboard().hide();
+            });
 
-                getTeamColorCell(i).css("background-color", colors[i]);
+
+
+            //Functions
+            function getLeaderboard() {
+                return $("#leaderboard");
             }
 
-            //Draw current position
-            L.circle([teamLocation.Latitude, teamLocation.Longitude],
-            {
-                color: colors[index],
-                fillColor: colors[index],
-                fillOpacity: 0.5,
-                radius: 10
-            }).addTo(mymap);
-        });
-    }
-
-    function updateStopLocations(id, reloadTeams) {
-        eventId = id;
-        currentPitStops = pitStops.filter(retrieveEventData);
-        currentSupportStops = supportStops.filter(retrieveEventData);
-
-//        console.log("supportStops", supportStops);
-//        console.log("currentSupportStops", currentSupportStops);
-
-        if (reloadTeams) {
-            currentTeams = teams.filter(function(t) {
-                return t.Team.RaceEvent.Id == eventId;
-            });
-
-            currentTeams.forEach(function(team) {
-                team.CompletedPitStops = 0;
-                team.DistanceToNextPitStop = 0;
-            });
-        }
-
-        $("#mapid").remove();
-        getLeaderboard().hide();
-
-        if (eventId > 0 && currentPitStops.length > 0) {
-            getLeaderboard().show();
-
-            var allStops = currentPitStops.concat(currentSupportStops);
-            var center = getCenterLocation(allStops);
-
-            $('#map-container').append("<div id='mapid' style='width: 800px; height: 600px;'></div>");
-
-            mymap = L.map('mapid');
-
-            mymap.setView([center.Latitude, center.Longitude], 17);
-
-            var greenIcon = new L.Icon({
-                iconUrl: 'https://cdn.rawgit.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-green.png',
-                shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
-                iconSize: [25, 41],
-                iconAnchor: [12, 41],
-                popupAnchor: [1, -34],
-                shadowSize: [41, 41]
-            });
-
-            currentPitStops.forEach(function (stop) {
-                L.marker([stop.Location.Latitude, stop.Location.Longitude], { icon: greenIcon })
-                    .bindTooltip("Pit Stop: " + stop.Name, { permanent: true })
-                    .addTo(mymap);
-            });
-
-            currentSupportStops.forEach(function (stop) {
-                L.marker([stop.Location.Latitude, stop.Location.Longitude])
-                    .addTo(mymap);
-            });
-
-            L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw',
-            {
-                maxZoom: 20,
-                attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, ' +
-                    '<a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
-                    'Imagery © <a href="http://mapbox.com">Mapbox</a>',
-                id: 'mapbox.streets'
-            }).addTo(mymap);
-
-            function onMapClick(e) {
-                L.popup()
-                    .setLatLng(e.latlng)
-                    .setContent("You clicked the map at " + e.latlng.toString())
-                    .openOn(mymap);
+            function getTeamNameCell(teamIndex) {
+                return $("#row-" + teamIndex + " td:nth-child(1)");
             }
 
-            mymap.on('click', onMapClick);
-        }
-    }
-</script>
+            function getTeamColorCell(teamIndex) {
+                return $("#row-" + teamIndex + " td:nth-child(2) div");
+            }
+
+            function getTeamCompletedStopsCell(teamIndex) {
+                return $("#row-" + teamIndex + " td:nth-child(3)");
+            }
+
+            function getTeamDistanceToNextStopCell(teamIndex) {
+                return $("#row-" + teamIndex + " td:nth-child(4)");
+            }
+
+            function getTeamRankingCell(teamIndex) {
+                return $("#row-" + teamIndex + " td:nth-child(5)");
+            }
+
+            function getTeamRow(teamIndex) {
+                return $('#row-' + teamIndex);
+            }
+
+            function loadLiveData() {
+                $.get("../api/common/liveData",
+                    function (data) {
+                        raceEvents = data.Events;
+                        pitStops = data.PitStops;
+                        supportStops = data.SupportStops;
+                        teams = data.Teams;
+                        updateDropdown(raceEvents);
+                    });
+            }
+
+            function updateDropdown(raceEvents) {
+                $("#eventLists").empty()
+                    .append($('<option></option>').attr("value", -1).text("Select an Event"));;
+                raceEvents.forEach(function (raceEvent) {
+                    $("#eventLists").append($('<option></option>').attr("value", raceEvent.Id).text(raceEvent.Name));
+                });
+            }
+
+            function retrieveEventData(data) {
+                return data.RaceEvent.Id == eventId;
+            }
+
+            function distanceBetween(lat1, lng1, lat2, lng2) {
+                var l1 = L.latLng(lat1, lng1);
+                var l2 = L.latLng(lat2, lng2);
+
+                return l1.distanceTo(l2);
+            }
+
+            function getCenterLocation(stops) {
+                var latitude = 0;
+                var longitude = 0;
+
+                stops.forEach(function (data) {
+                    latitude += data.Location.Latitude;
+                    longitude += data.Location.Longitude;
+                });
+
+                if (stops.length > 0) {
+                    latitude = latitude / stops.length;
+                    longitude = longitude / stops.length;
+                }
+
+                return {
+                    Latitude: latitude,
+                    Longitude: longitude
+                };
+            }
+
+            function updateTeamLocations(data) {
+                updateStopLocations(eventId, false);
+
+                //Calculate team data
+                data.forEach(function (teamLocation, index) {
+                    var team = currentTeams[index];
+                    //            console.log(team);
+
+                    if (team.CompletedPitStops < team.PitStops.length) {
+
+                        var nextPitStop = team.PitStops[team.CompletedPitStops];
+
+                        if (Math.abs(teamLocation.Latitude - nextPitStop.PitStop.Location.Latitude) < 0.0001 &&
+                            Math.abs(teamLocation.Longitude - nextPitStop.PitStop.Location.Longitude) < 0.0001) {
+
+                            team.CompletedPitStops++;
+                            if (team.CompletedPitStops < team.PitStops.length) {
+                                nextPitStop = team.PitStops[team.CompletedPitStops];
+                                team.DistanceToNextPitStop = distanceBetween(teamLocation.Latitude,
+                                    teamLocation.Longitude,
+                                    nextPitStop.PitStop.Location.Latitude,
+                                    nextPitStop.PitStop.Location.Longitude);
+                            } else {
+                                team.DistanceToNextPitStop = 0;
+                            }
+                            //                    console.log("team " + index + " has completed " + team.CompletedPitStops + " stops.");
+                        } else {
+                            team.DistanceToNextPitStop = distanceBetween(teamLocation.Latitude,
+                                teamLocation.Longitude,
+                                nextPitStop.PitStop.Location.Latitude,
+                                nextPitStop.PitStop.Location.Longitude);
+
+                            //                    console.log("team " + index + " distance to next stop is " + team.DistanceToNextPitStop);
+                        }
+
+                    }
+
+                    //Update leaderboard data
+                    for (var i = 0; i < 5; i++) {
+                        if (i <= currentTeams.length - 1) {
+                            var t = currentTeams[i];
+                            getTeamNameCell(i).text(t.Team.Name);
+                            getTeamCompletedStopsCell(i).text(t.CompletedPitStops);
+                            getTeamDistanceToNextStopCell(i).text(t.DistanceToNextPitStop.toFixed(3));
+                            getTeamRankingCell(i).text();
+                            getTeamRow(i).show();
+                        } else {
+                            getTeamRow(i).hide();
+                        }
+
+
+                        getTeamColorCell(i).css("background-color", colors[i]);
+                    }
+
+                    //Draw current position
+                    L.circle([teamLocation.Latitude, teamLocation.Longitude],
+                        {
+                            color: colors[index],
+                            fillColor: colors[index],
+                            fillOpacity: 0.5,
+                            radius: 10
+                        }).addTo(mymap);
+                });
+            }
+
+            function updateStopLocations(id, reloadTeams) {
+                eventId = id;
+                currentPitStops = pitStops.filter(retrieveEventData);
+                currentSupportStops = supportStops.filter(retrieveEventData);
+
+                //        console.log("supportStops", supportStops);
+                //        console.log("currentSupportStops", currentSupportStops);
+
+                if (reloadTeams) {
+                    currentTeams = teams.filter(function (t) {
+                        return t.Team.RaceEvent.Id == eventId;
+                    });
+
+                    currentTeams.forEach(function (team) {
+                        team.CompletedPitStops = 0;
+                        team.DistanceToNextPitStop = 0;
+                    });
+                }
+
+                $("#mapid").remove();
+                getLeaderboard().hide();
+
+                if (eventId > 0 && currentPitStops.length > 0) {
+                    getLeaderboard().show();
+
+                    var allStops = currentPitStops.concat(currentSupportStops);
+                    var center = getCenterLocation(allStops);
+
+                    $('#map-container').append("<div id='mapid' style='width: 800px; height: 600px;'></div>");
+
+                    mymap = L.map('mapid');
+
+                    mymap.setView([center.Latitude, center.Longitude], 17);
+
+                    var greenIcon = new L.Icon({
+                        iconUrl: 'https://cdn.rawgit.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-green.png',
+                        shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png',
+                        iconSize: [25, 41],
+                        iconAnchor: [12, 41],
+                        popupAnchor: [1, -34],
+                        shadowSize: [41, 41]
+                    });
+
+                    currentPitStops.forEach(function (stop) {
+                        L.marker([stop.Location.Latitude, stop.Location.Longitude], { icon: greenIcon })
+                            .bindTooltip("Pit Stop: " + stop.Name, { permanent: true })
+                            .addTo(mymap);
+                    });
+
+                    currentSupportStops.forEach(function (stop) {
+                        L.marker([stop.Location.Latitude, stop.Location.Longitude])
+                            .addTo(mymap);
+                    });
+
+                    L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpejY4NXVycTA2emYycXBndHRqcmZ3N3gifQ.rJcFIG214AriISLbB6B5aw',
+                        {
+                            maxZoom: 20,
+                            attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, ' +
+                            '<a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
+                            'Imagery © <a href="http://mapbox.com">Mapbox</a>',
+                            id: 'mapbox.streets'
+                        }).addTo(mymap);
+
+                    function onMapClick(e) {
+                        L.popup()
+                            .setLatLng(e.latlng)
+                            .setContent("You clicked the map at " + e.latlng.toString())
+                            .openOn(mymap);
+                    }
+
+                    mymap.on('click', onMapClick);
+                }
+            }
+        </script>
 
