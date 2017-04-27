@@ -18,4 +18,10 @@ namespace AceAmazingRace.ViewModels
             Longitude = longitude;
         }
     }
+
+    public class RealTimeManageData
+    {
+        public List<RealTimeData> LiveData { get; set; }
+        public bool ResetGame { get; set; }
+    }
 }

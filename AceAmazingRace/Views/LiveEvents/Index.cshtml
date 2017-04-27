@@ -76,9 +76,14 @@
             //Signal R
             var chat = $.connection.simulatorHub;
 
-            chat.client.sendLiveData = function (data) {
-                updateTeamLocations(data);
-            };
+    chat.client.sendLiveData = function (data) {
+        if (data.ResetGame) {
+            redrawMap(true);
+            initializeLeaderboard();
+        } else {
+            updateTeamLocations(data.LiveData);
+        }
+    };
 
             $.connection.hub.start();
 
@@ -93,23 +98,24 @@
             var currentSupportStops;
             var currentTeams;
 
-            $(document).ready(function () {
-                loadLiveData();
+    $(document).ready(function(){
+        loadLiveData();
+        initializeLeaderboard();
+        getLeaderboard().hide();
+    });
 
-                for (var i = 0; i < 5; i++) {
-                    getTeamColorCell(i).css("background-color", colors[i]);
-                    getTeamRow(i).hide();
-                }
+    function initializeLeaderboard()
+    {
+        for (var i = 0; i < 5; i++) {
+            getTeamColorCell(i).css("background-color", colors[i]);
+            getTeamRow(i).hide();
+        }
+    }
 
-                getLeaderboard().hide();
-            });
-
-
-
-            //Functions
-            function getLeaderboard() {
-                return $("#leaderboard");
-            }
+    //Functions
+    function getLeaderboard() {
+        return $("#leaderboard");
+    }
 
             function getTeamNameCell(teamIndex) {
                 return $("#row-" + teamIndex + " td:nth-child(1)");
@@ -250,24 +256,25 @@
                 });
             }
 
-            function updateStopLocations(id, reloadTeams) {
-                eventId = id;
-                currentPitStops = pitStops.filter(retrieveEventData);
-                currentSupportStops = supportStops.filter(retrieveEventData);
+    function updateStopLocations(id, reloadTeams) {
+        eventId = id;
+        redrawMap(reloadTeams);
+    }
 
-                //        console.log("supportStops", supportStops);
-                //        console.log("currentSupportStops", currentSupportStops);
+    function redrawMap(reloadTeams) {
+        currentPitStops = pitStops.filter(retrieveEventData);
+        currentSupportStops = supportStops.filter(retrieveEventData);
 
-                if (reloadTeams) {
-                    currentTeams = teams.filter(function (t) {
-                        return t.Team.RaceEvent.Id == eventId;
-                    });
+        if (reloadTeams) {
+            currentTeams = teams.filter(function (t) {
+                return t.Team.RaceEvent.Id == eventId;
+            });
 
-                    currentTeams.forEach(function (team) {
-                        team.CompletedPitStops = 0;
-                        team.DistanceToNextPitStop = 0;
-                    });
-                }
+            currentTeams.forEach(function (team) {
+                team.CompletedPitStops = 0;
+                team.DistanceToNextPitStop = -1;
+            });
+        }
 
                 $("#mapid").remove();
                 getLeaderboard().hide();
