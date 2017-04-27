@@ -23,5 +23,6 @@ namespace AceAmazingRace.ViewModels
     {
         public List<RealTimeData> LiveData { get; set; }
         public bool ResetGame { get; set; }
+        public string Secret { get; set; }
     }
 }

@@ -11,6 +11,8 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using AceAmazingRace.ViewModels;
 using Newtonsoft.Json;
+using System.Configuration;
+using System.Security.Cryptography;
 
 namespace Simulator
 {
@@ -79,7 +81,7 @@ namespace Simulator
 
             _total = _sampleLiveData.Count;
             _counter = 0;
-            _baseUrl = "http://localhost:50842";
+            _baseUrl = ConfigurationManager.AppSettings["defaultUrl"];
         }
 
         private void btnSend_Click(object sender, EventArgs e)
@@ -89,7 +91,8 @@ namespace Simulator
             var myContent = JsonConvert.SerializeObject(new
             {
                 LiveData = _sampleLiveData[_counter],
-                ResetGame = false
+                ResetGame = false,
+                Secret = computeSecret()
             });
             
             using (var client = new HttpClient()) {
@@ -105,11 +108,11 @@ namespace Simulator
                     var byteContent = new ByteArrayContent(buffer);
                     byteContent.Headers.ContentType = new MediaTypeHeaderValue("application/json");
 
-
                     var response = client.PostAsync("api/common/simulate", byteContent).Result;
-                    var data = response.Content.ReadAsStringAsync();
+                    var data = response.Content.ReadAsStringAsync().Result;
+                    if (!response.IsSuccessStatusCode) throw new Exception(data);
 
-                    txtOutput.Text = $@"{DateTime.Now} - {data.Result}" + Environment.NewLine + txtOutput.Text;
+                    txtOutput.Text = $@"{DateTime.Now} - {data}" + Environment.NewLine + txtOutput.Text;
                     UpdateStat();
                     _counter++;
                 }
@@ -131,7 +134,8 @@ namespace Simulator
             var myContent = JsonConvert.SerializeObject(new
             {
                 LiveData = new List<List<RealTimeData>>(),
-                ResetGame = true
+                ResetGame = true,
+                Secret = computeSecret()
             });
 
             using (var client = new HttpClient())
@@ -175,6 +179,15 @@ namespace Simulator
         private void txtOutput_TextChanged(object sender, EventArgs e)
         {
 
+        }
+
+        private string computeSecret()
+        {
+            using (var sha = SHA256.Create())
+            {
+               var computedHash = sha.ComputeHash(Encoding.Unicode.GetBytes(ConfigurationManager.AppSettings["secretkey"]));
+               return Convert.ToBase64String(computedHash);
+            }
         }
     }
 }
