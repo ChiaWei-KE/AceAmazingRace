@@ -11,6 +11,8 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using AceAmazingRace.ViewModels;
 using Newtonsoft.Json;
+using System.Configuration;
+using System.Security.Cryptography;
 
 namespace Simulator
 {
@@ -86,14 +88,19 @@ namespace Simulator
 
             _total = _sampleLiveData.Count;
             _counter = 0;
-            _baseUrl = "http://localhost:50842";
+            _baseUrl = ConfigurationManager.AppSettings["defaultUrl"];
         }
 
         private void btnSend_Click(object sender, EventArgs e)
         {
             if (_counter >= _sampleLiveData.Count) return;
 
-            var myContent = JsonConvert.SerializeObject(_sampleLiveData[_counter]);
+            var myContent = JsonConvert.SerializeObject(new
+            {
+                LiveData = _sampleLiveData[_counter],
+                ResetGame = false,
+                Secret = computeSecret()
+            });
             
             using (var client = new HttpClient()) {
 
@@ -108,11 +115,11 @@ namespace Simulator
                     var byteContent = new ByteArrayContent(buffer);
                     byteContent.Headers.ContentType = new MediaTypeHeaderValue("application/json");
 
-
                     var response = client.PostAsync("api/common/simulate", byteContent).Result;
-                    var data = response.Content.ReadAsStringAsync();
+                    var data = response.Content.ReadAsStringAsync().Result;
+                    if (!response.IsSuccessStatusCode) throw new Exception(data);
 
-                    txtOutput.Text = $@"{DateTime.Now} - {data.Result}" + Environment.NewLine + txtOutput.Text;
+                    txtOutput.Text = $@"{DateTime.Now} - {data}" + Environment.NewLine + txtOutput.Text;
                     UpdateStat();
                     _counter++;
                 }
@@ -129,16 +136,41 @@ namespace Simulator
 
         }
 
-        private void txtOutput_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
         private void btnResetLocations_Click(object sender, EventArgs e)
         {
-            _counter = 0;
-            txtOutput.Text = "";
-            lblSteps.Text = "";
+            var myContent = JsonConvert.SerializeObject(new
+            {
+                LiveData = new List<List<RealTimeData>>(),
+                ResetGame = true,
+                Secret = computeSecret()
+            });
+
+            using (var client = new HttpClient())
+            {
+
+                try
+                {
+                    client.BaseAddress = new Uri(txtURL.Text);
+
+                    var buffer = System.Text.Encoding.UTF8.GetBytes(myContent);
+                    var byteContent = new ByteArrayContent(buffer);
+                    byteContent.Headers.ContentType = new MediaTypeHeaderValue("application/json");
+
+
+                    var response = client.PostAsync("api/common/simulate", byteContent).Result;
+                    var data = response.Content.ReadAsStringAsync();
+
+                    txtOutput.Text = $@"{DateTime.Now} - Reset Game" + Environment.NewLine + txtOutput.Text;
+                    _counter = 0;
+                    lblSteps.Text = "";
+                }
+                catch (Exception exception)
+                {
+                    txtOutput.Text = $@"{DateTime.Now} - Error found: {exception.Message}" + Environment.NewLine +
+                                     txtOutput.Text;
+                }
+            }
+            
         }
 
         private void UpdateStat()
@@ -149,6 +181,20 @@ namespace Simulator
         private void txtURL_TextChanged(object sender, EventArgs e)
         {
 
+        }
+
+        private void txtOutput_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private string computeSecret()
+        {
+            using (var sha = SHA256.Create())
+            {
+               var computedHash = sha.ComputeHash(Encoding.Unicode.GetBytes(ConfigurationManager.AppSettings["secretkey"]));
+               return Convert.ToBase64String(computedHash);
+            }
         }
     }
 }
