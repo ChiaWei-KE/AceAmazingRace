@@ -193,18 +193,18 @@ namespace AceAmazingRace.Migrations
         {
             AddorUpdateRange(context.SupportStops, new List<SupportStop>()
             {
-                new SupportStop() {Id = 1, Code = "S01", RaceEvent = context.RaceEvents.Find(2), Location = context.Locations.Find(6)},
-                new SupportStop() {Id = 2, Code = "S02", RaceEvent = context.RaceEvents.Find(2), Location = context.Locations.Find(7)},
+                new SupportStop() {Id = 1, Code = "S01", RaceEvent = context.RaceEvents.Find(1), Location = context.Locations.Find(6)},
+                new SupportStop() {Id = 2, Code = "S02", RaceEvent = context.RaceEvents.Find(1), Location = context.Locations.Find(7)},
                 new SupportStop() {Id = 3, Code = "S03", RaceEvent = context.RaceEvents.Find(2), Location = context.Locations.Find(13)},
                 new SupportStop() {Id = 4, Code = "S04", RaceEvent = context.RaceEvents.Find(2), Location = context.Locations.Find(14)},
-                new SupportStop() {Id = 5, Code = "S05", RaceEvent = context.RaceEvents.Find(2), Location = context.Locations.Find(20)},
-                new SupportStop() {Id = 6, Code = "S06", RaceEvent = context.RaceEvents.Find(2), Location = context.Locations.Find(21)},
-                new SupportStop() {Id = 7, Code = "S07", RaceEvent = context.RaceEvents.Find(2), Location = context.Locations.Find(27)},
-                new SupportStop() {Id = 8, Code = "S08", RaceEvent = context.RaceEvents.Find(2), Location = context.Locations.Find(28)},
-                new SupportStop() {Id = 9, Code = "S09", RaceEvent = context.RaceEvents.Find(2), Location = context.Locations.Find(34)},
-                new SupportStop() {Id = 10, Code = "S10", RaceEvent = context.RaceEvents.Find(2), Location = context.Locations.Find(35)},
-                new SupportStop() {Id = 11, Code = "S11", RaceEvent = context.RaceEvents.Find(2), Location = context.Locations.Find(41)},
-                new SupportStop() {Id = 22, Code = "S12", RaceEvent = context.RaceEvents.Find(2), Location = context.Locations.Find(42)},
+                new SupportStop() {Id = 5, Code = "S05", RaceEvent = context.RaceEvents.Find(3), Location = context.Locations.Find(20)},
+                new SupportStop() {Id = 6, Code = "S06", RaceEvent = context.RaceEvents.Find(3), Location = context.Locations.Find(21)},
+                new SupportStop() {Id = 7, Code = "S07", RaceEvent = context.RaceEvents.Find(4), Location = context.Locations.Find(27)},
+                new SupportStop() {Id = 8, Code = "S08", RaceEvent = context.RaceEvents.Find(4), Location = context.Locations.Find(28)},
+                new SupportStop() {Id = 9, Code = "S09", RaceEvent = context.RaceEvents.Find(5), Location = context.Locations.Find(34)},
+                new SupportStop() {Id = 10, Code = "S10", RaceEvent = context.RaceEvents.Find(5), Location = context.Locations.Find(35)},
+                new SupportStop() {Id = 11, Code = "S11", RaceEvent = context.RaceEvents.Find(6), Location = context.Locations.Find(41)},
+                new SupportStop() {Id = 12, Code = "S12", RaceEvent = context.RaceEvents.Find(6), Location = context.Locations.Find(42)},
             });
 
             context.SaveChanges();

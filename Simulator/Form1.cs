@@ -11,8 +11,6 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using AceAmazingRace.ViewModels;
 using Newtonsoft.Json;
-using System.Configuration;
-using System.Security.Cryptography;
 
 namespace Simulator
 {
@@ -39,6 +37,13 @@ namespace Simulator
         {
             _sampleLiveData = new List<List<RealTimeData>>()
             {
+                new List<RealTimeData>() { new RealTimeData(1, 1.29998, 103.85257), new RealTimeData(2, 1.30171, 103.85404), new RealTimeData(3, 1.29965, 103.85243), new RealTimeData(4, 1.298, 103.85712)},
+                new List<RealTimeData>() { new RealTimeData(1, 1.29945, 103.85303), new RealTimeData(2, 1.30133, 103.8543), new RealTimeData(3, 1.29934, 103.8528), new RealTimeData(4, 1.29864, 103.85655)},
+                new List<RealTimeData>() { new RealTimeData(1, 1.29945, 103.8535), new RealTimeData(2, 1.30092, 103.85462), new RealTimeData(3, 1.2991, 103.85311), new RealTimeData(4, 1.29893, 103.8561)},
+                new List<RealTimeData>() { new RealTimeData(1, 1.29991, 103.85391), new RealTimeData(2, 1.30129, 103.85499), new RealTimeData(3, 1.29883, 103.85348), new RealTimeData(4, 1.29856, 103.85582)},
+                new List<RealTimeData>() { new RealTimeData(1, 1.30019, 103.85422), new RealTimeData(2, 1.30109, 103.85544), new RealTimeData(3, 1.29858, 103.85373), new RealTimeData(4, 1.29806, 103.85537)},
+                new List<RealTimeData>() { new RealTimeData(1, 1.29988, 103.85461), new RealTimeData(2, 1.30079, 103.8558), new RealTimeData(3, 1.29863, 103.85402), new RealTimeData(4, 1.29769, 103.8551)},
+                new List<RealTimeData>() { new RealTimeData(1, 1.29988, 103.85461), new RealTimeData(2, 1.30045, 103.85555), new RealTimeData(3, 1.29886, 103.8543), new RealTimeData(4, 1.2977, 103.85461)},
                 new List<RealTimeData>() { new RealTimeData(1, 1.300029, 103.855058), new RealTimeData(2, 1.300029, 103.855058), new RealTimeData(3, 1.299129, 103.854168), new RealTimeData(4, 1.297542, 103.854216)},
                 new List<RealTimeData>() { new RealTimeData(1, 1.30005, 103.85518), new RealTimeData(2, 1.29991, 103.85498), new RealTimeData(3, 1.29886, 103.85426), new RealTimeData(4, 1.29791, 103.8542)},
                 new List<RealTimeData>() { new RealTimeData(1, 1.30026, 103.85538), new RealTimeData(2, 1.29975, 103.85496), new RealTimeData(3, 1.29857, 103.85434), new RealTimeData(4, 1.29839, 103.85419)},
@@ -81,19 +86,14 @@ namespace Simulator
 
             _total = _sampleLiveData.Count;
             _counter = 0;
-            _baseUrl = ConfigurationManager.AppSettings["defaultUrl"];
+            _baseUrl = "http://localhost:50842";
         }
 
         private void btnSend_Click(object sender, EventArgs e)
         {
             if (_counter >= _sampleLiveData.Count) return;
 
-            var myContent = JsonConvert.SerializeObject(new
-            {
-                LiveData = _sampleLiveData[_counter],
-                ResetGame = false,
-                Secret = computeSecret()
-            });
+            var myContent = JsonConvert.SerializeObject(_sampleLiveData[_counter]);
             
             using (var client = new HttpClient()) {
 
@@ -108,11 +108,11 @@ namespace Simulator
                     var byteContent = new ByteArrayContent(buffer);
                     byteContent.Headers.ContentType = new MediaTypeHeaderValue("application/json");
 
-                    var response = client.PostAsync("api/common/simulate", byteContent).Result;
-                    var data = response.Content.ReadAsStringAsync().Result;
-                    if (!response.IsSuccessStatusCode) throw new Exception(data);
 
-                    txtOutput.Text = $@"{DateTime.Now} - {data}" + Environment.NewLine + txtOutput.Text;
+                    var response = client.PostAsync("api/common/simulate", byteContent).Result;
+                    var data = response.Content.ReadAsStringAsync();
+
+                    txtOutput.Text = $@"{DateTime.Now} - {data.Result}" + Environment.NewLine + txtOutput.Text;
                     UpdateStat();
                     _counter++;
                 }
@@ -129,41 +129,16 @@ namespace Simulator
 
         }
 
+        private void txtOutput_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
         private void btnResetLocations_Click(object sender, EventArgs e)
         {
-            var myContent = JsonConvert.SerializeObject(new
-            {
-                LiveData = new List<List<RealTimeData>>(),
-                ResetGame = true,
-                Secret = computeSecret()
-            });
-
-            using (var client = new HttpClient())
-            {
-
-                try
-                {
-                    client.BaseAddress = new Uri(txtURL.Text);
-
-                    var buffer = System.Text.Encoding.UTF8.GetBytes(myContent);
-                    var byteContent = new ByteArrayContent(buffer);
-                    byteContent.Headers.ContentType = new MediaTypeHeaderValue("application/json");
-
-
-                    var response = client.PostAsync("api/common/simulate", byteContent).Result;
-                    var data = response.Content.ReadAsStringAsync();
-
-                    txtOutput.Text = $@"{DateTime.Now} - Reset Game" + Environment.NewLine + txtOutput.Text;
-                    _counter = 0;
-                    lblSteps.Text = "";
-                }
-                catch (Exception exception)
-                {
-                    txtOutput.Text = $@"{DateTime.Now} - Error found: {exception.Message}" + Environment.NewLine +
-                                     txtOutput.Text;
-                }
-            }
-            
+            _counter = 0;
+            txtOutput.Text = "";
+            lblSteps.Text = "";
         }
 
         private void UpdateStat()
@@ -174,20 +149,6 @@ namespace Simulator
         private void txtURL_TextChanged(object sender, EventArgs e)
         {
 
-        }
-
-        private void txtOutput_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private string computeSecret()
-        {
-            using (var sha = SHA256.Create())
-            {
-               var computedHash = sha.ComputeHash(Encoding.Unicode.GetBytes(ConfigurationManager.AppSettings["secretkey"]));
-               return Convert.ToBase64String(computedHash);
-            }
         }
     }
 }
