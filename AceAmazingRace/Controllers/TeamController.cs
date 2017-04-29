@@ -190,12 +190,13 @@ namespace AceAmazingRace.Controllers
                                                .OrderBy(x => x.Order);
 
             var index = 0;
-            foreach (var order in orders)
+            foreach (var order in orders.ToList())
             {
                 order.Order = index++;
             }
 
             _context.SaveChanges();
+            
         }
     }
 }
