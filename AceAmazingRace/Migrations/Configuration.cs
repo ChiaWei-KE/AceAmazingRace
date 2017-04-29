@@ -57,7 +57,7 @@ namespace AceAmazingRace.Migrations
                 new Location() {Id = 17, Name = "Sentosa - Universal Studios Singapore", Address = "8 Sentosa Gateway, 098269", Latitude = 1.254037, Longitude = 103.823819},
                 new Location() {Id = 18, Name = "Sentosa - Skyline Luge", Address = "45 Siloso Beach Walk, Sentosa, Resorts World Sentosa, 099003", Latitude = 1.251942, Longitude = 103.816946},
                 new Location() {Id = 19, Name = "Sentosa - Palawan Beach", Address = "Sentosa Island, Singapore 099981", Latitude = 1.248307, Longitude = 103.822553},
-                new Location() {Id = 20, Name = "Support - Chili¡¯s Resorts World Sentosa", Address = "#01-072/073/074, 26 Sentosa Gateway, Resorts World Sentosa, Singapore 098138", Latitude = 1.256206, Longitude = 103.821229},
+                new Location() {Id = 20, Name = "Support - ChiliÂ¡Â¯s Resorts World Sentosa", Address = "#01-072/073/074, 26 Sentosa Gateway, Resorts World Sentosa, Singapore 098138", Latitude = 1.256206, Longitude = 103.821229},
                 new Location() {Id = 21, Name = "Support - Bora Bora", Address = "Palawan Beach Walk Singapore 098236", Latitude = 1.249356, Longitude = 103.822027},
                 new Location() {Id = 22, Name = "Orchard - The Gallery", Address = "181,#04-29 Orchard Rd, Orchard Central, Singapore 238896", Latitude = 1.300722, Longitude = 103.839441},
                 new Location() {Id = 23, Name = "Orchard - Goldheart Jewelry - The Centrepoint", Address = "176 Orchard Rd, The Centrepoint, Singapore 238843", Latitude = 1.301608, Longitude = 103.839767},
@@ -115,7 +115,7 @@ namespace AceAmazingRace.Migrations
                     Name = "Sentosa",
                     Date = new DateTime(2017, 5, 19),
                     Description = "Are you ready for the biggest amazing run challenge ever in Bugis Area? Attractive prizes are waiting for you!!! ",
-                    Location = "Bugis Junction (In front of fountain)",
+                    Location = "Sentosa",
                     Time = "1:30pm"
                 },
                 new RaceEvent()
@@ -124,7 +124,7 @@ namespace AceAmazingRace.Migrations
                     Name = "Orchard",
                     Date = new DateTime(2017, 5, 26),
                     Description = "Are you ready for the biggest amazing run challenge ever in Bugis Area? Attractive prizes are waiting for you!!! ",
-                    Location = "Bugis Junction (In front of fountain)",
+                    Location = "Orchard",
                     Time = "1:30pm"
                 },
                 new RaceEvent()
@@ -142,7 +142,7 @@ namespace AceAmazingRace.Migrations
                     Name = "NUS",
                     Date = new DateTime(2017, 6, 9),
                     Description = "Are you ready for the biggest amazing run challenge ever in Bugis Area? Attractive prizes are waiting for you!!! ",
-                    Location = "Bugis Junction (In front of fountain)",
+                    Location = "NUS",
                     Time = "1:30pm"
                 },
             });
