@@ -7,6 +7,8 @@ using AceAmazingRace.Models;
 using System.Data.Entity;
 using System.Data.Entity.Migrations;
 using AceAmazingRace.ViewModels;
+using System.Data.Entity.Validation;
+using System.IO;
 
 namespace AceAmazingRace.Controllers
 {
@@ -83,8 +85,12 @@ namespace AceAmazingRace.Controllers
         }
 
         [HttpPost]
-        public ActionResult Save(TeamViewModel viewModel, int eventId, string userAction)
+        public ActionResult Save(TeamViewModel viewModel, HttpPostedFileBase teamPhoto)
         {
+            int eventId = viewModel.RaceEventId;
+            string userAction = viewModel.UserAction;
+
+            var errors = ModelState.Values.SelectMany(v => v.Errors);
             if (!ModelState.IsValid)
             {
                 var reValidation = !string.IsNullOrEmpty(viewModel.Team.Name) &&
@@ -96,6 +102,17 @@ namespace AceAmazingRace.Controllers
                     return View("Details", viewModel);
                 }
             }
+
+            byte[] imageData = null;
+            if (teamPhoto != null )
+            {
+                using (var binary = new BinaryReader(teamPhoto.InputStream))
+                {
+                    imageData = binary.ReadBytes(teamPhoto.ContentLength);
+                }
+                viewModel.Team.Photo = imageData;
+            }
+            
 
             var raceEvent = _context.RaceEvents.FirstOrDefault(x => x.Id == eventId);
 
@@ -189,14 +206,25 @@ namespace AceAmazingRace.Controllers
             var orders = _context.PitStopOrders.Where(x => x.Team.Id == teamId)
                                                .OrderBy(x => x.Order);
 
+           
             var index = 0;
             foreach (var order in orders.ToList())
             {
                 order.Order = index++;
             }
 
-            _context.SaveChanges();
-            
+            try
+            {
+              _context.SaveChanges();
+            }
+            catch (DbEntityValidationException ex)
+            {
+                // Retrieve the error messages as a list of strings.
+                var errorMessages = ex.EntityValidationErrors
+                .SelectMany(x => x.ValidationErrors)
+                .Select(x => x.ErrorMessage);
+            }
         }
+        
     }
 }

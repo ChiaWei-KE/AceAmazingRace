@@ -23,7 +23,7 @@
 
     <h2>@header</h2>
     <br />
-    @using (@Html.BeginForm("Save", "Team", new { eventId = @Model.RaceEventId, userAction = @Model.UserAction }))
+    @using (@Html.BeginForm("Save", "Team", FormMethod.Post, new { enctype = "multipart/form-data" }))
     {
 
         <div class="form-group">
@@ -38,7 +38,29 @@
             @Html.ValidationMessageFor(e => e.Team.Profile)
         </div>
 
+        <div class="form-group">
+            @Html.LabelFor(e => e.Team.Photo)
+            <input type="file" name="teamPhoto" id="teamPhoto" accept=".png,.jpg,.jpeg,.gif" /> 
+            @{
+                var imgSrc = "";
+                var imgHid = false;
+                if (Model.UserAction == "Edit")
+                {
+                    if (Model.Team.Photo != null)
+                    {
+                        var base64 = Convert.ToBase64String(Model.Team.Photo);
+                        imgSrc = String.Format("data:image/jpg;base64,{0}", base64);
+                        imgHid = true;
+                    }
+                }
+            }
+            <img src='@imgSrc' style="max-width:100px;" visible='@imgHid' />
+        </div>
+
         @Html.HiddenFor(e => e.Team.Id)
+        @Html.HiddenFor(e => @Model.RaceEventId)
+        @Html.HiddenFor(e => @Model.UserAction)
+        @Html.HiddenFor(e => @Model.Team.Photo)
 
         <button type="submit" class="btn btn-default">@submitButtonText</button>
         <a class="btn btn-default" href="@Url.Action("Index","Team", new {id = @Model.RaceEventId})">Cancel</a>

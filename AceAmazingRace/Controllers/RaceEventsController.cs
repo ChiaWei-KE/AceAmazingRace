@@ -77,12 +77,23 @@ namespace AceAmazingRace.Controllers
         [HttpPost]
         public ActionResult Save(RaceEventViewModel viewModel, string userAction)
         {
+            var errors = ModelState.Values.SelectMany(v => v.Errors);
+
             if (!ModelState.IsValid)
             {
-                viewModel.UserAction = userAction;
-                return View("Details", viewModel);
-            }
+                var reValidation = !string.IsNullOrEmpty(viewModel.RaceEvent.Name) &&
+                                  !string.IsNullOrEmpty(viewModel.RaceEvent.Description) &&
+                                  (viewModel.RaceEvent.Date != null) &&
+                                  !string.IsNullOrEmpty(viewModel.RaceEvent.Time) &&
+                                  !string.IsNullOrEmpty(viewModel.RaceEvent.Location);
 
+                if (!reValidation)
+                {
+                    viewModel.UserAction = userAction;
+                    return View("Details", viewModel);
+                }
+            }
+           
             var raceEvent = viewModel.RaceEvent;
 
             _context.RaceEvents.AddOrUpdate(raceEvent);

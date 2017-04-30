@@ -32,7 +32,19 @@
                     <tr>
                         <td>@item.Name</td>
                         <td>@item.Profile</td>
-                        <td></td>
+                        <td>
+                            @{
+                                var imgSrc = "";
+                                var imgHid = false;
+                                if (item.Photo != null)
+                                {
+                                    var base64 = Convert.ToBase64String(item.Photo);
+                                    imgSrc = String.Format("data:image/jpg;base64,{0}", base64);
+                                    imgHid = true;
+                                }
+                            }
+                            <img src='@imgSrc' style="max-width:100px;" visible='@imgHid' />
+                        </td>
                         <td class="text-center">
                             <a class="glyphicon glyphicon-move" href="@Url.Action("EditOrder", "Team", new {id = item.Id})"></a>
                             <a class="glyphicon glyphicon-edit" href="@Url.Action("Edit", "Team", new {id = item.Id})"></a>
