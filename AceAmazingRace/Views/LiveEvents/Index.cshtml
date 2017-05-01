@@ -130,7 +130,7 @@
             }
 
             function getTeamDistanceToNextStopCell(teamIndex) {
-                return $("#row-" + teamIndex + " td:nth-child(4)");
+                return $("#row-" + teamIndex + " td:nth-child(4)")
             }
 
             function getTeamRankingCell(teamIndex) {
@@ -142,7 +142,7 @@
             }
 
             function loadLiveData() {
-                $.get("../api/common/liveData",
+                $.get("../api/v1/common/liveData",
                     function (data) {
                         raceEvents = data.Events;
                         pitStops = data.PitStops;

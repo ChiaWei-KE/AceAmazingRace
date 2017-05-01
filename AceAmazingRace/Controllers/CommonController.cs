@@ -15,7 +15,7 @@ using Microsoft.AspNet.SignalR;
 
 namespace AceAmazingRace.Controllers
 {
-    [RoutePrefix("api/common")]
+    [RoutePrefix("api/v1/common")]
     public class CommonController : ApiController
     {
         private readonly ApplicationDbContext _context;

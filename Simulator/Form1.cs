@@ -115,7 +115,7 @@ namespace Simulator
                     var byteContent = new ByteArrayContent(buffer);
                     byteContent.Headers.ContentType = new MediaTypeHeaderValue("application/json");
 
-                    var response = client.PostAsync("api/common/simulate", byteContent).Result;
+                    var response = client.PostAsync("api/v1/common/simulate", byteContent).Result;
                     var data = response.Content.ReadAsStringAsync().Result;
                     if (!response.IsSuccessStatusCode) throw new Exception(data);
 
@@ -157,7 +157,7 @@ namespace Simulator
                     byteContent.Headers.ContentType = new MediaTypeHeaderValue("application/json");
 
 
-                    var response = client.PostAsync("api/common/simulate", byteContent).Result;
+                    var response = client.PostAsync("api/v1/common/simulate", byteContent).Result;
                     var data = response.Content.ReadAsStringAsync();
 
                     txtOutput.Text = $@"{DateTime.Now} - Reset Game" + Environment.NewLine + txtOutput.Text;
